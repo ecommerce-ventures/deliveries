@@ -11,8 +11,8 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_user,
-              password: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_password
+              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
+              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
             }
 
             response = HTTParty.post(api_endpoint, basic_auth: auth, body: params, headers: headers)

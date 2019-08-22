@@ -32,33 +32,7 @@ module Deliveries
       PICKUPS_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestGrabacionRecogida/json/grabarRecogida'.freeze
       PICKUPS_ENDPOINT_TEST = 'https://test.correosexpress.com/wpsn/apiRestGrabacionRecogida/json/grabarRecogida'.freeze
 
-      SHIPMENT_TO_COLLECTION_POINT_COUNTRIES = [:es].freeze
-      SHIPMENT_TO_HOME_COUNTRIES = [:es, :pt].freeze
-      PICKUP_AT_COLLECTION_POINT_COUNTRIES = [:es].freeze
-      PICKUP_AT_HOME_COUNTRIES = [:es, :pt].freeze
-
       class << self
-        def configure
-          @@config ||= Config.new
-          yield @@config
-        end
-
-        def shipment_to_collection_point?(country:)
-          SHIPMENT_TO_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def shipment_to_home?(country:)
-          SHIPMENT_TO_HOME_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def pickup_at_home?(country:)
-          PICKUP_AT_HOME_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def pickup_at_collection_point?(country:)
-          PICKUP_AT_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
         def get_collection_points(postcode:, country: nil)
           raise Deliveries::APIError.new("Postcode cannot be null") if postcode.blank?
 

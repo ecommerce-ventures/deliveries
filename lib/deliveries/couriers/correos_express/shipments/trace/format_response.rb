@@ -36,7 +36,7 @@ module Deliveries
             end
 
             def formatted_checkpoint(shipment_status)
-              OpenStruct.new(
+              Deliveries::Checkpoint.new(
                 status: status(shipment_status["DescEstado"]),
                 location: nil,
                 tracked_at: Time.zone.strptime("#{shipment_status['FechaEstado']} #{shipment_status['HoraEstado']}", '%d%m%Y %H%M%S'),

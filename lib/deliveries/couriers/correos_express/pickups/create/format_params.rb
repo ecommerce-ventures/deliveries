@@ -19,10 +19,10 @@ module Deliveries
 
             def execute
               params = {
-                solicitante: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).solicitante,
+                solicitante: Deliveries::Couriers::CorreosExpress.config(:solicitante),
                 refRecogida: reference_code,
                 fechaRecogida: pickup_date.strftime("%d%m%Y"),
-                clienteRecogida: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).cod_rte,
+                clienteRecogida: Deliveries::Couriers::CorreosExpress.config(:cod_rte),
                 codRemit: "",
                 nomRemit: sender.name,
                 nifRemit: "",

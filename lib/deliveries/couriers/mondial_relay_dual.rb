@@ -13,49 +13,7 @@ module Deliveries
       API_ENDPOINT_LIVE = 'https://connect-api.mondialrelay.com/api/shipment'.freeze
       API_ENDPOINT_TEST = 'http://connect.api.sandbox.mondialrelay.com/api/shipment'.freeze
 
-      SHIPMENT_TO_COLLECTION_POINT_COUNTRIES = [].freeze
-      SHIPMENT_TO_HOME_COUNTRIES = [:de].freeze
-      PICKUP_AT_COLLECTION_POINT_COUNTRIES = [:uk, :de].freeze
-      PICKUP_AT_HOME_COUNTRIES = [].freeze
-
-      def shipment_to_collection_point?(country:)
-        SHIPMENT_TO_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-      end
-
-      def shipment_to_home?(country:)
-        SHIPMENT_TO_HOME_COUNTRIES.include?(country.downcase.to_sym)
-      end
-
-      def pickup_at_home?(country:)
-        PICKUP_AT_HOME_COUNTRIES.include?(country.downcase.to_sym)
-      end
-
-      def pickup_at_collection_point?(country:)
-        PICKUP_AT_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-      end
-      
       class << self
-        def configure
-          @@config ||= Config.new
-          yield @@config
-        end
-
-        def shipment_to_collection_point?(country:)
-          SHIPMENT_TO_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def shipment_to_home?(country:)
-          SHIPMENT_TO_HOME_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def pickup_at_home?(country:)
-          PICKUP_AT_HOME_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def pickup_at_collection_point?(country:)
-          PICKUP_AT_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
         def get_collection_points(country:, postcode:)
           Deliveries::Couriers::MondialRelay.get_collection_points(
             country: country,

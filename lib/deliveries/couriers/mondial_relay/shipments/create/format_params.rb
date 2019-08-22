@@ -17,7 +17,7 @@ module Deliveries
 
             def execute
               params = {
-                'Enseigne' => Deliveries::Couriers::MondialRelay.class_variable_get(:@@config).mondial_relay_merchant,
+                'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
                 'NDossier' => reference_code,
                 'Expe_Langage' => sender.country.to_s.upcase,
                 'Expe_Ad1' => I18n.transliterate(sender.name).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: ''),

@@ -19,8 +19,8 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_user,
-              password: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_password
+              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
+              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
             }
 
             params = Deliveries::Couriers::CorreosExpress::Shipments::Create::FormatParams.new(

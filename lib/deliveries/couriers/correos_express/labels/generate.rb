@@ -11,15 +11,15 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_user,
-              password: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_password
+              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
+              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
             }
 
             # Load the cod_rte from prod because the dev api does not work
             if Deliveries.test?
               cod_rte = YAML.load_file('config/deliveries/correos_express.yml')['production']['cod_rte']
             else
-              cod_rte = Deliveries::Couriers::CorreosExpress.class_variable_get(:@@cod_rte)
+              cod_rte = Deliveries::Couriers::CorreosExpress.config(:cod_rte)
             end
 
             decoded_labels = []
@@ -32,23 +32,24 @@ module Deliveries
 
               headers = { "Content-Type" => "application/json" }
               response = HTTParty.post(api_endpoint, basic_auth: auth, body: params, headers: headers)
-              if response.dig('codErr') == 0
-                if response["listaEtiquetas"].any?
-                  response["listaEtiquetas"].each do |encoded_label|
+              parsed_response = JSON.parse(response.body)
+              if parsed_response.dig('codErr') == 0
+                if parsed_response["listaEtiquetas"].any?
+                  parsed_response["listaEtiquetas"].each do |encoded_label|
                     decoded_labels << Base64.decode64(encoded_label)
                   end
                 end
               else
                 raise Deliveries::APIError.new(
-                  response.dig('desErr'),
-                  response.dig('codErr')
+                  parsed_response.dig('desErr'),
+                  parsed_response.dig('codErr')
                 )
               end
             end
 
             file = StringIO.new
 
-            generate_merged_pdf(decoded_labels).write(file)
+            Deliveries::Label.generate_merged_pdf(decoded_labels).write(file)
             file.string.force_encoding('binary')
           end
 
@@ -56,26 +57,6 @@ module Deliveries
 
           def api_endpoint
             CorreosExpress::LABELS_ENDPOINT_LIVE
-          end
-
-          # Creates temporary pdfs for each label and then joins them. We also ensure
-          # that temp files are deleted
-          def generate_merged_pdf(decoded_labels)
-            target = HexaPDF::Document.new
-            decoded_labels.each_with_index do |decoded_label, i|
-              file = Tempfile.new(["label-#{i}", 'pdf'])
-              begin
-                file.write(decoded_label.force_encoding('UTF-8'))
-                pdf = HexaPDF::Document.open(file)
-
-                pdf.pages.each { |page| target.pages << target.import(page) }
-              ensure
-                file.close
-                file.unlink
-              end
-            end
-
-            target
           end
         end
       end

@@ -10,15 +10,13 @@ module Deliveries
             end
   
             def execute
-              config = Deliveries.courier('mondial_relay_dual').class_variable_get(:@@config)
-              
               xml = "<?xml version='1.0' encoding='utf-8'?>
                 <ShipmentCreationRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
                 xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://www.example.org/Request'>
                 <Context>
-                  <Login>#{config.dual_carrier_login}</Login>
-                  <Password>#{config.dual_carrier_password}</Password>
-                  <CustomerId>#{config.dual_carrier_customer_id}</CustomerId>
+                  <Login>#{Deliveries::Couriers::MondialRelayDual.config(:dual_carrier_login)}</Login>
+                  <Password>#{Deliveries::Couriers::MondialRelayDual.config(:dual_carrier_password)}</Password>
+                  <CustomerId>#{Deliveries::Couriers::MondialRelayDual.config(:dual_carrier_customer_id)}</CustomerId>
                   <Culture>es-ES</Culture>
                   <VersionAPI>1.0</VersionAPI>
                 </Context>
@@ -98,9 +96,7 @@ module Deliveries
                   'Label',
                   'Output'
                 )
-  
-                puts pdf_url
-                              
+
                 if shipment_number.blank?
                   status_response = response_result.dig('ShipmentCreationResponse','StatusList')
                   if status_response.is_a?(Array)

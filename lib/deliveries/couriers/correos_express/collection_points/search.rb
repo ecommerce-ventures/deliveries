@@ -11,8 +11,8 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_user,
-              password: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_password
+              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
+              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
             }
 
             headers = { "Content-Type" => "application/json;charset=UTF-8", "Accept" => "application/json" }
@@ -23,15 +23,16 @@ module Deliveries
               body: { cod_postal: postcode }.to_json,
               headers: headers
             )
+            parsed_response = JSON.parse(response.body)
 
-            if response.dig('tipoRespuesta') == 'KO'
+            if parsed_response.dig('tipoRespuesta') == 'KO'
               raise Deliveries::APIError.new(
-                response.dig('listaErrores').first['descError'],
-                response.dig('listaErrores').first['codError']
+                parsed_response.dig('listaErrores').first['descError'],
+                parsed_response.dig('listaErrores').first['codError']
               )
             end
 
-            response.parsed_response["oficinas"]
+            parsed_response["oficinas"]
           end
 
           private

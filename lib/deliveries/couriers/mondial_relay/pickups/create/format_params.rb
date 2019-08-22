@@ -17,7 +17,7 @@ module Deliveries
 
             def execute
               params = {
-                'Enseigne' => Deliveries::Couriers::MondialRelay.class_variable_get(:@@config).mondial_relay_merchant,
+                'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
                 'ModeCol' => 'CCC',
                 'ModeLiv' => 'LCC',
                 'NDossier' => reference_code,

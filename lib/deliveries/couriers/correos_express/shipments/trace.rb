@@ -11,8 +11,8 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_user,
-              password: Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_password
+              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
+              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
             }
             # Load the solicitante key from production environment because the dev api does not work
             solicitante = YAML.load_file('config/deliveries/correos_express.yml')['production']['solicitante']

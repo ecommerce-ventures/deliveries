@@ -19,32 +19,7 @@ module Deliveries
 
       WSDL_ENDPOINT = 'http://api.mondialrelay.com/Web_Services.asmx?WSDL'.freeze
 
-      SHIPMENT_TO_COLLECTION_POINT_COUNTRIES = [:fr].freeze
-      SHIPMENT_TO_HOME_COUNTRIES = [:es].freeze
-      PICKUP_AT_COLLECTION_POINT_COUNTRIES = [:es, :fr].freeze
-      PICKUP_AT_HOME_COUNTRIES = [:es].freeze
-
       class << self
-        def configure
-          @@config ||= Config.new
-          yield @@config
-        end
-
-        def shipment_to_collection_point?(country:)
-          SHIPMENT_TO_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def shipment_to_home?(country:)
-          SHIPMENT_TO_HOME_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def pickup_at_home?(country:)
-          PICKUP_AT_HOME_COUNTRIES.include?(country.downcase.to_sym)
-        end
-
-        def pickup_at_collection_point?(country:)
-          PICKUP_AT_COLLECTION_POINT_COUNTRIES.include?(country.downcase.to_sym)
-        end
 
         def api_client
           Savon.client wsdl: WSDL_ENDPOINT
@@ -52,7 +27,7 @@ module Deliveries
 
         def get_collection_points(country:, postcode:)
           # Build params needed by web service.
-          params = { 'Enseigne' => @@config.mondial_relay_merchant,
+          params = { 'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
                      'Pays' => country, 'NumPointRelais' => '', 'Ville' => '',
                      'CP' => postcode, 'Latitude' => '', 'Longitude' => '',
                      'Taille' => '', 'Poids' => '', 'Action' => '',
@@ -84,7 +59,7 @@ module Deliveries
         def get_collection_point(global_point_id:)
           global_point = Deliveries::CollectionPoint.parse_global_point_id(global_point_id: global_point_id)
 
-          params = { 'Enseigne' => @@config.mondial_relay_merchant,
+          params = { 'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
                     'Pays' => global_point.country, 'NumPointRelais' => global_point.point_id, 'Ville' => '',
                     'CP' => '', 'Latitude' => '', 'Longitude' => '',
                     'Taille' => '', 'Poids' => '', 'Action' => '',
@@ -201,7 +176,7 @@ module Deliveries
         end
 
         def calculate_security_param(params)
-          Digest::MD5.hexdigest(params.map { |k,v| v }.join + @@config.mondial_relay_key).upcase
+          Digest::MD5.hexdigest(params.map { |_, v| v }.join + Deliveries::Couriers::MondialRelay.config(:mondial_relay_key)).upcase
         end
       end
     end

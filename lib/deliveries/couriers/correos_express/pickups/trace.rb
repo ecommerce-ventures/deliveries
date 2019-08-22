@@ -17,8 +17,8 @@ module Deliveries
               solicitante = YAML.load_file('config/deliveries/correos_express.yml')['production']['solicitante']
               cod_rte = YAML.load_file('config/deliveries/correos_express.yml')['production']['cod_rte']
             else
-              solicitante = Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).solicitante
-              cod_rte = Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).cod_rte
+              solicitante = Deliveries::Couriers::CorreosExpress.config(:solicitante)
+              cod_rte = Deliveries::Couriers::CorreosExpress.config(:cod_rte)
             end
 
             params = {
@@ -29,8 +29,8 @@ module Deliveries
             }
 
             basic_auth = [
-              Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_user,
-              Deliveries::Couriers::CorreosExpress.class_variable_get(:@@config).correos_express_password
+              Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
+              Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
             ]
 
             client = Savon.client wsdl: WSDL_PATH,
@@ -42,7 +42,7 @@ module Deliveries
             if response_result && response_result.dig(:recogida).present?
               response_result
             else
-              raise Deliveries::APIError.new(message: response_result.dig(:mensaje))
+              raise Deliveries::APIError.new(response_result.dig(:mensaje_retorno).to_s.strip)
             end
           end
         end
