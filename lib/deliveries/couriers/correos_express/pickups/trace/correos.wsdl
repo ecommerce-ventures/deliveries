@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:axis2="seguimiento"
+xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://org.apache.axis2/xsd"
+xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+xmlns:ax21="http://seguimiento.recogida.ws.chx.es/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:es.chx.ws.recogida.seguimiento="seguimiento.recogida.ws.chx.es" xmlns:ax22="http://ws.chx.es/xsd"
+targetNamespace="seguimiento">
+<wsdl:types>
+<xs:schema xmlns:ax23="http://ws.chx.es/xsd" attributeFormDefault="qualified"
+elementFormDefault="qualified" targetNamespace="http://seguimiento.recogida.ws.chx.es/xsd">
+<xs:import namespace="http://ws.chx.es/xsd"/>
+<xs:complexType name="RetornoSeguimientoRecogida">
+<xs:complexContent>
+<xs:extension base="ax22:RetornoAbstract">
+<xs:sequence>
+<xs:element minOccurs="0" name="cliente" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="codPosRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="contactoRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="domRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="fecRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="importe" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="kilos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="mercancia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="nifRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="nomRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="numBultos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="numBultosReales" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="observaciones" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="paisRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="pobRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="recogida" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="referencia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="resultado" nillable="true" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="situaciones"
+nillable="true" type="ax21:Situacion"/>
+<xs:element minOccurs="0" name="telefonoRecogida" nillable="true"
+type="xs:string"/>
+<xs:element minOccurs="0" name="tipoRecogida" nillable="true"
+type="xs:string"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="Situacion">
+  <xs:sequence>
+  <xs:element minOccurs="0" name="ampliacion" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="codMotivo" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="codSituacion" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="descMotivo" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="descSituacion" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="fecSistema" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="fecSituacion" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="usrSituacion" nillable="true" type="xs:string"/>
+  </xs:sequence>
+  </xs:complexType>
+  </xs:schema>
+  <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+  targetNamespace="http://ws.chx.es/xsd">
+  <xs:complexType name="RetornoAbstract">
+  <xs:sequence>
+  <xs:element minOccurs="0" name="codigoRetorno" type="xs:int"/>
+  <xs:element minOccurs="0" name="mensajeRetorno" nillable="true" type="xs:string"/>
+  </xs:sequence>
+  </xs:complexType>
+  </xs:schema>
+  <xs:schema xmlns:ax24="http://seguimiento.recogida.ws.chx.es/xsd" attributeFormDefault="qualified"
+  elementFormDefault="qualified" targetNamespace="seguimiento.recogida.ws.chx.es">
+  <xs:import namespace="http://seguimiento.recogida.ws.chx.es/xsd"/>
+  <xs:element name="seguimientoRecogida">
+  <xs:complexType>
+  <xs:sequence>
+  <xs:element minOccurs="0" name="solicitante" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="dato" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="codCliente" nillable="true" type="xs:string"/>
+  <xs:element minOccurs="0" name="fecRecogida" nillable="true" type="xs:string"/>
+  </xs:sequence>
+  </xs:complexType>
+  </xs:element>
+  <xs:element name="seguimientoRecogidaResponse">
+  <xs:complexType>
+  <xs:sequence>
+  <xs:element minOccurs="0" name="return" nillable="true"
+  type="ax24:RetornoSeguimientoRecogida"/>
+  </xs:sequence>
+  </xs:complexType>
+  </xs:element>
+  </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="seguimientoRecogidaRequest">
+  <wsdl:part name="parameters" element="es.chx.ws.recogida.seguimiento:seguimientoRecogida"/>
+  </wsdl:message>
+  <wsdl:message name="seguimientoRecogidaResponse">
+  <wsdl:part name="parameters"
+  element="es.chx.ws.recogida.seguimiento:seguimientoRecogidaResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="SeguimientoRecogidaPortType">
+  <wsdl:operation name="seguimientoRecogida">
+  <wsdl:input message="axis2:seguimientoRecogidaRequest" wsaw:Action="urn:seguimientoRecogida"/>
+  <wsdl:output message="axis2:seguimientoRecogidaResponse"
+  wsaw:Action="urn:seguimientoRecogidaResponse"/>
+  </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SeguimientoRecogidaSoap11Binding" type="axis2:SeguimientoRecogidaPortType">
+  <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+  <wsdl:operation name="seguimientoRecogida">
+  <soap:operation soapAction="urn:seguimientoRecogida" style="document"/>
+  <wsdl:input>
+  <soap:body use="literal"/>
+  </wsdl:input>
+  <wsdl:output>
+  <soap:body use="literal"/>
+  </wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding name="SeguimientoRecogidaSoap12Binding" type="axis2:SeguimientoRecogidaPortType">
+<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<wsdl:operation name="seguimientoRecogida">
+<soap12:operation soapAction="urn:seguimientoRecogida" style="document"/>
+<wsdl:input>
+<soap12:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding name="SeguimientoRecogidaHttpBinding" type="axis2:SeguimientoRecogidaPortType">
+<http:binding verb="POST"/>
+<wsdl:operation name="seguimientoRecogida">
+<http:operation location="SeguimientoRecogida/seguimientoRecogida"/>
+<wsdl:input>
+<mime:content type="text/xml" part="seguimientoRecogida"/>
+</wsdl:input>
+<wsdl:output>
+<mime:content type="text/xml" part="seguimientoRecogida"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="SeguimientoRecogida">
+<wsdl:port name="SeguimientoRecogidaHttpSoap11Endpoint" binding="axis2:SeguimientoRecogidaSoap11Binding">
+<soap:address location="https://www.correosexpress.com/wpsc/services/SeguimientoRecogida"/>
+</wsdl:port>
+<wsdl:port name="SeguimientoRecogidaHttpSoap12Endpoint" binding="axis2:SeguimientoRecogidaSoap12Binding">
+<soap12:address location="https://www.correosexpress.com/wpsc/services/SeguimientoRecogida"/>
+</wsdl:port>
+<wsdl:port name="SeguimientoRecogidaHttpEndpoint" binding="axis2:SeguimientoRecogidaHttpBinding">
+<http:address location="https://www.correosexpress.com/wpsc/services/SeguimientoRecogida"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
