@@ -1,6 +1,6 @@
 module Deliveries
     module Couriers
-      class MondialRelayDual < Deliveries::Courier
+      module MondialRelayDual
         module Pickups
           class Create
             class FormatParams

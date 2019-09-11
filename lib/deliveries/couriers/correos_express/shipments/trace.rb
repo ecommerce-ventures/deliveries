@@ -1,8 +1,11 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Shipments
         class Trace
+          include HTTParty
+          persistent_connection_adapter
+
           attr_accessor :tracking_code
 
           def initialize(tracking_code:)
@@ -11,11 +14,10 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
-              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
+              username: CorreosExpress.config(:username),
+              password: CorreosExpress.config(:password)
             }
-            # Load the solicitante key from production environment because the dev api does not work
-            solicitante = YAML.load_file('config/deliveries/correos_express.yml')['production']['solicitante']
+            solicitante = CorreosExpress.config(:client_code)
 
             xml = "<?xml version='1.0'?>
               <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -24,7 +26,13 @@ module Deliveries
                                 <Dato>#{tracking_code}</Dato>
               </SeguimientoEnviosRequest>"
 
-            response = HTTParty.post(api_endpoint, basic_auth: auth, body: xml, headers: { "Content-Type" => "application/xml" })
+            response = self.class.post(
+              api_endpoint,
+              basic_auth: auth,
+              body: xml,
+              headers: { "Content-Type" => "application/xml" },
+              debug_output: Deliveries.debug ? Deliveries.logger : nil
+            )
 
             raise Deliveries::ClientError unless response.success?
 
@@ -42,7 +50,11 @@ module Deliveries
           private
 
           def api_endpoint
-            CorreosExpress::TRACKING_INFO_ENDPOINT_LIVE
+            if CorreosExpress.live?
+              CorreosExpress::TRACKING_INFO_ENDPOINT_LIVE
+            else
+              CorreosExpress::TRACKING_INFO_ENDPOINT_TEST
+            end
           end
         end
       end

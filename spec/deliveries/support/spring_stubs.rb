@@ -37,7 +37,7 @@ def register_spring_create_shipment_stub
             "City": "Receiver city",
             "State": "Receiver state",
             "Zip": "00000",
-            "Country": "EN",
+            "Country": "GB",
             "Phone": "666666666",
             "Email": "receiver@example.com",
             "Vat": ""
@@ -126,7 +126,7 @@ def register_spring_create_shipment_stub
             "City": "Receiver city",
             "State": "Receiver state",
             "Zip": "00000",
-            "Country": "EN",
+            "Country": "GB",
             "Phone": "666666666",
             "Email": "receiver@example.com",
             "Vat": ""

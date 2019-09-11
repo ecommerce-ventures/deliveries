@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class Spring < Deliveries::Courier
+    module Spring
       module Shipments
         class Create
           class FormatParams
@@ -24,6 +24,8 @@ module Deliveries
                 "Name": sender.name,
                 "Company": sender.name,
                 "AddressLine1": sender.street,
+                "AddressLine2": sender.street2,
+                "AddressLine3": sender.street3,
                 "City": sender.city,
                 "State": sender.state,
                 "Zip": sender.postcode,
@@ -37,6 +39,8 @@ module Deliveries
                 "Name": receiver.name,
                 "Company": "",
                 "AddressLine1": receiver.street,
+                "AddressLine2": receiver.street2,
+                "AddressLine3": receiver.street3,
                 "City": receiver.city,
                 "State": receiver.state,
                 "Zip": receiver.postcode,

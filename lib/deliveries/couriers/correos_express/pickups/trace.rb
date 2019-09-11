@@ -1,9 +1,10 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Pickups
         class Trace
-          WSDL_PATH = Rails.root + "lib/deliveries/couriers/correos_express/pickups/trace/correos.wsdl".freeze
+          WSDL_LIVE_PATH = Rails.root + "lib/deliveries/couriers/correos_express/pickups/trace/correos.wsdl".freeze
+          WSDL_TEST_PATH = Rails.root + "lib/deliveries/couriers/correos_express/pickups/trace/correos.test.wsdl".freeze
 
           attr_accessor :tracking_code
 
@@ -12,29 +13,22 @@ module Deliveries
           end
 
           def execute
-            # Load the users from production environment because the dev api does not work
-            if Deliveries.test?
-              solicitante = YAML.load_file('config/deliveries/correos_express.yml')['production']['solicitante']
-              cod_rte = YAML.load_file('config/deliveries/correos_express.yml')['production']['cod_rte']
-            else
-              solicitante = Deliveries::Couriers::CorreosExpress.config(:solicitante)
-              cod_rte = Deliveries::Couriers::CorreosExpress.config(:cod_rte)
-            end
-
             params = {
-              "solicitante" => solicitante,
+              "solicitante" => CorreosExpress.config(:client_code),
               "dato" => tracking_code,
               "password" => "",
-              "codCliente" => cod_rte
+              "codCliente" => CorreosExpress.config(:pickup_receiver_code)
             }
 
             basic_auth = [
-              Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
-              Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
+              CorreosExpress.config(:username),
+              CorreosExpress.config(:password)
             ]
 
-            client = Savon.client wsdl: WSDL_PATH,
-                                  basic_auth: basic_auth
+            client = Savon.client wsdl: CorreosExpress.live? ? WSDL_LIVE_PATH : WSDL_TEST_PATH,
+                                  basic_auth: basic_auth,
+                                  logger: Deliveries.logger,
+                                  log: Deliveries.debug
 
             response = client.call(:seguimiento_recogida, message: params)
 

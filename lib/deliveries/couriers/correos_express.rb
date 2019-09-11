@@ -11,135 +11,156 @@ require_relative 'correos_express/pickups/create/format_params'
 require_relative 'correos_express/pickups/create'
 require_relative 'correos_express/pickups/trace/format_response'
 require_relative 'correos_express/pickups/trace'
+require_relative 'correos_express/pickups/cutoff_time/format_params'
+require_relative 'correos_express/pickups/cutoff_time'
+require_relative 'correos_express/address'
 
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
+      extend Courier
 
       Config = Struct.new(
-        :correos_express_user,
-        :correos_express_password,
-        :solicitante,
-        :cod_rte
+        :username,
+        :password,
+        :client_code,
+        :shipment_sender_code,
+        :pickup_receiver_code
       )
 
       COLLECTION_POINTS_ENDPOINT_TEST = 'https://www.correosexpress.com/wspsc/apiRestOficina/v1/oficinas/listadoOficinasCoordenadas'.freeze
       COLLECTION_POINTS_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestOficina/v1/oficinas/listadoOficinasCoordenadas'.freeze
-      SHIPMENTS_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestOficina/v1/oficinas/listadoOficinasCoordenadas'.freeze
+      SHIPMENTS_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestGrabacionEnvio/json/grabacionEnvio'.freeze
       SHIPMENTS_ENDPOINT_TEST = 'https://test.correosexpress.com/wspsc/apiRestGrabacionEnvio/json/grabacionEnvio'.freeze
       TRACKING_INFO_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestSeguimientoEnvios/rest/seguimientoEnvios'.freeze
+      TRACKING_INFO_ENDPOINT_TEST = 'https://test.correosexpress.com/wspsc/apiRestSeguimientoEnvios/rest/seguimientoEnvios'.freeze
       LABELS_ENDPOINT_LIVE = 'https://www.cexpr.es/wspsc/apiRestEtiquetaTransporte/json/etiquetaTransporte'.freeze
+      LABELS_ENDPOINT_TEST = 'https://www.test.cexpr.es/wsps/apiRestEtiquetaTransporte/json/etiquetaTransporte'.freeze
       PICKUPS_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestGrabacionRecogida/json/grabarRecogida'.freeze
       PICKUPS_ENDPOINT_TEST = 'https://test.correosexpress.com/wpsn/apiRestGrabacionRecogida/json/grabarRecogida'.freeze
+      CUTOFF_TIME_ENDPOINT_LIVE = 'https://www.correosexpress.com/wpsc/apiRestGrabacionRecogida/json/horaCorte'.freeze
 
-      class << self
-        def get_collection_points(postcode:, country: nil)
-          raise Deliveries::APIError.new("Postcode cannot be null") if postcode.blank?
+      module_function
 
-          collection_points = []
+      def get_collection_points(postcode:, country: nil)
+        raise Deliveries::APIError.new("Postcode cannot be null") if postcode.blank?
 
-          points = self::CollectionPoints::Search.new(postcode: postcode).execute
-          points.each do |point|
-            collection_point_params = self::CollectionPoints::Search::FormatResponse.new(response: point).execute
-            collection_points << Deliveries::CollectionPoint.new(collection_point_params)
-          end
+        collection_points = []
 
-          collection_points
+        points = CollectionPoints::Search.new(postcode: postcode).execute
+        points.each do |point|
+          collection_point_params = CollectionPoints::Search::FormatResponse.new(response: point).execute
+          collection_points << Deliveries::CollectionPoint.new(collection_point_params)
         end
 
-        def get_collection_point(global_point_id:)
-          global_point = Deliveries::CollectionPoint.parse_global_point_id(global_point_id: global_point_id)
+        collection_points
+      end
 
-          collection_points = get_collection_points(postcode: global_point.postcode)
-          collection_point = collection_points.select{ |col| col.point_id == global_point.point_id }.first
+      def get_collection_point(global_point_id:)
+        global_point = Deliveries::CollectionPoint.parse_global_point_id(global_point_id: global_point_id)
 
-          if collection_point.blank?
-            raise Deliveries::APIError.new(
-              "Collection Point not found - #{global_point.point_id}",
-              1
-            )
-          end
+        collection_points = get_collection_points(postcode: global_point.postcode)
+        collection_point = collection_points.select{ |col| col.point_id == global_point.point_id }.first
 
-          collection_point
-        end
-
-        def shipment_info(tracking_code:, language: nil)
-          response = self::Shipments::Trace.new(
-            tracking_code: tracking_code
-          ).execute
-
-          tracking_info_params = self::Shipments::Trace::FormatResponse.new(response: response).execute
-          Deliveries::TrackingInfo.new(tracking_info_params)
-        end
-
-        def pickup_info(tracking_code:, language: nil)
-          response = self::Pickups::Trace.new(
-            tracking_code: tracking_code
-          ).execute
-
-          tracking_info_params = self::Pickups::Trace::FormatResponse.new(response: response).execute
-
-          Deliveries::TrackingInfo.new(tracking_info_params)
-        end
-
-        def get_label(tracking_code:, language: nil)
-          pdf = self::Labels::Generate.new(
-            tracking_codes: tracking_code
-          ).execute
-
-          Deliveries::Label.new(
-            raw: pdf,
-            url: nil
+        if collection_point.blank?
+          raise Deliveries::APIError.new(
+            "Collection Point not found - #{global_point.point_id}",
+            1
           )
         end
 
-        def get_labels(tracking_codes:, language: nil)
-          pdf = self::Labels::Generate.new(
-            tracking_codes: tracking_codes
-          ).execute
+        collection_point
+      end
 
-          Deliveries::Label.new(
-            raw: pdf,
-            url: nil
-          )
-        end
+      def shipment_info(tracking_code:, language: nil)
+        response = Shipments::Trace.new(
+          tracking_code: tracking_code
+        ).execute
 
-        def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                            parcels:, reference_code:, remarks: nil)
-          self::Shipments::Create.new(
-            sender: sender,
-            receiver: receiver,
-            collection_point: collection_point,
-            shipment_date: shipment_date,
-            parcels: parcels,
-            reference_code: reference_code,
-            remarks: remarks
-          ).execute
-        end
+        tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
+        Deliveries::TrackingInfo.new(tracking_info_params)
+      end
 
-        def create_pickup(sender:, receiver:, parcels:,reference_code:,
-                          pickup_date:, remarks: nil)
-          params = self::Pickups::Create::FormatParams.new(
-            sender: sender,
-            receiver: receiver,
+      def pickup_info(tracking_code:, language: nil)
+        response = Pickups::Trace.new(
+          tracking_code: tracking_code
+        ).execute
+
+        tracking_info_params = Pickups::Trace::FormatResponse.new(response: response).execute
+
+        Deliveries::TrackingInfo.new(tracking_info_params)
+      end
+
+      def get_label(tracking_code:, language: nil)
+        pdf = Labels::Generate.new(
+          tracking_codes: tracking_code
+        ).execute
+
+        Deliveries::Label.new(
+          raw: pdf,
+          url: nil
+        )
+      end
+
+      def get_labels(tracking_codes:, language: nil)
+        pdf = Labels::Generate.new(
+          tracking_codes: tracking_codes
+        ).execute
+
+        Deliveries::Label.new(
+          raw: pdf,
+          url: nil
+        )
+      end
+
+      def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
+                          parcels:, reference_code:, remarks: nil)
+        Shipments::Create.new(
+          sender: sender,
+          receiver: receiver,
+          collection_point: collection_point,
+          shipment_date: shipment_date,
+          parcels: parcels,
+          reference_code: reference_code,
+          remarks: remarks
+        ).execute
+      end
+
+      def create_pickup(sender:, receiver:, parcels:,reference_code:,
+                        pickup_date: nil, remarks: nil)
+        time_interval = nil
+        begin
+          params = Pickups::Create::FormatParams.new(
+            sender: sender.courierize(:correos_express),
+            receiver: receiver.courierize(:correos_express),
             parcels: parcels,
             reference_code: reference_code,
             pickup_date: pickup_date,
-            remarks: remarks
+            remarks: remarks,
+            time_interval: time_interval
           ).execute
 
-          pickup_number = self::Pickups::Create.new(params: params).execute
+          pickup_number = Pickups::Create.new(params: params).execute
+        rescue InvalidTimeIntervalError => e
+          raise e if time_interval
 
-          Deliveries::Pickup.new(
-            courier_id: 'correos_express',
-            sender: sender,
-            receiver: receiver,
-            parcels: parcels,
-            reference_code: reference_code,
-            tracking_code: pickup_number,
-            pickup_date: pickup_date
-          )
+          if (cutoff_time = e.message[/\b(\d+):\d{2}\z/, 1])
+            time_interval = 9..cutoff_time.to_i
+            retry
+          else
+            raise e
+          end
         end
+
+        Deliveries::Pickup.new(
+          courier_id: 'correos_express',
+          sender: sender,
+          receiver: receiver,
+          parcels: parcels,
+          reference_code: reference_code,
+          tracking_code: pickup_number,
+          pickup_date: pickup_date
+        )
       end
     end
   end

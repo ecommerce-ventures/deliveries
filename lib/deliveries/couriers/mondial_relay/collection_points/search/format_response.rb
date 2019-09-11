@@ -24,7 +24,7 @@
 
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       module CollectionPoints
         class Search
           class FormatResponse

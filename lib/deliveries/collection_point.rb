@@ -1,6 +1,7 @@
 module Deliveries
   class CollectionPoint < Address
-    attr_accessor :courier_id, :point_id, :latitude, :longitude, :timetable, :url_map, :url_photo
+    attr_accessor :courier_id, :point_id, :latitude, :longitude, :url_map, :url_photo
+    attr_writer :timetable
 
     def initialize(**attributes)
       super(attributes)
@@ -16,6 +17,18 @@ module Deliveries
 
     def global_point_id
       "#{courier_id}~#{country}~#{postcode}~#{point_id}"
+    end
+
+    def timetable(start_day: :monday)
+      raise Error, "Invalid week start day: #{start_day}" unless %i[monday sunday].include?(start_day)
+
+      @timetable&.sort_by do |wday, _slots|
+        if wday.zero? && start_day == :monday
+          7
+        else
+          wday
+        end
+      end&.to_h
     end
 
     def self.parse_global_point_id(global_point_id:)

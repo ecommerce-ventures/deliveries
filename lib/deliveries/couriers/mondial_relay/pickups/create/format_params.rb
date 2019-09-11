@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       module Pickups
         class Create
           class FormatParams
@@ -18,30 +18,32 @@ module Deliveries
             def execute
               params = {
                 'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
-                'ModeCol' => 'CCC',
+                'ModeCol' => 'REL',
                 'ModeLiv' => 'LCC',
+                'COL_Rel_Pays' => 'XX',
+                'COL_Rel' => 'AUTO',
                 'NDossier' => reference_code,
-                'Expe_Langage' => sender.country.to_s.upcase,
-                'Expe_Ad1' => I18n.transliterate(sender.name).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: ''),
-                'Expe_Ad3' => I18n.transliterate(sender.street).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: ''),
-                'Expe_Ville' => I18n.transliterate(sender.city).gsub(/[^A-Z_\-' ]/i, '').upcase.truncate(25, omission: ''),
+                'Expe_Langage' => sender.country,
+                'Expe_Ad1' => sender.name,
+                'Expe_Ad3' => sender.street,
+                'Expe_Ville' => sender.city,
                 'Expe_CP' => sender.postcode,
-                'Expe_Pays' => sender.country.to_s.upcase,
-                'Expe_Tel1' => Deliveries.courier('mondial_relay')::Utils.format_phone(sender.phone, sender.country),
-                'Expe_Mail' => Deliveries.courier('mondial_relay')::Utils.format_email(sender.email),
-                'Dest_Langage' => receiver.country.to_s.upcase,
-                'Dest_Ad1' => I18n.transliterate(receiver.name).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: ''),
-                'Dest_Ad3' => I18n.transliterate(receiver.street).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: ''),
-                'Dest_Ville' => I18n.transliterate(receiver.city).gsub(/[^A-Z_\-' ]/i, '').upcase.truncate(25, omission: ''),
+                'Expe_Pays' => sender.country,
+                'Expe_Tel1' => sender.phone,
+                'Expe_Mail' => sender.email,
+                'Dest_Langage' => receiver.country,
+                'Dest_Ad1' => receiver.name,
+                'Dest_Ad3' => receiver.street,
+                'Dest_Ville' => receiver.city,
                 'Dest_CP' => receiver.postcode,
-                'Dest_Pays' => receiver.country.to_s.upcase,
-                'Dest_Tel1' => Deliveries.courier('mondial_relay')::Utils.format_phone(receiver.phone, receiver.country),
-                'Dest_Mail' => Deliveries.courier('mondial_relay')::Utils.format_email(receiver.email),
+                'Dest_Pays' => receiver.country,
+                'Dest_Tel1' => receiver.phone,
+                'Dest_Mail' => receiver.email,
                 'NbColis' => parcels,
-                'Instructions' => remarks&.truncate(32, omission: '')
+                'Instructions' => I18n.transliterate(remarks.to_s).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(30, omission: '')
               }
 
-              defaults = Deliveries.courier('mondial_relay')::Shipments::Create::Defaults::PARAMS
+              defaults = Shipments::Create::Defaults::PARAMS
 
               defaults.merge(params)
             end

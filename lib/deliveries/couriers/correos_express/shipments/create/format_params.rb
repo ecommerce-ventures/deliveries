@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Shipments
         class Create
           class FormatParams
@@ -22,8 +22,8 @@ module Deliveries
 
             def execute
               params = {
-                solicitante: Deliveries::Couriers::CorreosExpress.config(:solicitante),
-                codRte: Deliveries::Couriers::CorreosExpress.config(:cod_rte),
+                solicitante: CorreosExpress.config(:client_code),
+                codRte: CorreosExpress.config(:shipment_sender_code),
                 ref: reference_code,
                 fecha: format_date(shipment_date),
                 nomRte: sender.name,
@@ -51,16 +51,21 @@ module Deliveries
               end
 
               params = if national_country?(sender.country)
-                         params.merge(codPosNacRte: sender.postcode)
+                         params.merge(codPosNacRte: format_postcode(sender.postcode, sender.country))
                        else
-                         params.merge(codPosIntRte: sender.postcode)
+                         params.merge(codPosIntRte: format_postcode(sender.postcode, sender.country))
                        end
 
               params = if national_country?(receiver.country)
-                         params.merge(codPosNacDest: receiver.postcode)
+                         params.merge(codPosNacDest: format_postcode(receiver.postcode, receiver.country))
                        else
-                         params.merge(codPosIntDest: receiver.postcode)
+                         params.merge(codPosIntDest: format_postcode(receiver.postcode, receiver.country))
                        end
+
+              unless CorreosExpress.test?
+                custom_product = CorreosExpress.config("countries.#{receiver.country.to_s.downcase}.product")
+                params[:producto] = custom_product if custom_product
+              end
 
               defaults = Defaults::PARAMS
 
@@ -73,6 +78,14 @@ module Deliveries
               raise Deliveries::Error if date.blank?
 
               date.strftime("%d%m%Y")
+            end
+
+            def format_postcode(postcode, country)
+              if country.to_sym.downcase == :pt
+                postcode&.split('-')&.first
+              else
+                postcode
+              end
             end
 
             def national_country?(country)

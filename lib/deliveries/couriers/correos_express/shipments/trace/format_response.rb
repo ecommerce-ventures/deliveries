@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Shipments
         class Trace
           class FormatResponse

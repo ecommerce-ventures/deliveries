@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class Spring < Deliveries::Courier
+    module Spring
       module Shipments
         class Create
           attr_accessor :sender, :receiver, :parcels, :reference_code
@@ -14,8 +14,8 @@ module Deliveries
 
           def execute
             params = Deliveries::Couriers::Spring::Shipments::Create::FormatParams.new(
-              sender: sender,
-              receiver: receiver,
+              sender: sender.courierize(:spring),
+              receiver: receiver.courierize(:spring),
               parcels: parcels,
               reference_code: reference_code
             ).execute

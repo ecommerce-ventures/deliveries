@@ -12,4 +12,7 @@ module Deliveries
       super(message)
     end
   end
+  # Custom API errors.
+  class InvalidDateError < APIError; end
+  class InvalidTimeIntervalError < APIError; end
 end

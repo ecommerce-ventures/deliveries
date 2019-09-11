@@ -9,7 +9,7 @@
 
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module CollectionPoints
         class Search
           class FormatResponse

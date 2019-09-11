@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       module Shipments
         class Trace
           class FormatResponse

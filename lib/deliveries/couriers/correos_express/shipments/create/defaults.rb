@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class CorreosExpress
+    module CorreosExpress
       module Shipments
         class Create
           module Defaults
@@ -10,7 +10,7 @@ module Deliveries
               numEnvio: "",
               ref: "",
               fecha: "", # DDMMYYYY
-              codRte: "555559999",
+              codRte: "",
               nomRte: "",
               nifRte: "",
               dirRte: "",

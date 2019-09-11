@@ -1,6 +1,6 @@
 module Deliveries
     module Couriers
-      class MondialRelayDual < Deliveries::Courier
+      module MondialRelayDual
         module Shipments
           class Create
             attr_accessor :params
@@ -81,7 +81,8 @@ module Deliveries
                 response = HTTParty.post(
                   api_endpoint,
                   body: xml,
-                  headers: { "Content-Type" => "application/xml; charset='UTF-8'" }
+                  headers: { "Content-Type" => "application/xml; charset='UTF-8'" },
+                  debug_output: Deliveries.debug ? Deliveries.logger : nil
                 )
   
                 response_result = Hash.from_xml(response.body)

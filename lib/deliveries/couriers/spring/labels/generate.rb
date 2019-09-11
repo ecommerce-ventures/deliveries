@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class Spring < Deliveries::Courier
+    module Spring
       module Labels
         class Generate
           attr_accessor :tracking_codes

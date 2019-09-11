@@ -4,11 +4,14 @@ require_relative 'spring/shipments/create/defaults'
 require_relative 'spring/shipments/create/format_params'
 require_relative 'spring/shipments/create'
 require_relative 'spring/labels/generate'
+require_relative 'spring/address'
 require_relative 'spring/request'
 
 module Deliveries
   module Couriers
-    class Spring < Deliveries::Courier
+    module Spring
+      extend Courier
+
       ID = :spring
       ENDPOINT_LIVE = 'https://mtapi.net/'.freeze
       ENDPOINT_TEST = 'https://mtapi.net/?testMode=1'.freeze
@@ -20,40 +23,40 @@ module Deliveries
         :default_product
       )
 
-      class << self
-        def shipment_info(tracking_code:)
-          response = self::Shipments::Trace.new(
-            tracking_code: tracking_code
-          ).execute
+      module_function
 
-          tracking_info_params = self::Shipments::Trace::FormatResponse.new(response: response).execute
-          Deliveries::TrackingInfo.new(tracking_info_params)
-        end
+      def shipment_info(tracking_code:, language: nil)
+        response = Shipments::Trace.new(
+          tracking_code: tracking_code
+        ).execute
 
-        def get_label(tracking_code:, language: nil)
-          get_labels(tracking_codes: tracking_code)
-        end
+        tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
+        Deliveries::TrackingInfo.new(tracking_info_params)
+      end
 
-        def get_labels(tracking_codes:, language: nil)
-          pdf, url = self::Labels::Generate.new(
-            tracking_codes: tracking_codes
-          ).execute.values_at(:pdf, :url)
+      def get_label(tracking_code:, language: nil)
+        get_labels(tracking_codes: tracking_code)
+      end
 
-          Deliveries::Label.new(
-            raw: pdf,
-            url: url
-          )
-        end
+      def get_labels(tracking_codes:, language: nil)
+        pdf, url = Labels::Generate.new(
+          tracking_codes: tracking_codes
+        ).execute.values_at(:pdf, :url)
 
-        def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                            parcels:, reference_code:, remarks: nil)
-          self::Shipments::Create.new(
-            sender: sender,
-            receiver: receiver,
-            parcels: parcels,
-            reference_code: reference_code
-          ).execute
-        end
+        Deliveries::Label.new(
+          raw: pdf,
+          url: url
+        )
+      end
+
+      def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
+                          parcels:, reference_code:, remarks: nil)
+        Shipments::Create.new(
+          sender: sender,
+          receiver: receiver,
+          parcels: parcels,
+          reference_code: reference_code
+        ).execute
       end
     end
   end

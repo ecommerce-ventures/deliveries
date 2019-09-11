@@ -1,8 +1,7 @@
 require 'ostruct'
 
 module Deliveries
-  class Courier
-    class << self
+  module Courier
       @config = nil
 
       def configure
@@ -67,21 +66,20 @@ module Deliveries
         raise NotImplementedError
       end
 
-      def get_label(tracking_code:, language:)
+      def get_label(tracking_code:, language: nil)
         raise NotImplementedError
       end
 
-      def get_labels(tracking_codes:, language:)
+      def get_labels(tracking_codes:, language: nil)
         raise NotImplementedError
       end
 
-      def shipment_info(tracking_code:, language:)
+      def shipment_info(tracking_code:, language: nil)
         raise NotImplementedError
       end
 
-      def pickup_info(tracking_code:, language:)
+      def pickup_info(tracking_code:, language: nil)
         raise NotImplementedError
       end
-    end
   end
 end

@@ -1,7 +1,7 @@
 include Savon::SpecHelper
 
 def register_mondial_relay_wsdl
-  wsdl = File.read "#{Rails.root}/spec/support/fixtures/mondial_relay_wsdl.xml"
+  wsdl = file_fixture('mondial_relay_wsdl.xml').read
   stub_request(:get, 'http://api.mondialrelay.com/Web_Services.asmx?WSDL')
     .to_return(
       status: 200,
@@ -451,7 +451,7 @@ def register_mondial_relay_create_shipment_stubs
     "Montage" => "",
     "TRDV" => "",
     "Assurance" => "",
-    "Instructions" => nil,
+    "Instructions" => "",
     "Security" => "4C6E7010DA08008C1C73E85B24EF51F4"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
@@ -528,7 +528,7 @@ def register_mondial_relay_create_shipment_stubs
     "Montage" => "",
     "TRDV" => "",
     "Assurance" => "",
-    "Instructions" => nil,
+    "Instructions" => "",
     "Security" => "E1FCC672CB1290C1C1E44E2A5643AF38"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
@@ -555,7 +555,7 @@ def register_mondial_relay_create_pickup_stubs
 
   savon.expects(:wsi2_creation_expedition).with(message: {
     "Enseigne" => "BDTEST13",
-    "ModeCol" => "CCC",
+    "ModeCol" => "REL",
     "ModeLiv" => "LCC",
     "NDossier" => "shipmentX",
     "NClient" => "",
@@ -589,8 +589,8 @@ def register_mondial_relay_create_pickup_stubs
     "CRT_Devise" => "",
     "Exp_Valeur" => "",
     "Exp_Devise" => "",
-    "COL_Rel_Pays" => "",
-    "COL_Rel" => "",
+    "COL_Rel_Pays" => "XX",
+    "COL_Rel" => "AUTO",
     "LIV_Rel_Pays" => "",
     "LIV_Rel" => "",
     "TAvisage" => "",
@@ -598,8 +598,8 @@ def register_mondial_relay_create_pickup_stubs
     "Montage" => "",
     "TRDV" => "",
     "Assurance" => "",
-    "Instructions" => nil,
-    "Security" => "EF2891DC71F1ABEA619B2A14A8E65B1F"
+    "Instructions" => "",
+    "Security" => "3F0B104BF9C69EE3D42C6C7B3E0CCA1E"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
@@ -632,7 +632,7 @@ def register_mondial_relay_create_pickup_stubs
 
   savon.expects(:wsi2_creation_expedition).with(message: {
     "Enseigne" => "BDTEST13",
-    "ModeCol" => "CCC",
+    "ModeCol" => "REL",
     "ModeLiv" => "LCC",
     "NDossier" => "shipmentX",
     "NClient" => "",
@@ -666,8 +666,8 @@ def register_mondial_relay_create_pickup_stubs
     "CRT_Devise" => "",
     "Exp_Valeur" => "",
     "Exp_Devise" => "",
-    "COL_Rel_Pays" => "",
-    "COL_Rel" => "",
+    "COL_Rel_Pays" => "XX",
+    "COL_Rel" => "AUTO",
     "LIV_Rel_Pays" => "",
     "LIV_Rel" => "",
     "TAvisage" => "",
@@ -675,8 +675,8 @@ def register_mondial_relay_create_pickup_stubs
     "Montage" => "",
     "TRDV" => "",
     "Assurance" => "",
-    "Instructions" => nil,
-    "Security" => "C39F3BD8E6FCE47E0069C3A03743F487"
+    "Instructions" => "",
+    "Security" => "876957F524EB62279E8D96371C9545BD"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope

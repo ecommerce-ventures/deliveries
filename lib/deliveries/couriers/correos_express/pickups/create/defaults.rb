@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class CorreosExpress
+    module CorreosExpress
       module Pickups
         class Create
           module Defaults

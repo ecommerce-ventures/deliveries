@@ -34,7 +34,28 @@ module Deliveries
     mode == :live
   end
 
+  def self.logger
+    class_variable_get :@@logger
+  end
+
+  def self.logger=(logger)
+    class_variable_set :@@logger, logger
+  end
+
+  def self.debug
+    class_variable_get(:@@debug) == true
+  end
+
+  def self.debug=(debug)
+    class_variable_set :@@debug, debug
+  end
+
   def self.courier(courier_id)
     Couriers.const_get(courier_id.to_s.downcase.split('_').map(&:capitalize).join)
+  end
+
+  def self.get_collection_point(global_point_id)
+    global_point = CollectionPoint.parse_global_point_id global_point_id: global_point_id
+    courier(global_point.courier_id).get_collection_point global_point_id: global_point_id
   end
 end

@@ -93,16 +93,12 @@ describe "Mondial Relay" do
     expect(collection_point.country).to eq 'FR'
     expect(collection_point.state).to eq nil
 
+    # Act/Assert
+    response = Deliveries.courier(:mondial_relay).get_collection_points(postcode: '00000', country: 'fr')
+    expect(response).to eq []
+
     # Error
     # ---
-
-    # Act/Assert
-    expect {
-      Deliveries.courier(:mondial_relay).get_collection_points(postcode: '00000', country: 'fr')
-    }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'Successful operation'
-      expect(error.code).to eq '0'
-    end
 
     # Act/Assert
     expect {

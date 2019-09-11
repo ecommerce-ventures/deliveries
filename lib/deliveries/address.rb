@@ -12,5 +12,13 @@ module Deliveries
       self.street = attributes[:street]
       self.postcode = attributes[:postcode]
     end
+
+    def courierize(courier_id)
+      courier_address = %(Deliveries::Couriers::#{courier_id.to_s.camelize}::Address).safe_constantize.new
+      instance_variables.each do |iv|
+        courier_address.instance_variable_set(iv, instance_variable_get(iv))
+      end
+      courier_address
+    end
   end
 end

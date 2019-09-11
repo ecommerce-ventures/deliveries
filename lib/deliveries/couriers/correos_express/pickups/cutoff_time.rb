@@ -2,14 +2,15 @@ module Deliveries
   module Couriers
     module CorreosExpress
       module Pickups
-        class Create
+        class CutoffTime
           include HTTParty
           persistent_connection_adapter
 
-          attr_accessor :params
+          attr_accessor :country, :postcode
 
-          def initialize(params:)
-            self.params = params
+          def initialize(country:, postcode:)
+            self.country = country
+            self.postcode = postcode
           end
 
           def execute
@@ -17,6 +18,11 @@ module Deliveries
               username: CorreosExpress.config(:username),
               password: CorreosExpress.config(:password)
             }
+
+            params = FormatParams.new(
+              country: country,
+              postcode: postcode
+            ).execute
 
             response = self.class.post(
               api_endpoint,
@@ -27,34 +33,23 @@ module Deliveries
             )
             if response.success?
               parsed_response = JSON.parse(response.body, symbolize_names: true)
-              if parsed_response.dig(:codError) == 0 && parsed_response.dig(:numRecogida).present?
-                parsed_response.dig(:numRecogida)
+              if parsed_response.dig(:codError) == 0 && parsed_response.dig(:horaCorte).present?
+                parsed_response.dig(:horaCorte)
               else
-                exception_class =
-                  case parsed_response.dig(:codError)
-                  when 105 then InvalidDateError
-                  when 154 then InvalidTimeIntervalError
-                  else APIError
-                  end
-
-                raise exception_class.new(
+                raise Deliveries::APIError.new(
                   parsed_response.dig(:mensError),
                   parsed_response.dig(:codError)
                 )
               end
             else
-              raise ClientError, "Failed with status code #{response.code}"
+              raise Deliveries::Error
             end
           end
 
           private
 
           def api_endpoint
-            if CorreosExpress.live?
-              CorreosExpress::PICKUPS_ENDPOINT_LIVE
-            else
-              CorreosExpress::PICKUPS_ENDPOINT_TEST
-            end
+            CorreosExpress::CUTOFF_TIME_ENDPOINT_LIVE
           end
 
           def headers

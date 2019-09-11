@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       module Shipments
         class Trace
           attr_accessor :tracking_code, :language
@@ -22,12 +22,12 @@ module Deliveries
 
             response_result = response.body.dig(:wsi2_tracing_colis_detaille_response, :wsi2_tracing_colis_detaille_result)
             if  response_result.present? &&
-                Deliveries.courier('mondial_relay')::StatusCodes.tracking_info_success?(response_result[:stat].to_i)
+                StatusCodes.tracking_info_success?(response_result[:stat].to_i)
 
               response_result
             else
               raise Deliveries::APIError.new(
-                Deliveries.courier('mondial_relay')::StatusCodes.message_for(response_result[:stat].to_i),
+                StatusCodes.message_for(response_result[:stat].to_i),
                 response_result[:stat]
               )
             end

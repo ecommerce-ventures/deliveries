@@ -1,8 +1,11 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Shipments
         class Create
+          include HTTParty
+          persistent_connection_adapter
+
           attr_accessor :sender, :receiver, :collection_point, :parcels,
                         :reference_code,:shipment_date, :remarks
 
@@ -19,13 +22,13 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
-              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
+              username: CorreosExpress.config(:username),
+              password: CorreosExpress.config(:password)
             }
 
-            params = Deliveries::Couriers::CorreosExpress::Shipments::Create::FormatParams.new(
-              sender: sender,
-              receiver: receiver,
+            params = FormatParams.new(
+              sender: sender.courierize(:correos_express),
+              receiver: receiver.courierize(:correos_express),
               collection_point: collection_point,
               parcels: parcels,
               reference_code: reference_code,
@@ -33,7 +36,13 @@ module Deliveries
               remarks: remarks
             ).execute
 
-            response = HTTParty.post(api_endpoint, basic_auth: auth, body: params, headers: headers)
+            response = self.class.post(
+              api_endpoint,
+              basic_auth: auth,
+              body: params,
+              headers: headers,
+              debug_output: Deliveries.debug ? Deliveries.logger : nil
+            )
             if response.success?
               parsed_response = JSON.parse(response.body, symbolize_names: true)
               if parsed_response.dig(:codigoRetorno) == 0 && parsed_response.dig(:datosResultado).present?

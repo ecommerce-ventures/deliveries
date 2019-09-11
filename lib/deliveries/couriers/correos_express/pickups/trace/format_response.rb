@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Pickups
         class Trace
           class FormatResponse
@@ -14,7 +14,7 @@ module Deliveries
             def execute
               tracking_info_params = {}
 
-              checkpoints = formatted_checkpoints(response[:situaciones])
+              checkpoints = formatted_checkpoints([response[:situaciones]].flatten)
 
               tracking_info_params[:status] = checkpoints.last.try(:status)
               tracking_info_params[:checkpoints] = checkpoints
@@ -36,11 +36,13 @@ module Deliveries
             end
 
             def formatted_checkpoint(shipment_status)
+              description = shipment_status[:desc_situacion].to_s
+              description += " (#{shipment_status[:desc_motivo]})" if shipment_status[:desc_motivo].present?
               Deliveries::Checkpoint.new(
                 status: status_code(shipment_status[:desc_situacion]),
                 location: nil,
                 tracked_at: Time.zone.strptime("#{shipment_status[:fec_situacion]}", '%d/%m/%Y %H:%M:%S'),
-                description: shipment_status[:desc_motivo]
+                description: description
               )
             end
 

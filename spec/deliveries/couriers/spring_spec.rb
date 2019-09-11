@@ -39,7 +39,7 @@ describe "Spring" do
       name: 'Receiver name',
       email: 'receiver@example.com',
       phone: '666666666',
-      country: 'EN',
+      country: 'GB',
       state: 'Receiver state',
       city: 'Receiver city',
       street: 'Receiver street',

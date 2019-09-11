@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class Spring < Deliveries::Courier
+    module Spring
       module Request
         module_function
 
@@ -8,7 +8,8 @@ module Deliveries
           response = HTTParty.post(
             endpoint,
             body: params.to_json,
-            headers: headers
+            headers: headers,
+            debug_output: Deliveries.debug ? Deliveries.logger : nil
           )
           raise Deliveries::ClientError unless response.success?
 

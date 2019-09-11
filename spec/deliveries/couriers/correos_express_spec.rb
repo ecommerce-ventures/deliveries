@@ -267,7 +267,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_label(tracking_code: 'E000')
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 990910001'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
       expect(error.code).to eq -1
     end
   end
@@ -292,7 +292,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_labels(tracking_codes: %w[E000])
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 990910001'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
       expect(error.code).to eq -1
     end
 
@@ -300,7 +300,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_labels(tracking_codes: %w[E000 E001])
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 990910001'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
       expect(error.code).to eq -1
     end
   end
@@ -362,17 +362,17 @@ describe "Correos Express" do
     expect(response.checkpoints[0].status).to eq :registered
     expect(response.checkpoints[0].location).to eq nil
     expect(response.checkpoints[0].tracked_at).to eq "#{Date.yesterday} 11:11:11".in_time_zone
-    expect(response.checkpoints[0].description).to eq nil
+    expect(response.checkpoints[0].description).to eq 'PDTE ASIGNAR'
     expect(response.checkpoints[1]).to be_a Deliveries::Checkpoint
     expect(response.checkpoints[1].status).to eq :in_transit
     expect(response.checkpoints[1].location).to eq nil
     expect(response.checkpoints[1].tracked_at).to eq "#{Date.current} 13:13:13".in_time_zone
-    expect(response.checkpoints[1].description).to eq nil
+    expect(response.checkpoints[1].description).to eq 'TRANSMITIDA'
     expect(response.checkpoints[2]).to be_a Deliveries::Checkpoint
     expect(response.checkpoints[2].status).to eq :delivered
     expect(response.checkpoints[2].location).to eq nil
     expect(response.checkpoints[2].tracked_at).to eq "#{Date.current} 15:15:15".in_time_zone
-    expect(response.checkpoints[2].description).to eq nil
+    expect(response.checkpoints[2].description).to eq 'EFECTUADA'
 
     # Error
     # ---

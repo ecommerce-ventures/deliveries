@@ -1,8 +1,11 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module CollectionPoints
         class Search
+          include HTTParty
+          persistent_connection_adapter
+
           attr_accessor :postcode
 
           def initialize(postcode:)
@@ -11,17 +14,18 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
-              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
+              username: CorreosExpress.config(:username),
+              password: CorreosExpress.config(:password)
             }
 
             headers = { "Content-Type" => "application/json;charset=UTF-8", "Accept" => "application/json" }
 
-            response = HTTParty.post(
+            response = self.class.post(
               api_endpoint,
               basic_auth: auth,
               body: { cod_postal: postcode }.to_json,
-              headers: headers
+              headers: headers,
+              debug_output: Deliveries.debug ? Deliveries.logger : nil
             )
             parsed_response = JSON.parse(response.body)
 

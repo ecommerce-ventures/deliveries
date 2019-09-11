@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       STATUS_CODES = {
         0 => 'Successful operation',
         1 => 'Incorrect merchant',

@@ -1,8 +1,11 @@
 module Deliveries
   module Couriers
-    class CorreosExpress < Deliveries::Courier
+    module CorreosExpress
       module Labels
         class Generate
+          include HTTParty
+          persistent_connection_adapter
+
           attr_accessor :tracking_codes
 
           def initialize(tracking_codes:)
@@ -11,27 +14,25 @@ module Deliveries
 
           def execute
             auth = {
-              username: Deliveries::Couriers::CorreosExpress.config(:correos_express_user),
-              password: Deliveries::Couriers::CorreosExpress.config(:correos_express_password)
+              username: CorreosExpress.config(:username),
+              password: CorreosExpress.config(:password)
             }
-
-            # Load the cod_rte from prod because the dev api does not work
-            if Deliveries.test?
-              cod_rte = YAML.load_file('config/deliveries/correos_express.yml')['production']['cod_rte']
-            else
-              cod_rte = Deliveries::Couriers::CorreosExpress.config(:cod_rte)
-            end
-
             decoded_labels = []
             tracking_codes.each do |tracking_code|
               params = {
-                keyCli: cod_rte,
+                keyCli: CorreosExpress.config(:shipment_sender_code),
                 nenvio: tracking_code,
                 tipo: "1" # "1" - pdf, "2" - zpl image
               }.to_json
 
               headers = { "Content-Type" => "application/json" }
-              response = HTTParty.post(api_endpoint, basic_auth: auth, body: params, headers: headers)
+              response = self.class.post(
+                api_endpoint,
+                basic_auth: auth,
+                body: params,
+                headers: headers,
+                debug_output: Deliveries.debug ? Deliveries.logger : nil
+              )
               parsed_response = JSON.parse(response.body)
               if parsed_response.dig('codErr') == 0
                 if parsed_response["listaEtiquetas"].any?
@@ -56,7 +57,11 @@ module Deliveries
           private
 
           def api_endpoint
-            CorreosExpress::LABELS_ENDPOINT_LIVE
+            if CorreosExpress.live?
+              CorreosExpress::LABELS_ENDPOINT_LIVE
+            else
+              CorreosExpress::LABELS_ENDPOINT_TEST
+            end
           end
         end
       end

@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class Spring
+    module Spring
       module Shipments
         class Create
           module Defaults

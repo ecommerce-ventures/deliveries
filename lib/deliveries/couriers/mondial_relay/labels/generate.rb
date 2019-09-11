@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       module Labels
         class Generate
           attr_accessor :tracking_codes, :language
@@ -29,7 +29,7 @@ module Deliveries
               'http://www.mondialrelay.com' + url_path.gsub('format=A4', 'format=10x15')
             else
               raise Deliveries::APIError.new(
-                Deliveries.courier('mondial_relay')::StatusCodes.message_for(response_result[:stat].to_i),
+                StatusCodes.message_for(response_result[:stat].to_i),
                 response_result[:stat]
               )
             end

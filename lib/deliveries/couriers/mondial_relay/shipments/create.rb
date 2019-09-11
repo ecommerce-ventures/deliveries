@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    class MondialRelay < Deliveries::Courier
+    module MondialRelay
       module Shipments
         class Create
           attr_accessor :params
@@ -21,7 +21,7 @@ module Deliveries
                response_result[:expedition_num]
             else
               raise Deliveries::APIError.new(
-                Deliveries.courier('mondial_relay')::StatusCodes.message_for(response_result[:stat].to_i),
+                StatusCodes.message_for(response_result[:stat].to_i),
                 response_result[:stat]
               )
             end

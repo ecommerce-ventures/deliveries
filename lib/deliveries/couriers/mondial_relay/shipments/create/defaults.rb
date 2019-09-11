@@ -17,7 +17,7 @@
 
 module Deliveries
   module Couriers
-    class MondialRelay
+    module MondialRelay
       module Shipments
         class Create
           module Defaults
