@@ -25,7 +25,8 @@ module Deliveries
         :password,
         :client_code,
         :shipment_sender_code,
-        :pickup_receiver_code
+        :pickup_receiver_code,
+        :countries
       )
 
       COLLECTION_POINTS_ENDPOINT_TEST = 'https://www.correosexpress.com/wspsc/apiRestOficina/v1/oficinas/listadoOficinasCoordenadas'.freeze

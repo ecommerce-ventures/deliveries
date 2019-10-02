@@ -23,7 +23,7 @@ module Deliveries
             response = Deliveries::Couriers::Spring::Request.execute(params: params)
 
             Deliveries::Delivery.new(
-              courier_id: Deliveries::Couriers::Spring::ID,
+              courier_id: Deliveries::Couriers::Spring::COURIER_ID,
               sender: sender,
               receiver: receiver,
               parcels: parcels,

@@ -145,13 +145,14 @@ describe "Correos Express" do
     )
 
     # Assert
-    expect(response).to be_a Deliveries::Delivery
+    expect(response).to be_a Deliveries::Shipment
     expect(response.courier_id).to eq "correos_express"
     expect(response.sender).to eq sender
     expect(response.receiver).to eq receiver
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '3230002000342722'
+    expect(response.shipment_date).to eq Date.tomorrow
 
     # Error
     # ---

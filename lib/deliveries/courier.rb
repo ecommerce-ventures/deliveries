@@ -5,7 +5,7 @@ module Deliveries
       @config = nil
 
       def configure
-        @config ||= OpenStruct.new
+        @config ||= ancestors.first::Config.new
         yield @config
       end
 
@@ -15,7 +15,7 @@ module Deliveries
 
       # Get configuration value by key.
       #
-      # @param key [String|Symbol[]] Dot notation string or array of symbols.
+      # @param key [String, Symbol[]] Dot notation string or array of symbols.
       # @param default [Mixed]
       #
       # @return [Mixed]
@@ -32,22 +32,6 @@ module Deliveries
 
       def live?
         Deliveries.live?
-      end
-
-      def shipment_to_home?(country:)
-        config("countries.#{country}.shipment", default: []).map(&:to_sym).include? :home
-      end
-
-      def shipment_to_collection_point?(country:)
-        config("countries.#{country}.shipment", default: []).map(&:to_sym).include? :collection_point
-      end
-
-      def pickup_at_home?(country:)
-        config("countries.#{country}.pickup", default: []).map(&:to_sym).include? :home
-      end
-
-      def pickup_at_collection_point?(country:)
-        config("countries.#{country}.pickup", default: []).map(&:to_sym).include? :collection_point
       end
 
       def get_collection_point(global_point_id:)

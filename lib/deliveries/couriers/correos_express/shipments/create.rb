@@ -47,13 +47,14 @@ module Deliveries
               parsed_response = JSON.parse(response.body, symbolize_names: true)
               if parsed_response.dig(:codigoRetorno) == 0 && parsed_response.dig(:datosResultado).present?
                 expedition_num = parsed_response.dig(:datosResultado)
-                delivery = Deliveries::Delivery.new(
+                delivery = Deliveries::Shipment.new(
                   courier_id: 'correos_express',
                   sender: sender,
                   receiver: receiver,
                   parcels: parcels,
                   reference_code: reference_code,
-                  tracking_code: expedition_num
+                  tracking_code: expedition_num,
+                  shipment_date: shipment_date
                 )
 
                 delivery

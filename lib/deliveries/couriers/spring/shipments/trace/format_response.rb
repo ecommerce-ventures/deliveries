@@ -14,7 +14,7 @@ module Deliveries
               checkpoints = response[:Events].sort_by{ |event| event[:DateTime] }
 
               tracking_info_params = {}
-              tracking_info_params[:courier_id] = Deliveries::Couriers::Spring::ID
+              tracking_info_params[:courier_id] = Deliveries::Couriers::Spring::COURIER_ID
               tracking_info_params[:tracking_code] = response[:TrackingNumber]
               tracking_info_params[:status] = status(checkpoints.last[:Code])
               tracking_info_params[:checkpoints] = formatted_checkpoints(checkpoints)

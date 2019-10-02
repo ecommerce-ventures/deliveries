@@ -51,17 +51,19 @@ describe "Spring" do
       sender: sender,
       receiver: receiver,
       parcels: 1,
-      reference_code: 'shipmentX'
+      reference_code: 'shipmentX',
+      shipment_date: 3.days.since.to_date
     )
 
     # Assert
-    expect(response).to be_a Deliveries::Delivery
+    expect(response).to be_a Deliveries::Shipment
     expect(response.courier_id).to eq :spring
     expect(response.sender).to eq sender
     expect(response.receiver).to eq receiver
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq 'shipmentX001'
+    expect(response.shipment_date).to eq 3.days.since.to_date
 
     # Error
     # ---
@@ -75,7 +77,8 @@ describe "Spring" do
         sender: sender,
         receiver: receiver,
         parcels: 1,
-        reference_code: 'shipmentX'
+        reference_code: 'shipmentX',
+        shipment_date: 3.days.since.to_date
       )
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'Consignee Name required'
@@ -84,15 +87,72 @@ describe "Spring" do
   end
 
   it ".create_pickup" do
+    # Arrange
+    register_spring_create_shipment_stub
+
+    # Success
+    # ---
+
+    # Arrange
+    sender = Deliveries::Address.new(
+      name: 'Sender name',
+      email: 'sender@example.com',
+      phone: '666666666',
+      country: 'ES',
+      state: 'Sender state',
+      city: 'Sender city',
+      street: 'Sender street',
+      postcode: '00000'
+    )
+    receiver = Deliveries::Address.new(
+      name: 'Receiver name',
+      email: 'receiver@example.com',
+      phone: '666666666',
+      country: 'GB',
+      state: 'Receiver state',
+      city: 'Receiver city',
+      street: 'Receiver street',
+      postcode: '00000'
+    )
+
+    # Act
+    response = Deliveries.courier(:spring).create_pickup(
+      sender: sender,
+      receiver: receiver,
+      parcels: 1,
+      reference_code: 'shipmentX',
+      pickup_date: 2.days.since.to_date
+    )
+
+    # Assert
+    expect(response).to be_a Deliveries::Pickup
+    expect(response.courier_id).to eq :spring
+    expect(response.sender).to eq sender
+    expect(response.receiver).to eq receiver
+    expect(response.parcels).to eq 1
+    expect(response.reference_code).to eq 'shipmentX'
+    expect(response.tracking_code).to eq 'shipmentX001'
+    expect(response.pickup_date).to eq 2.days.since.to_date
+
+    # Error
+    # ---
+
+    # Arrange
+    receiver.name = ''
+
     # Act/Assert
     expect {
       Deliveries.courier(:spring).create_pickup(
-        sender: nil,
-        receiver: nil,
-        parcels: nil,
-        reference_code: nil
+        sender: sender,
+        receiver: receiver,
+        parcels: 1,
+        reference_code: 'shipmentX',
+        pickup_date: 2.days.since.to_date
       )
-    }.to raise_error NotImplementedError
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'Consignee Name required'
+      expect(error.code).to eq 1
+    end
   end
 
   it ".get_label" do
@@ -182,9 +242,37 @@ describe "Spring" do
   end
 
   it ".pickup_info" do
+    # Arrange
+    register_spring_shipment_info_stub
+
+    # Success
+    # ---
+
+    # Act
+    response = Deliveries.courier(:spring).shipment_info(tracking_code: '001')
+
+    # Assert
+    expect(response).to be_a Deliveries::TrackingInfo
+    expect(response.courier_id).to eq :spring
+    expect(response.tracking_code).to eq '001'
+    expect(response.status).to eq :registered
+    expect(response.checkpoints.length).to eq 1
+    checkpoint = response.checkpoints.first
+    expect(checkpoint).to be_a Deliveries::Checkpoint
+    expect(checkpoint.status).to eq :registered
+    expect(checkpoint.location).to eq nil
+    expect(checkpoint.tracked_at).to eq '2000-01-01 10:10:10'.in_time_zone
+    expect(checkpoint.description).to eq nil
+
+    # Error
+    # ---
+
     # Act/Assert
     expect {
-      Deliveries.courier(:spring).pickup_info(tracking_code: nil, language: nil)
-    }.to raise_error NotImplementedError
+      Deliveries.courier(:spring).shipment_info(tracking_code: '000')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'Shipment not found (000)'
+      expect(error.code).to eq 10
+    end
   end
 end

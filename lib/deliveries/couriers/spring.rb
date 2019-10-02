@@ -12,12 +12,11 @@ module Deliveries
     module Spring
       extend Courier
 
-      ID = :spring
+      COURIER_ID = :spring
       ENDPOINT_LIVE = 'https://mtapi.net/'.freeze
       ENDPOINT_TEST = 'https://mtapi.net/?testMode=1'.freeze
 
       Config = Struct.new(
-        :endpoint,
         :api_key,
         :countries,
         :default_product
@@ -25,7 +24,7 @@ module Deliveries
 
       module_function
 
-      def shipment_info(tracking_code:, language: nil)
+      def shipment_info(tracking_code:, **)
         response = Shipments::Trace.new(
           tracking_code: tracking_code
         ).execute
@@ -34,11 +33,11 @@ module Deliveries
         Deliveries::TrackingInfo.new(tracking_info_params)
       end
 
-      def get_label(tracking_code:, language: nil)
+      def get_label(tracking_code:, **)
         get_labels(tracking_codes: tracking_code)
       end
 
-      def get_labels(tracking_codes:, language: nil)
+      def get_labels(tracking_codes:, **)
         pdf, url = Labels::Generate.new(
           tracking_codes: tracking_codes
         ).execute.values_at(:pdf, :url)
@@ -49,14 +48,30 @@ module Deliveries
         )
       end
 
-      def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil)
-        Shipments::Create.new(
+      def create_shipment(sender:, receiver:, parcels:, reference_code:, shipment_date: nil, **)
+        delivery = Shipments::Create.new(
           sender: sender,
           receiver: receiver,
           parcels: parcels,
           reference_code: reference_code
         ).execute
+
+        Deliveries::Shipment.new(delivery: delivery, shipment_date: shipment_date)
+      end
+
+      def create_pickup(sender:, receiver:, parcels:, reference_code:, pickup_date: nil, **)
+        delivery = Shipments::Create.new(
+          sender: sender,
+          receiver: receiver,
+          parcels: parcels,
+          reference_code: reference_code
+        ).execute
+
+        Deliveries::Pickup.new(delivery: delivery, pickup_date: pickup_date)
+      end
+
+      def pickup_info(tracking_code:, **)
+        shipment_info(tracking_code: tracking_code)
       end
     end
   end

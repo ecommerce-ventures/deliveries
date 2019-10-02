@@ -5,22 +5,6 @@ module Deliveries
 
       module_function
 
-      def shipment_to_collection_point?(country:)
-        true
-      end
-
-      def shipment_to_home?(country:)
-        true
-      end
-
-      def pickup_at_home?(country:)
-        true
-      end
-
-      def pickup_at_collection_point?(country:)
-        true
-      end
-
       def get_collection_point(global_point_id:)
         point = CollectionPoint.parse_global_point_id global_point_id: global_point_id
         CollectionPoint.new name: 'Dumy',

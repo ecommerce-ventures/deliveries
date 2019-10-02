@@ -1,6 +1,7 @@
 module Deliveries
   class Delivery
-    attr_accessor :courier_id, :sender, :receiver, :parcels, :reference_code, :tracking_code
+    ATTRIBUTES = %i[courier_id sender receiver parcels reference_code tracking_code].freeze
+    attr_accessor(*ATTRIBUTES)
 
     def initialize(**attributes)
       self.courier_id = attributes[:courier_id]
@@ -9,6 +10,10 @@ module Deliveries
       self.parcels = attributes[:parcels]
       self.reference_code = attributes[:reference_code]
       self.tracking_code = attributes[:tracking_code]
+    end
+
+    def attributes
+      ATTRIBUTES.map{ |attr| { attr => send(attr) } }.inject(&:merge)
     end
   end
 end

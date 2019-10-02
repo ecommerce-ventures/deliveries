@@ -104,13 +104,14 @@ module Deliveries
           params: params
         ).execute
 
-        delivery = Deliveries::Delivery.new(
+        delivery = Deliveries::Shipment.new(
           courier_id: 'mondial_relay',
           sender: sender,
           receiver: receiver,
           parcels: parcels,
           reference_code: reference_code,
-          tracking_code: expedition_num
+          tracking_code: expedition_num,
+          shipment_date: shipment_date
         )
 
         delivery
