@@ -63,7 +63,13 @@ module Deliveries
                 begin
                   cutoff_time = CutoffTime.new(country: sender.country, postcode: postcode).execute
                   # Set only when cuttoff time is less than 19:00 (the default cutoff time in correos express)
-                  defaults[:horaHasta1] = cutoff_time if cutoff_time.to_i < 19
+                  if cutoff_time.to_i < 19
+                    defaults[:horaHasta1] = cutoff_time
+
+                    # Update start hour if the period if smaller than 2 hours
+                    min_start_hour = cutoff_time.to_i - 2
+                    defaults[:horaDesde1] = '%02d:00' % min_start_hour if defaults[:horaDesde1].to_i > min_start_hour
+                  end
                 rescue Deliveries::Error
                 end
               end
