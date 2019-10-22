@@ -1,3 +1,5 @@
+require 'hexapdf'
+
 module Deliveries
   class Label
     attr_accessor :raw, :url
