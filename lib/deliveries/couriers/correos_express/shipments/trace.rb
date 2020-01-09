@@ -4,7 +4,6 @@ module Deliveries
       module Shipments
         class Trace
           include HTTParty
-          persistent_connection_adapter
 
           attr_accessor :tracking_code
 

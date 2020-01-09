@@ -1,6 +1,6 @@
 module Deliveries
   class Delivery
-    ATTRIBUTES = %i[courier_id sender receiver parcels reference_code tracking_code].freeze
+    ATTRIBUTES = %i[courier_id sender receiver parcels reference_code tracking_code label].freeze
     attr_accessor(*ATTRIBUTES)
 
     def initialize(**attributes)
@@ -10,6 +10,7 @@ module Deliveries
       self.parcels = attributes[:parcels]
       self.reference_code = attributes[:reference_code]
       self.tracking_code = attributes[:tracking_code]
+      self.label = attributes[:label]
     end
 
     def attributes

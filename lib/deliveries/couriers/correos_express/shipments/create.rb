@@ -4,7 +4,6 @@ module Deliveries
       module Shipments
         class Create
           include HTTParty
-          persistent_connection_adapter
 
           attr_accessor :sender, :receiver, :collection_point, :parcels,
                         :reference_code,:shipment_date, :remarks
@@ -45,23 +44,25 @@ module Deliveries
             )
             if response.success?
               parsed_response = JSON.parse(response.body, symbolize_names: true)
-              if parsed_response.dig(:codigoRetorno) == 0 && parsed_response.dig(:datosResultado).present?
-                expedition_num = parsed_response.dig(:datosResultado)
-                delivery = Deliveries::Shipment.new(
+              if parsed_response[:codigoRetorno].zero? && parsed_response.key?(:datosResultado)
+                tracking_code = parsed_response.dig(:datosResultado)
+                decoded_label = decode_label(parsed_response.dig(:etiqueta, 0, :etiqueta1))
+                label = Label.new(raw: decoded_label) if decoded_label
+
+                Deliveries::Shipment.new(
                   courier_id: 'correos_express',
                   sender: sender,
                   receiver: receiver,
                   parcels: parcels,
                   reference_code: reference_code,
-                  tracking_code: expedition_num,
-                  shipment_date: shipment_date
+                  tracking_code: tracking_code,
+                  shipment_date: shipment_date,
+                  label: label
                 )
-
-                delivery
               else
                 raise Deliveries::APIError.new(
-                  parsed_response.dig(:mensajeRetorno),
-                  parsed_response.dig(:codigoRetorno)
+                  parsed_response[:mensajeRetorno],
+                  parsed_response[:codigoRetorno]
                 )
               end
             else
@@ -81,6 +82,17 @@ module Deliveries
 
           def headers
             { "Content-Type" => "application/json; charset='UTF-8'" }
+          end
+
+          def decode_label(encoded_label)
+            return nil if encoded_label.nil? || encoded_label.empty?
+
+            decoded_label = Base64.decode64(Base64.decode64(encoded_label)).force_encoding('binary')
+
+            # Check pdf file signature
+            return nil unless decoded_label[0..4].unpack1("H*").hex == 0x255044462d
+
+            decoded_label
           end
         end
       end

@@ -67,7 +67,7 @@ module Deliveries
               password: "",
               listaInformacionAdicional: [
                 {
-                  tipoEtiqueta: "", # 1 PDF, 2 ZPL
+                  tipoEtiqueta: "1", # 1 PDF, 2 ZPL
                   etiquetaPDF: ""
                 }
               ]

@@ -64,6 +64,7 @@ describe "Spring" do
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq 'shipmentX001'
     expect(response.shipment_date).to eq 3.days.since.to_date
+    expect(response.label.url).to eq 'http://tracking.url.example/shipmentX001'
 
     # Error
     # ---
@@ -133,6 +134,7 @@ describe "Spring" do
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq 'shipmentX001'
     expect(response.pickup_date).to eq 2.days.since.to_date
+    expect(response.label.url).to eq 'http://tracking.url.example/shipmentX001'
 
     # Error
     # ---

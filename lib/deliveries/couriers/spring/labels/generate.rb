@@ -3,38 +3,27 @@ module Deliveries
     module Spring
       module Labels
         class Generate
-          attr_accessor :tracking_codes
+          attr_accessor :tracking_code
 
-          def initialize(tracking_codes:)
-            self.tracking_codes = [tracking_codes].flatten
+          def initialize(tracking_code:)
+            self.tracking_code = tracking_code
           end
 
           def execute
-            default_params = {
+            params = {
               "Apikey": Deliveries::Couriers::Spring.config(:api_key),
               "Command": "GetShipmentLabel",
               "Shipment": {
                 "LabelFormat": "PDF",
-                "TrackingNumber": ""
+                "TrackingNumber": tracking_code
               }
             }
 
-            labels = tracking_codes.map do |tracking_code|
-              params = default_params.deep_merge("Shipment": { "TrackingNumber": tracking_code })
-              response = Deliveries::Couriers::Spring::Request.execute(params: params)
-              {
-                url: response[:Shipment][:CarrierTrackingUrl],
-                decoded_label: Base64.decode64(response[:Shipment][:LabelImage])
-              }
-            end
-
-            file = StringIO.new
-            Deliveries::Label.generate_merged_pdf(labels.map{ |label| label[:decoded_label] }).write(file)
-            file.string.force_encoding('binary')
+            response = Deliveries::Couriers::Spring::Request.execute(params: params)
 
             {
-              pdf: file.string.force_encoding('binary'),
-              url: labels.one? ? labels.first[:url] : nil
+              url: response[:Shipment][:CarrierTrackingUrl],
+              decoded_label: Base64.decode64(response[:Shipment][:LabelImage]).force_encoding('binary')
             }
           end
         end

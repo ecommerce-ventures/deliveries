@@ -1,31 +1,20 @@
-require 'hexapdf'
-
 module Deliveries
   class Label
-    attr_accessor :raw, :url
+    attr_reader :url
 
-    def initialize(**attributes)
-      self.raw = attributes[:raw]
-      self.url = attributes[:url]
+    def initialize(raw: nil, url: nil)
+      raise ArgumentError, 'Both raw and url cannot be nil' if raw.nil? && url.nil?
+
+      @raw = raw
+      @url = url
     end
 
-    # Creates temporary pdfs for each label and then joins them. We also ensure
-    # that temp files are deleted
-    def self.generate_merged_pdf(decoded_labels)
-      target = HexaPDF::Document.new
-      decoded_labels.each_with_index do |decoded_label, i|
-        file = Tempfile.new(["label-#{i}", 'pdf'])
-        begin
-          file.write(decoded_label.force_encoding('UTF-8'))
-          pdf = HexaPDF::Document.open(file)
-          pdf.pages.each { |page| target.pages << target.import(page) }
-        ensure
-          file.close
-          file.unlink
-        end
+    def raw
+      if @raw
+        @raw
+      elsif @url
+        @raw = URI.parse(@url).read.force_encoding('binary')
       end
-
-      target
     end
   end
 end

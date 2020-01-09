@@ -4,7 +4,6 @@ module Deliveries
       module Pickups
         class Create
           include HTTParty
-          persistent_connection_adapter
 
           attr_accessor :params
 

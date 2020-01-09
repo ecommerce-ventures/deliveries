@@ -406,7 +406,7 @@ def register_mondial_relay_create_shipment_stubs
   # Success
   # ---
 
-  savon.expects(:wsi2_creation_expedition).with(message: {
+  savon.expects(:wsi2_creation_etiquette).with(message: {
     "Enseigne" => "BDTEST13",
     "ModeCol" => "CCC",
     "ModeLiv" => "HOM",
@@ -460,22 +460,14 @@ def register_mondial_relay_create_shipment_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_CreationExpeditionResponse
+        <WSI2_CreationEtiquetteResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_CreationExpeditionResult>
+          <WSI2_CreationEtiquetteResult>
             <STAT>0</STAT>
             <ExpeditionNum>31297410</ExpeditionNum>
-            <TRI_AgenceCode>4220</TRI_AgenceCode>
-            <TRI_Groupe />
-            <TRI_Navette>004220</TRI_Navette>
-            <TRI_Agence>ESPAGNE CORREOS EXPRESS</TRI_Agence>
-            <TRI_TourneeCode>04220</TRI_TourneeCode>
-            <TRI_LivraisonMode>HOM</TRI_LivraisonMode>
-            <CodesBarres>
-              <string>11312974100101100000000000</string>
-            </CodesBarres>
-          </WSI2_CreationExpeditionResult>
-        </WSI2_CreationExpeditionResponse>
+            <URL_Etiquette>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=31297410&amp;lg=ES&amp;format=A4&amp;crc=EC60EED67AF9052EEA4394F6964C0EBF</URL_Etiquette>
+          </WSI2_CreationEtiquetteResult>
+        </WSI2_CreationEtiquetteResponse>
       </soap:Body>
     </soap:Envelope>
   ))
@@ -483,7 +475,7 @@ def register_mondial_relay_create_shipment_stubs
   # Error
   # ---
 
-  savon.expects(:wsi2_creation_expedition).with(message: {
+  savon.expects(:wsi2_creation_etiquette).with(message: {
     "Enseigne" => "BDTEST13",
     "ModeCol" => "CCC",
     "ModeLiv" => "HOM",
@@ -537,12 +529,12 @@ def register_mondial_relay_create_shipment_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_CreationExpeditionResponse
+        <WSI2_CreationEtiquetteResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_CreationExpeditionResult>
+          <WSI2_CreationEtiquetteResult>
             <STAT>30</STAT>
-          </WSI2_CreationExpeditionResult>
-        </WSI2_CreationExpeditionResponse>
+          </WSI2_CreationEtiquetteResult>
+        </WSI2_CreationEtiquetteResponse>
       </soap:Body>
     </soap:Envelope>
   ))
@@ -553,7 +545,7 @@ def register_mondial_relay_create_pickup_stubs
   # Success
   # ---
 
-  savon.expects(:wsi2_creation_expedition).with(message: {
+  savon.expects(:wsi2_creation_etiquette).with(message: {
     "Enseigne" => "BDTEST13",
     "ModeCol" => "REL",
     "ModeLiv" => "LCC",
@@ -601,28 +593,19 @@ def register_mondial_relay_create_pickup_stubs
     "Instructions" => "",
     "Security" => "3F0B104BF9C69EE3D42C6C7B3E0CCA1E"
   }).returns(%(
-    <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
       xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_CreationExpeditionResponse
+        <WSI2_CreationEtiquetteResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_CreationExpeditionResult>
+          <WSI2_CreationEtiquetteResult>
             <STAT>0</STAT>
             <ExpeditionNum>31297410</ExpeditionNum>
-            <TRI_AgenceCode>4220</TRI_AgenceCode>
-            <TRI_Groupe />
-            <TRI_Navette>004220</TRI_Navette>
-            <TRI_Agence>ESPAGNE CORREOS EXPRESS</TRI_Agence>
-            <TRI_TourneeCode>04220</TRI_TourneeCode>
-            <TRI_LivraisonMode>HOM</TRI_LivraisonMode>
-            <CodesBarres>
-              <string>11312974100101100000000000</string>
-            </CodesBarres>
-          </WSI2_CreationExpeditionResult>
-        </WSI2_CreationExpeditionResponse>
+            <URL_Etiquette>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=31297410&amp;lg=ES&amp;format=A4&amp;crc=EC60EED67AF9052EEA4394F6964C0EBF</URL_Etiquette>
+          </WSI2_CreationEtiquetteResult>
+        </WSI2_CreationEtiquetteResponse>
       </soap:Body>
     </soap:Envelope>
   ))
@@ -630,7 +613,7 @@ def register_mondial_relay_create_pickup_stubs
   # Error
   # ---
 
-  savon.expects(:wsi2_creation_expedition).with(message: {
+  savon.expects(:wsi2_creation_etiquette).with(message: {
     "Enseigne" => "BDTEST13",
     "ModeCol" => "REL",
     "ModeLiv" => "LCC",
@@ -684,12 +667,12 @@ def register_mondial_relay_create_pickup_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_CreationExpeditionResponse
+        <WSI2_CreationEtiquetteResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_CreationExpeditionResult>
+          <WSI2_CreationEtiquetteResult>
             <STAT>30</STAT>
-          </WSI2_CreationExpeditionResult>
-        </WSI2_CreationExpeditionResponse>
+          </WSI2_CreationEtiquetteResult>
+        </WSI2_CreationEtiquetteResponse>
       </soap:Body>
     </soap:Envelope>
   ))
@@ -700,7 +683,7 @@ def register_mondial_relay_get_label_stubs
   # Success
   # ---
 
-  savon.expects(:wsi2_get_etiquettes).with(message: {
+  savon.expects(:wsi3_get_etiquettes).with(message: {
     "Enseigne" => "BDTEST13",
     "Expeditions" => "E001",
     "Langue" => "FR",
@@ -712,19 +695,20 @@ def register_mondial_relay_get_label_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_GetEtiquettesResponse
+        <WSI3_GetEtiquettesResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_GetEtiquettesResult>
+          <WSI3_GetEtiquettesResult>
             <STAT>0</STAT>
-            <URL_PDF_A4>/ww2/PDF/StickerMaker2.aspx?ens=ESMICOLE38&amp;expedition=E001&amp;lg=FR&amp;format=A4&amp;crc=04F2969A9D2159C9F72721F221E8F777</URL_PDF_A4>
-            <URL_PDF_A5>/ww2/PDF/StickerMaker2.aspx?ens=ESMICOLE38&amp;expedition=E001&amp;lg=FR&amp;format=A5&amp;crc=04F2969A9D2159C9F72721F221E8F777</URL_PDF_A5>
-          </WSI2_GetEtiquettesResult>
-        </WSI2_GetEtiquettesResponse>
+            <URL_PDF_A4>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=E001&amp;lg=FR&amp;format=A4&amp;crc=585C8413D5BC74EF6C7B2A620CED8366</URL_PDF_A4>
+            <URL_PDF_A5>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=E001&amp;lg=FR&amp;format=A5&amp;crc=585C8413D5BC74EF6C7B2A620CED8366</URL_PDF_A5>
+            <URL_PDF_10x15>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=E001&amp;lg=FR&amp;format=10x15&amp;crc=585C8413D5BC74EF6C7B2A620CED8366</URL_PDF_10x15>
+          </WSI3_GetEtiquettesResult>
+        </WSI3_GetEtiquettesResponse>
       </soap:Body>
     </soap:Envelope>
   ))
 
-  stub_request(:get, "http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?crc=04F2969A9D2159C9F72721F221E8F777&ens=ESMICOLE38&expedition=E001&format=10x15&lg=FR").
+  stub_request(:get, "http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&expedition=E001&lg=FR&format=10x15&crc=585C8413D5BC74EF6C7B2A620CED8366").
     with(
       headers: {
         'Accept'=>'*/*',
@@ -755,7 +739,7 @@ def register_mondial_relay_get_label_stubs
   # Error
   # ---
 
-  savon.expects(:wsi2_get_etiquettes).with(message: {
+  savon.expects(:wsi3_get_etiquettes).with(message: {
     "Enseigne" => "BDTEST13",
     "Expeditions" => "E000",
     "Langue" => "FR",
@@ -767,14 +751,15 @@ def register_mondial_relay_get_label_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_GetEtiquettesResponse
+        <WSI3_GetEtiquettesResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_GetEtiquettesResult>
+          <WSI3_GetEtiquettesResult>
             <STAT>24</STAT>
             <URL_PDF_A4 />
             <URL_PDF_A5 />
-          </WSI2_GetEtiquettesResult>
-        </WSI2_GetEtiquettesResponse>
+            <URL_PDF_10x15 />
+          </WSI3_GetEtiquettesResult>
+        </WSI3_GetEtiquettesResponse>
       </soap:Body>
     </soap:Envelope>
   ))
@@ -785,7 +770,7 @@ def register_mondial_relay_get_labels_stubs
   # Success
   # ---
 
-  savon.expects(:wsi2_get_etiquettes).with(message: {
+  savon.expects(:wsi3_get_etiquettes).with(message: {
     "Enseigne" => "BDTEST13",
     "Expeditions" => "E001;E002",
     "Langue" => "FR",
@@ -797,19 +782,20 @@ def register_mondial_relay_get_labels_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_GetEtiquettesResponse
+        <WSI3_GetEtiquettesResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_GetEtiquettesResult>
+          <WSI3_GetEtiquettesResult>
             <STAT>0</STAT>
-            <URL_PDF_A4>/ww2/PDF/StickerMaker2.aspx?ens=ESMICOLE38&amp;expedition=E001;E002&amp;lg=FR&amp;format=A4&amp;crc=04F2969A9D2159C9F72721F221E8F777</URL_PDF_A4>
-            <URL_PDF_A5>/ww2/PDF/StickerMaker2.aspx?ens=ESMICOLE38&amp;expedition=E001;E002&amp;lg=FR&amp;format=A5&amp;crc=04F2969A9D2159C9F72721F221E8F777</URL_PDF_A5>
-          </WSI2_GetEtiquettesResult>
-        </WSI2_GetEtiquettesResponse>
+            <URL_PDF_A4>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=E001;E002&amp;lg=FR&amp;format=A4&amp;crc=585C8413D5BC74EF6C7B2A620CED8366</URL_PDF_A4>
+            <URL_PDF_A5>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=E001;E002&amp;lg=FR&amp;format=A5&amp;crc=585C8413D5BC74EF6C7B2A620CED8366</URL_PDF_A5>
+            <URL_PDF_10x15>/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&amp;expedition=E001;E002&amp;lg=FR&amp;format=10x15&amp;crc=585C8413D5BC74EF6C7B2A620CED8366</URL_PDF_10x15>
+          </WSI3_GetEtiquettesResult>
+        </WSI3_GetEtiquettesResponse>
       </soap:Body>
     </soap:Envelope>
   ))
 
-  stub_request(:get, "http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?crc=04F2969A9D2159C9F72721F221E8F777&ens=ESMICOLE38&expedition=E001%3BE002&format=10x15&lg=FR").
+  stub_request(:get, "http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&expedition=E001;E002&lg=FR&format=10x15&crc=585C8413D5BC74EF6C7B2A620CED8366").
     with(
       headers: {
         'Accept'=>'*/*',
@@ -826,7 +812,7 @@ def register_mondial_relay_get_labels_stubs
   # Error
   # ---
 
-  savon.expects(:wsi2_get_etiquettes).with(message: {
+  savon.expects(:wsi3_get_etiquettes).with(message: {
     "Enseigne" => "BDTEST13",
     "Expeditions" => "E001;E000",
     "Langue" => "FR",
@@ -838,14 +824,15 @@ def register_mondial_relay_get_labels_stubs
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
       <soap:Body>
-        <WSI2_GetEtiquettesResponse
+        <WSI3_GetEtiquettesResponse
           xmlns="http://www.mondialrelay.fr/webservice/">
-          <WSI2_GetEtiquettesResult>
+          <WSI3_GetEtiquettesResult>
             <STAT>24</STAT>
             <URL_PDF_A4 />
             <URL_PDF_A5 />
-          </WSI2_GetEtiquettesResult>
-        </WSI2_GetEtiquettesResponse>
+            <URL_PDF_10x15 />
+          </WSI3_GetEtiquettesResult>
+        </WSI3_GetEtiquettesResponse>
       </soap:Body>
     </soap:Envelope>
   ))

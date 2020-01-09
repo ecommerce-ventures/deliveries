@@ -22,13 +22,20 @@ module Deliveries
 
             response = Deliveries::Couriers::Spring::Request.execute(params: params)
 
+            tracking_code = response[:Shipment][:TrackingNumber]
+            label = Label.new(
+              url: response[:Shipment][:CarrierTrackingUrl],
+              raw: Base64.decode64(response[:Shipment][:LabelImage]).force_encoding('binary')
+            )
+
             Deliveries::Delivery.new(
               courier_id: Deliveries::Couriers::Spring::COURIER_ID,
               sender: sender,
               receiver: receiver,
               parcels: parcels,
               reference_code: reference_code,
-              tracking_code: response[:Shipment][:TrackingNumber]
+              tracking_code: tracking_code,
+              label: label
             )
           end
         end

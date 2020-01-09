@@ -158,7 +158,7 @@ def register_correos_express_create_shipment_stubs
         "password": "",
         "listaInformacionAdicional": [
           {
-            "tipoEtiqueta": "",
+            "tipoEtiqueta": "1",
             "etiquetaPDF": ""
           }
         ]
@@ -181,7 +181,9 @@ def register_correos_express_create_shipment_stubs
           }
         ],
         "etiqueta": [
-          {}
+          {
+            "etiqueta1": "SlZCRVJpMHhMakFLTVNBd0lHOWlhanc4TDFCaFoyVnpJRElnTUNCU1BqNWxibVJ2WW1vZ01pQXdJRzlpYWp3OEwwdHBaSE5iTXlBd0lGSmRMME52ZFc1MElERStQbVZ1Wkc5aWFpQXpJREFnYjJKcVBEd3ZUV1ZrYVdGQ2IzaGJNQ0F3SURNZ00xMCtQbVZ1Wkc5aWFncDBjbUZwYkdWeVBEd3ZVbTl2ZENBeElEQWdVajQrQ2c9PQ=="
+          }
         ],
         "numRecogida": nil,
         "fechaRecogida": nil,
@@ -261,7 +263,7 @@ def register_correos_express_create_shipment_stubs
         "password": "",
         "listaInformacionAdicional": [
           {
-            "tipoEtiqueta": "",
+            "tipoEtiqueta": "1",
             "etiquetaPDF": ""
           }
         ]

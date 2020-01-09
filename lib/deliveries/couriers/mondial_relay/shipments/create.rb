@@ -13,12 +13,14 @@ module Deliveries
             params['Security'] = Deliveries::Couriers::MondialRelay.calculate_security_param params
 
             # Call web service.
-            response = MondialRelay.api_client.call :wsi2_creation_expedition, message: params
+            response = MondialRelay.api_client.call :wsi2_creation_etiquette, message: params
             # If response returns OK stat code.
-            if (response_result = response.body[:wsi2_creation_expedition_response][:wsi2_creation_expedition_result]) &&
-               response_result[:stat] == '0'
-
-               response_result[:expedition_num]
+            response_result = response.body[:wsi2_creation_etiquette_response][:wsi2_creation_etiquette_result]
+            if response_result && response_result[:stat] == '0'
+              {
+                tracking_code: response_result[:expedition_num],
+                label_url: 'http://www.mondialrelay.com' + response_result[:url_etiquette].gsub('format=A4', 'format=10x15')
+              }
             else
               raise Deliveries::APIError.new(
                 StatusCodes.message_for(response_result[:stat].to_i),

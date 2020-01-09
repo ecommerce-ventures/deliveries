@@ -153,6 +153,7 @@ describe "Correos Express" do
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '3230002000342722'
     expect(response.shipment_date).to eq Date.tomorrow
+    expect(response.label.raw).to start_with '%PDF-'
 
     # Error
     # ---

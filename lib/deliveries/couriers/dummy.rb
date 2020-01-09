@@ -61,7 +61,7 @@ module Deliveries
                          url: 'https://google.com'
       end
 
-      def create_shipment(sender:, receiver:, collection_point:, parcels:, reference_code:, shipment_date: nil, remarks: nil)
+      def create_shipment(sender:, receiver:, collection_point:, parcels:, reference_code:, shipment_date: nil, remarks: nil, language: nil)
         Shipment.new courier_id: 'dummy',
                      sender: sender,
                      receiver: receiver,
@@ -71,7 +71,7 @@ module Deliveries
                      shipment_date: shipment_date
       end
 
-      def create_pickup(sender:, receiver:, parcels:, reference_code:, pickup_date: nil, remarks: nil)
+      def create_pickup(sender:, receiver:, parcels:, reference_code:, pickup_date: nil, remarks: nil, language: nil)
         Pickup.new courier_id: 'dummy',
                    sender: sender,
                    receiver: receiver,
@@ -81,19 +81,16 @@ module Deliveries
                    pickup_date: pickup_date
       end
 
-      def get_label(tracking_code:, language:)
+      def get_label(tracking_code:, language: nil)
         pdf = <<~PDF
           %PDF-1.0
           1 0 obj<</Pages 2 0 R>>endobj 2 0 obj<</Kids[3 0 R]/Count 1>>endobj 3 0 obj<</MediaBox[0 0 3 3]>>endobj
           trailer<</Root 1 0 R>>
         PDF
-        Deliveries::Label.new(
-          raw: pdf,
-          url: nil
-        )
+        Deliveries::Label.new(raw: pdf)
       end
 
-      def get_labels(tracking_codes:, language:)
+      def get_labels(tracking_codes:, language: nil)
         get_label tracking_code: tracking_codes, language: language
       end
     end

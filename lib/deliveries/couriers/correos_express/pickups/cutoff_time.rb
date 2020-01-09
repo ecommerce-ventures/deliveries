@@ -4,7 +4,6 @@ module Deliveries
       module Pickups
         class CutoffTime
           include HTTParty
-          persistent_connection_adapter
 
           attr_accessor :country, :postcode
 

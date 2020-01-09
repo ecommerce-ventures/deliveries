@@ -4,7 +4,6 @@ module Deliveries
       module Labels
         class Generate
           include HTTParty
-          persistent_connection_adapter
 
           attr_accessor :tracking_codes
 
@@ -37,7 +36,7 @@ module Deliveries
               if parsed_response.dig('codErr') == 0
                 if parsed_response["listaEtiquetas"].any?
                   parsed_response["listaEtiquetas"].each do |encoded_label|
-                    decoded_labels << Base64.decode64(encoded_label)
+                    decoded_labels << Base64.decode64(encoded_label).force_encoding('binary')
                   end
                 end
               else
@@ -48,10 +47,7 @@ module Deliveries
               end
             end
 
-            file = StringIO.new
-
-            Deliveries::Label.generate_merged_pdf(decoded_labels).write(file)
-            file.string.force_encoding('binary')
+            decoded_labels
           end
 
           private

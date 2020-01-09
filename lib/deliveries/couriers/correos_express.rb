@@ -73,7 +73,7 @@ module Deliveries
         collection_point
       end
 
-      def shipment_info(tracking_code:, language: nil)
+      def shipment_info(tracking_code:, **)
         response = Shipments::Trace.new(
           tracking_code: tracking_code
         ).execute
@@ -82,7 +82,7 @@ module Deliveries
         Deliveries::TrackingInfo.new(tracking_info_params)
       end
 
-      def pickup_info(tracking_code:, language: nil)
+      def pickup_info(tracking_code:, **)
         response = Pickups::Trace.new(
           tracking_code: tracking_code
         ).execute
@@ -92,30 +92,28 @@ module Deliveries
         Deliveries::TrackingInfo.new(tracking_info_params)
       end
 
-      def get_label(tracking_code:, language: nil)
+      def get_label(tracking_code:, **)
         pdf = Labels::Generate.new(
           tracking_codes: tracking_code
-        ).execute
+        ).execute.first
 
-        Deliveries::Label.new(
-          raw: pdf,
-          url: nil
-        )
+        Deliveries::Label.new(raw: pdf)
       end
 
-      def get_labels(tracking_codes:, language: nil)
-        pdf = Labels::Generate.new(
-          tracking_codes: tracking_codes
-        ).execute
+      def get_labels(tracking_codes:, **)
+        labels = Deliveries::Labels.new
 
-        Deliveries::Label.new(
-          raw: pdf,
-          url: nil
-        )
+        Labels::Generate.new(
+          tracking_codes: tracking_codes
+        ).execute.each do |pdf|
+          labels << pdf
+        end
+
+        labels
       end
 
       def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil)
+                          parcels:, reference_code:, remarks: nil, **)
         Shipments::Create.new(
           sender: sender,
           receiver: receiver,
@@ -128,7 +126,7 @@ module Deliveries
       end
 
       def create_pickup(sender:, receiver:, parcels:,reference_code:,
-                        pickup_date: nil, remarks: nil)
+                        pickup_date: nil, remarks: nil, **)
         time_interval = nil
         begin
           params = Pickups::Create::FormatParams.new(

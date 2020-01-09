@@ -6,7 +6,7 @@ module Deliveries
           attr_accessor :tracking_codes, :language
 
           def initialize(tracking_codes:, language:)
-            self.tracking_codes = tracking_codes
+            self.tracking_codes = [tracking_codes].flatten.join(';')
             self.language = language.to_s.upcase
           end
 
@@ -20,17 +20,15 @@ module Deliveries
             # Calculate security parameters.
             params['Security'] = Deliveries::Couriers::MondialRelay.calculate_security_param params
 
-            response = MondialRelay.api_client.call :wsi2_get_etiquettes, message: params
-            if (response_result = response.body[:wsi2_get_etiquettes_response][:wsi2_get_etiquettes_result]) &&
-               response_result[:stat] == '0'
-              # Get path for A4 format.
-              url_path = response.body[:wsi2_get_etiquettes_response][:wsi2_get_etiquettes_result][:url_pdf_a4]
-              # Build URL for 10x15 format.
-              'http://www.mondialrelay.com' + url_path.gsub('format=A4', 'format=10x15')
+            response = MondialRelay.api_client.call :wsi3_get_etiquettes, message: params
+            response_stat = response.body.dig(:wsi3_get_etiquettes_response, :wsi3_get_etiquettes_result, :stat)
+            if response_stat == '0'
+              # Get path for 10x15 format.
+              'http://www.mondialrelay.com' + response.body.dig(:wsi3_get_etiquettes_response, :wsi3_get_etiquettes_result, :url_pdf_10x15)
             else
               raise Deliveries::APIError.new(
-                StatusCodes.message_for(response_result[:stat].to_i),
-                response_result[:stat]
+                StatusCodes.message_for(response_stat.to_i),
+                response_stat
               )
             end
           end

@@ -9,6 +9,7 @@ require 'deliveries/pickup'
 require 'deliveries/shipment'
 require 'deliveries/tracking_info'
 require 'deliveries/label'
+require 'deliveries/labels'
 
 module Deliveries
   def self.mode

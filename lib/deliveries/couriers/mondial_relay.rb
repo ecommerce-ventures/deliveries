@@ -90,7 +90,7 @@ module Deliveries
       end
 
       def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil)
+                          parcels:, reference_code:, remarks: nil, **)
         params = Shipments::Create::FormatParams.new(
           sender: sender.courierize(:mondial_relay),
           receiver: receiver.courierize(:mondial_relay),
@@ -100,25 +100,24 @@ module Deliveries
           remarks: remarks
         ).execute
 
-        expedition_num = Shipments::Create.new(
+        tracking_code, label_url = Shipments::Create.new(
           params: params
-        ).execute
+        ).execute.values_at(:tracking_code, :label_url)
 
-        delivery = Deliveries::Shipment.new(
+        Deliveries::Shipment.new(
           courier_id: 'mondial_relay',
           sender: sender,
           receiver: receiver,
           parcels: parcels,
           reference_code: reference_code,
-          tracking_code: expedition_num,
-          shipment_date: shipment_date
+          tracking_code: tracking_code,
+          shipment_date: shipment_date,
+          label: Label.new(url: label_url)
         )
-
-        delivery
       end
 
       def create_pickup(sender:, receiver:, parcels:, reference_code:,
-                        pickup_date: nil, remarks: nil)
+                        pickup_date: nil, remarks: nil, **)
         params = Pickups::Create::FormatParams.new(
           sender: sender.courierize(:mondial_relay),
           receiver: receiver.courierize(:mondial_relay),
@@ -128,9 +127,9 @@ module Deliveries
           remarks: remarks
         ).execute
 
-        expedition_num = Shipments::Create.new(
+        tracking_code, label_url = Shipments::Create.new(
           params: params
-        ).execute
+        ).execute.values_at(:tracking_code, :label_url)
 
         pickup = Deliveries::Pickup.new(
           courier_id: 'mondial_relay',
@@ -138,8 +137,9 @@ module Deliveries
           receiver: receiver,
           parcels: parcels,
           reference_code: reference_code,
-          tracking_code: expedition_num,
-          pickup_date: pickup_date
+          tracking_code: tracking_code,
+          pickup_date: pickup_date,
+          label: Label.new(url: label_url)
         )
 
         pickup
@@ -164,19 +164,21 @@ module Deliveries
       end
 
       def get_label(tracking_code:, language: 'FR')
-        get_labels(tracking_codes: [tracking_code], language: language)
+        label_url = Labels::Generate.new(
+          tracking_codes: tracking_code,
+          language: language
+        ).execute
+
+        Deliveries::Label.new(url: label_url)
       end
 
       def get_labels(tracking_codes:, language: 'FR')
         labels_url = Labels::Generate.new(
-          tracking_codes: tracking_codes.join(';'),
+          tracking_codes: tracking_codes,
           language: language
         ).execute
 
-        Deliveries::Label.new(
-          raw: open(labels_url).read,
-          url: labels_url
-        )
+        Deliveries::Labels.new(url: labels_url)
       end
 
       def calculate_security_param(params)

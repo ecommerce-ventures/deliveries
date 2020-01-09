@@ -34,18 +34,24 @@ module Deliveries
       end
 
       def get_label(tracking_code:, **)
-        get_labels(tracking_codes: tracking_code)
+        decoded_label, url = Labels::Generate.new(
+          tracking_code: tracking_code
+        ).execute.values_at(:decoded_label, :url)
+
+        Deliveries::Label.new(
+          raw: decoded_label,
+          url: url
+        )
       end
 
       def get_labels(tracking_codes:, **)
-        pdf, url = Labels::Generate.new(
-          tracking_codes: tracking_codes
-        ).execute.values_at(:pdf, :url)
+        labels = Deliveries::Labels.new
 
-        Deliveries::Label.new(
-          raw: pdf,
-          url: url
-        )
+        tracking_codes.each do |tracking_code|
+          labels << get_label(tracking_code: tracking_code)
+        end
+
+        labels
       end
 
       def create_shipment(sender:, receiver:, parcels:, reference_code:, shipment_date: nil, **)

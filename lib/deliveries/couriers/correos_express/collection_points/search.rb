@@ -4,7 +4,6 @@ module Deliveries
       module CollectionPoints
         class Search
           include HTTParty
-          persistent_connection_adapter
 
           attr_accessor :postcode
 
