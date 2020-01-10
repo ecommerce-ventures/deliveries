@@ -3,11 +3,18 @@ module Deliveries
     module MondialRelay
       module Shipments
         class Trace
+          SUPPORTED_LANGUAGES = %i[fr es nl en].freeze
+
           attr_accessor :tracking_code, :language
 
           def initialize(tracking_code:, language:)
             self.tracking_code = tracking_code
-            self.language = language
+            self.language =
+              if SUPPORTED_LANGUAGES.include? language&.to_sym&.downcase
+                language
+              else
+                'en'
+              end
           end
 
           def execute
