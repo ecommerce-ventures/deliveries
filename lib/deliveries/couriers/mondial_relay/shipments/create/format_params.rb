@@ -42,7 +42,6 @@ module Deliveries
               # Receiving in a collection point
               if collection_point.present?
                 receive_mode_params = {
-                  'ModeCol' => 'REL',
                   'ModeLiv' => '24R',
                   "LIV_Rel_Pays" => receiver.country,
                   "LIV_Rel" => collection_point.point_id,
@@ -51,7 +50,6 @@ module Deliveries
                 }
               else
                 receive_mode_params = {
-                  'ModeCol' => 'CCC',
                   'ModeLiv' => 'HOM'
                 }
               end

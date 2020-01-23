@@ -409,7 +409,7 @@ def register_mondial_relay_create_shipment_stubs
   savon.expects(:wsi2_creation_etiquette).with(message: {
     "Enseigne" => "BDTEST13",
     "ModeCol" => "CCC",
-    "ModeLiv" => "HOM",
+    "ModeLiv" => "24R",
     "NDossier" => "shipmentX",
     "NClient" => "",
     "Expe_Langage" => "ES",
@@ -442,17 +442,17 @@ def register_mondial_relay_create_shipment_stubs
     "CRT_Devise" => "",
     "Exp_Valeur" => "",
     "Exp_Devise" => "",
-    "COL_Rel_Pays" => "",
-    "COL_Rel" => "",
-    "LIV_Rel_Pays" => "",
-    "LIV_Rel" => "",
+    "COL_Rel_Pays" => "ES",
+    "COL_Rel" => "XXXXX1",
+    "LIV_Rel_Pays" => "ES",
+    "LIV_Rel" => "XXXXX1",
     "TAvisage" => "",
     "TReprise" => "",
     "Montage" => "",
     "TRDV" => "",
     "Assurance" => "",
     "Instructions" => "",
-    "Security" => "4C6E7010DA08008C1C73E85B24EF51F4"
+    "Security" => "29F6E5CF31A28102F3AC4310AC155A97"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope

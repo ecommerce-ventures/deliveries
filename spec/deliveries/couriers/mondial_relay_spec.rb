@@ -110,9 +110,6 @@ describe "Mondial Relay" do
   end
 
   it ".create_shipment" do
-    # Arrange
-    register_mondial_relay_create_shipment_stubs
-
     # Success
     # ---
 
@@ -138,11 +135,17 @@ describe "Mondial Relay" do
       postcode: '48950'
     )
 
+    register_mondial_relay_get_collection_point_stubs
+    collection_point = Deliveries.courier(:mondial_relay).get_collection_point(global_point_id: 'mondial_relay~fr~00001~XXXXX1')
+
+    savon.expectations.clear
+    register_mondial_relay_create_shipment_stubs
+
     # Act
     response = Deliveries.courier(:mondial_relay).create_shipment(
       sender: sender,
       receiver: receiver,
-      collection_point: nil,
+      collection_point: collection_point,
       parcels: 1,
       reference_code: 'shipmentX',
       remarks: nil,

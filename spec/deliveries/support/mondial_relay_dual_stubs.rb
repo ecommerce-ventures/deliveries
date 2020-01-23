@@ -83,7 +83,7 @@ def register_mondial_relay_dual_create_shipment_stubs
         <ShipmentCreationResponse xmlns="http://www.example.org/Response" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <Context>
             <Login>BDTEST@business-api.mondialrelay.com</Login>
-            <Password>;GXyUy8cu8T2VhP&gt;=m5j</Password>
+            <Password>xxxxxxxxxx</Password>
             <CustomerId>BDTEST</CustomerId>
             <Culture>es-ES</Culture>
             <VersionAPI>1.0</VersionAPI>
@@ -325,7 +325,7 @@ def register_mondial_relay_dual_create_pickup_stubs
       <ShipmentCreationResponse xmlns="http://www.example.org/Response" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Context>
           <Login>BDTEST@business-api.mondialrelay.com</Login>
-          <Password>;GXyUy8cu8T2VhP&gt;=m5j</Password>
+          <Password>xxxxxxxxxx</Password>
           <CustomerId>BDTEST</CustomerId>
           <Culture>es-ES</Culture>
           <VersionAPI>1.0</VersionAPI>
