@@ -11,7 +11,8 @@ module Deliveries
       Config = Struct.new(
         :dual_carrier_login,
         :dual_carrier_password,
-        :dual_carrier_customer_id
+        :dual_carrier_customer_id,
+        :countries
       )
 
       API_ENDPOINT_LIVE = 'https://connect-api.mondialrelay.com/api/shipment'.freeze

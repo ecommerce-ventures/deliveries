@@ -64,8 +64,9 @@ module Deliveries
                   location: collection_point.point_id
                 }
               else
+                home_delivery_mode = MondialRelayDual.config("countries.#{receiver.country.downcase}.home_delivery_mode") || 'HOM'
                 {
-                  mode: 'HOM',
+                  mode: home_delivery_mode,
                   location: ''
                 }
               end
