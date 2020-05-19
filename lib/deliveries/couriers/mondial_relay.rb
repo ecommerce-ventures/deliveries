@@ -45,7 +45,7 @@ module Deliveries
            response_result[:stat] == '0'
 
           collection_points = []
-          response_result.dig(:points_relais, :point_relais_details)&.each do |point_params|
+          [response_result.dig(:points_relais, :point_relais_details)].flatten.compact.each do |point_params|
             collection_point_params = CollectionPoints::Search::FormatResponse.new(response: point_params).execute
             collection_points << Deliveries::CollectionPoint.new(collection_point_params)
           end
