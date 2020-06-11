@@ -1,3 +1,4 @@
+require 'deliveries/label_utils'
 require 'deliveries/address'
 require 'deliveries/checkpoint'
 require 'deliveries/collection_point'

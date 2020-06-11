@@ -1,7 +1,7 @@
-require 'hexapdf'
-
 module Deliveries
   class Labels
+    include LabelUtils
+
     attr_reader :url
 
     def initialize(raw: nil, url: nil)
@@ -16,7 +16,7 @@ module Deliveries
       elsif @url
         @raw = URI.parse(@url).read.force_encoding('binary')
       elsif !@labels.empty?
-        generate_merged_pdf
+        merge_pdfs @labels.map(&:raw)
       end
     end
 
@@ -35,21 +35,6 @@ module Deliveries
       end
 
       self
-    end
-
-    private
-
-    # Join labels in single PDF and return it as String.
-    def generate_merged_pdf
-      target = HexaPDF::Document.new
-      @labels.each do |label|
-        pdf = HexaPDF::Document.new(io: StringIO.new(label.raw))
-        pdf.pages.each { |page| target.pages << target.import(page) }
-      end
-
-      output = StringIO.new
-      target.write(output)
-      output.string.force_encoding('binary')
     end
   end
 end
