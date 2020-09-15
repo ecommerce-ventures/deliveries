@@ -43,6 +43,7 @@ module Deliveries
 
                 xml.LocationSearchCriteria {
                   xml.AccessPointSearch {
+                    xml.AccessPointStatus '01'
                     if point_id
                       xml.PublicAccessPointID point_id
                     else
