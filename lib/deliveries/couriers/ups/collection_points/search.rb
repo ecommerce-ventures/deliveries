@@ -36,8 +36,8 @@ module Deliveries
                 }
                 xml.OriginAddress {
                   xml.AddressKeyFormat {
-                    xml.PostcodePrimaryLow postcode if postcode
-                    xml.CountryCode country
+                    xml.SingleLineAddress postcode if postcode
+                    xml.CountryCode country.upcase
                   }
                 }
 
