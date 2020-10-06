@@ -13,7 +13,6 @@ module Deliveries
 
           def initialize(shipper:, consignee:, parcels:, reference_code:, type: :forward, collection_point: nil, language: nil)
             raise ArgumentError, 'Invalid value for type' unless TYPES.include?(type)
-            raise ArgumentError, 'collection_point must be present when type if forward' if type == :forward && collection_point.nil?
 
             self.shipper = shipper
             self.consignee = consignee
@@ -39,7 +38,7 @@ module Deliveries
                     ShipmentCharge: {
                       Type: '01',
                       BillShipper: {
-                        AccountNumber: Ups.config(:account_number)
+                        AccountNumber: account_number
                       }
                     }
                   },
@@ -70,25 +69,28 @@ module Deliveries
               request[:ShipmentRequest][:Shipment][:ShipFrom] = consignee_address
               request[:ShipmentRequest][:Shipment][:ShipTo] = shipper_address
             else # forward
-              request[:ShipmentRequest][:Shipment][:ShipmentIndicationType] = {
-                Code: '01',
-                Description: 'DirectToRetail'
-              }
               request[:ShipmentRequest][:Shipment][:ShipFrom] = shipper_address
               request[:ShipmentRequest][:Shipment][:ShipTo] = consignee_address
-              request[:ShipmentRequest][:Shipment][:AlternateDeliveryAddress] = collection_point_address
-              request[:ShipmentRequest][:Shipment][:ShipmentServiceOptions] = {
-                Notification: {
-                  NotificationCode: '012',
-                  EMail: {
-                    EMailAddress: consignee.email
-                  },
-                  Locale: {
-                    Language: locale_language,
-                    Dialect: locale_dialect
+
+              if collection_point?
+                request[:ShipmentRequest][:Shipment][:ShipmentIndicationType] = {
+                  Code: '01',
+                  Description: 'DirectToRetail'
+                }
+                request[:ShipmentRequest][:Shipment][:AlternateDeliveryAddress] = collection_point_address
+                request[:ShipmentRequest][:Shipment][:ShipmentServiceOptions] = {
+                  Notification: {
+                    NotificationCode: '012',
+                    EMail: {
+                      EMailAddress: consignee.email
+                    },
+                    Locale: {
+                      Language: locale_language,
+                      Dialect: locale_dialect
+                    }
                   }
                 }
-              }
+              end
             end
 
             response = call request
@@ -112,6 +114,18 @@ module Deliveries
               "https://onlinetools.ups.com/ship/#{API_VERSION}/shipments"
             else
               "https://wwwcie.ups.com/ship/#{API_VERSION}/shipments"
+            end
+          end
+
+          def collection_point?
+            !@collection_point.nil?
+          end
+
+          def account_number
+            if collection_point?
+              Ups.config(:point_account_number)
+            else
+              Ups.config(:home_account_number)
             end
           end
 
@@ -154,7 +168,7 @@ module Deliveries
 
           def shipper_address(with_number: false)
             address = format_address shipper
-            address[:ShipperNumber] = Ups.config(:account_number) if with_number
+            address[:ShipperNumber] = account_number if with_number
 
             address
           end

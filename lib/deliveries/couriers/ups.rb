@@ -15,7 +15,8 @@ module Deliveries
         :license_number,
         :username,
         :password,
-        :account_number,
+        :point_account_number,
+        :home_account_number,
         :default_product
       )
 

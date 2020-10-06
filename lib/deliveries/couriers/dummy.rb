@@ -7,7 +7,7 @@ module Deliveries
 
       def get_collection_point(global_point_id:)
         point = CollectionPoint.parse_global_point_id global_point_id: global_point_id
-        CollectionPoint.new name: 'Dumy',
+        CollectionPoint.new name: 'Dummy',
                             email: 'dummy@dummy.com',
                             phone: '555 555 555',
                             country: point.country.to_sym,
@@ -15,7 +15,7 @@ module Deliveries
                             city: 'Erandio',
                             street: 'Axpe',
                             postcode: point.postcode,
-                            courier_id: 'dumy',
+                            courier_id: 'dummy',
                             point_id: point.point_id,
                             latitude: 43.312132,
                             longitude: -2.979586,

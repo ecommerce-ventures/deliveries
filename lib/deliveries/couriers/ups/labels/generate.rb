@@ -18,7 +18,7 @@ module Deliveries
             request = {
               LabelRecoveryRequest: {
                 TrackingNumber: tracking_code,
-                ShipperNumber: Ups.config(:account_number),
+                ShipperNumber: account_number,
                 LabelSpecification: {
                   LabelImageFormat: {
                     Code: 'GIF'
@@ -52,6 +52,17 @@ module Deliveries
               "https://onlinetools.ups.com/ship/#{API_VERSION}/shipments/labels"
             else
               "https://wwwcie.ups.com/ship/#{API_VERSION}/shipments/labels"
+            end
+          end
+
+          def account_number
+            number_from_tracking_code = @tracking_code[/1Z([a-z0-9]{6})/i, 1]
+            if number_from_tracking_code&.casecmp? Ups.config(:point_account_number)
+              Ups.config(:point_account_number)
+            elsif number_from_tracking_code&.casecmp? Ups.config(:home_account_number)
+              Ups.config(:home_account_number)
+            else
+              raise Error, 'Invalid tracking code'
             end
           end
         end
