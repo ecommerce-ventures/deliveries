@@ -4,22 +4,23 @@ module Deliveries
       module Shipments
         class Create
           class FormatParams
-            attr_accessor :sender, :receiver, :parcels, :reference_code, :collection_point, :remarks
+            attr_accessor :sender, :receiver, :parcels, :reference_code, :collection_point, :remarks, :language
 
-            def initialize(sender:, receiver:, parcels:, reference_code:, collection_point:, remarks:)
+            def initialize(sender:, receiver:, parcels:, reference_code:, collection_point:, remarks:, language:)
               self.sender = sender
               self.receiver = receiver
               self.parcels = parcels
               self.reference_code = reference_code
               self.collection_point = collection_point
               self.remarks = remarks
+              self.language = language
             end
 
             def execute
               params = {
                 'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
                 'NDossier' => reference_code,
-                'Expe_Langage' => sender.country,
+                'Expe_Langage' => language.to_s.upcase,
                 'Expe_Ad1' => sender.name,
                 'Expe_Ad3' => sender.street,
                 'Expe_Ville' => sender.city,
@@ -27,7 +28,7 @@ module Deliveries
                 'Expe_Pays' => sender.country,
                 'Expe_Tel1' => sender.phone,
                 'Expe_Mail' => sender.email,
-                'Dest_Langage' => receiver.country.to_s.upcase,
+                'Dest_Langage' => language.to_s.upcase,
                 'Dest_Ad1' => receiver.name,
                 'Dest_Ad3' => receiver.street,
                 'Dest_Ville' => receiver.city,

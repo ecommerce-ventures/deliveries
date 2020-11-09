@@ -4,15 +4,16 @@ module Deliveries
       module Pickups
         class Create
           class FormatParams
-            attr_accessor :sender, :receiver, :parcels, :reference_code, :pickup_date, :remarks
+            attr_accessor :sender, :receiver, :parcels, :reference_code, :pickup_date, :remarks, :language
 
-            def initialize(sender:, receiver:, parcels:, reference_code:, pickup_date:, remarks:)
+            def initialize(sender:, receiver:, parcels:, reference_code:, pickup_date:, remarks:, language:)
               self.sender = sender
               self.receiver = receiver
               self.parcels = parcels
               self.reference_code = reference_code
               self.pickup_date = pickup_date
               self.remarks = remarks
+              self.language = language
             end
 
             def execute
@@ -23,7 +24,7 @@ module Deliveries
                 'COL_Rel_Pays' => 'XX',
                 'COL_Rel' => 'AUTO',
                 'NDossier' => reference_code,
-                'Expe_Langage' => sender.country,
+                'Expe_Langage' => language.to_s.upcase,
                 'Expe_Ad1' => sender.name,
                 'Expe_Ad3' => sender.street,
                 'Expe_Ville' => sender.city,
@@ -31,7 +32,7 @@ module Deliveries
                 'Expe_Pays' => sender.country,
                 'Expe_Tel1' => sender.phone,
                 'Expe_Mail' => sender.email,
-                'Dest_Langage' => receiver.country,
+                'Dest_Langage' => language.to_s.upcase,
                 'Dest_Ad1' => receiver.name,
                 'Dest_Ad3' => receiver.street,
                 'Dest_Ville' => receiver.city,

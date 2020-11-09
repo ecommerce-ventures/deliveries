@@ -90,14 +90,15 @@ module Deliveries
       end
 
       def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil, **)
+                          parcels:, reference_code:, remarks: nil, language: 'FR')
         params = Shipments::Create::FormatParams.new(
           sender: sender.courierize(:mondial_relay),
           receiver: receiver.courierize(:mondial_relay),
           parcels: parcels,
           collection_point: collection_point,
           reference_code: reference_code,
-          remarks: remarks
+          remarks: remarks,
+          language: language
         ).execute
 
         tracking_code, label_url = Shipments::Create.new(
@@ -117,14 +118,15 @@ module Deliveries
       end
 
       def create_pickup(sender:, receiver:, parcels:, reference_code:,
-                        pickup_date: nil, remarks: nil, **)
+                        pickup_date: nil, remarks: nil, language: 'FR')
         params = Pickups::Create::FormatParams.new(
           sender: sender.courierize(:mondial_relay),
           receiver: receiver.courierize(:mondial_relay),
           parcels: parcels,
           reference_code: reference_code,
           pickup_date: pickup_date,
-          remarks: remarks
+          remarks: remarks,
+          language: language
         ).execute
 
         tracking_code, label_url = Shipments::Create.new(

@@ -45,7 +45,7 @@ module Deliveries
             when :pt then 'pt_PT'
             when :it then 'it_IT'
             when :de then 'de_DE'
-            when :gb then 'en_GB'
+            when :en then 'en_GB'
             else 'en_US'
             end
           end

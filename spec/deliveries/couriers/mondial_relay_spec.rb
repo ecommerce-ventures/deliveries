@@ -149,7 +149,8 @@ describe "Mondial Relay" do
       parcels: 1,
       reference_code: 'shipmentX',
       remarks: nil,
-      shipment_date: Date.tomorrow
+      shipment_date: Date.tomorrow,
+      language: :es
     )
 
     # Assert
@@ -178,7 +179,8 @@ describe "Mondial Relay" do
         parcels: 1,
         reference_code: 'shipmentX',
         shipment_date: Date.tomorrow,
-        remarks: nil
+        remarks: nil,
+        language: :es
       )
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'Incorrect address (L1)'
@@ -222,7 +224,8 @@ describe "Mondial Relay" do
       parcels: 1,
       reference_code: 'shipmentX',
       pickup_date: Date.tomorrow,
-      remarks: nil
+      remarks: nil,
+      language: :es
     )
 
     # Assert
@@ -250,7 +253,8 @@ describe "Mondial Relay" do
         parcels: 1,
         reference_code: 'shipmentX',
         pickup_date: Date.tomorrow,
-        remarks: nil
+        remarks: nil,
+        language: :es
       )
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'Incorrect address (L1)'
