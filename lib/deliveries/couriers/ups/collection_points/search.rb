@@ -127,6 +127,7 @@ module Deliveries
             when 'fr' then 'fr_FR'
             when 'de' then 'de_DE'
             when 'gb' then 'en_GB'
+            when 'pl' then 'pl_PL'
             else 'en_US'
             end
           end

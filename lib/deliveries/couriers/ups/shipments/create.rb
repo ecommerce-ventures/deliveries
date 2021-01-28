@@ -136,6 +136,7 @@ module Deliveries
             when :pt then 'POR'
             when :it then 'ITA'
             when :de then 'DEU'
+            when :pl then 'POL'
             else 'ENG'
             end
           end
