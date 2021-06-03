@@ -43,8 +43,8 @@ module Deliveries
 
       module_function
 
-      def get_collection_points(postcode:, country: nil)
-        raise Deliveries::APIError.new("Postcode cannot be null") if postcode.blank?
+      def get_collection_points(postcode:, **)
+        raise Deliveries::APIError, 'Postcode cannot be null' if postcode.blank?
 
         collection_points = []
 
@@ -61,7 +61,7 @@ module Deliveries
         global_point = Deliveries::CollectionPoint.parse_global_point_id(global_point_id: global_point_id)
 
         collection_points = get_collection_points(postcode: global_point.postcode)
-        collection_point = collection_points.select{ |col| col.point_id == global_point.point_id }.first
+        collection_point = collection_points.select { |col| col.point_id == global_point.point_id }.first
 
         if collection_point.blank?
           raise Deliveries::APIError.new(
@@ -112,8 +112,7 @@ module Deliveries
         labels
       end
 
-      def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil, **)
+      def create_shipment(sender:, receiver:, parcels:, reference_code:, collection_point: nil, shipment_date: nil, remarks: nil, **)
         Shipments::Create.new(
           sender: sender,
           receiver: receiver,
@@ -125,7 +124,7 @@ module Deliveries
         ).execute
       end
 
-      def create_pickup(sender:, receiver:, parcels:,reference_code:,
+      def create_pickup(sender:, receiver:, parcels:, reference_code:,
                         pickup_date: nil, remarks: nil, **)
         time_interval = nil
         begin
@@ -142,13 +141,10 @@ module Deliveries
           pickup_number = Pickups::Create.new(params: params).execute
         rescue InvalidTimeIntervalError => e
           raise e if time_interval
+          raise e unless (cutoff_time = e.message[/\b(\d+):\d{2}\z/, 1])
 
-          if (cutoff_time = e.message[/\b(\d+):\d{2}\z/, 1])
-            time_interval = 9..cutoff_time.to_i
-            retry
-          else
-            raise e
-          end
+          time_interval = 9..cutoff_time.to_i
+          retry
         end
 
         Deliveries::Pickup.new(

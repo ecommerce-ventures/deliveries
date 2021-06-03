@@ -41,7 +41,8 @@ module Deliveries
                 'Dest_Tel1' => receiver.phone,
                 'Dest_Mail' => receiver.email,
                 'NbColis' => parcels,
-                'Instructions' => I18n.transliterate(remarks.to_s).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(30, omission: '')
+                'Instructions' => I18n.transliterate(remarks.to_s).gsub(%r{[^0-9A-Z_\-'., /]}i, '').upcase.truncate(30,
+                                                                                                                    omission: '')
               }
 
               defaults = Shipments::Create::Defaults::PARAMS

@@ -24,25 +24,23 @@ module Deliveries
               headers: headers,
               debug_output: Deliveries.debug ? Deliveries.logger : nil
             )
-            if response.success?
-              parsed_response = JSON.parse(response.body, symbolize_names: true)
-              if parsed_response.dig(:codError) == 0 && parsed_response.dig(:numRecogida).present?
-                parsed_response.dig(:numRecogida)
-              else
-                exception_class =
-                  case parsed_response.dig(:codError)
-                  when 105 then InvalidDateError
-                  when 154 then InvalidTimeIntervalError
-                  else APIError
-                  end
+            raise ClientError, "Failed with status code #{response.code}" unless response.success?
 
-                raise exception_class.new(
-                  parsed_response.dig(:mensError),
-                  parsed_response.dig(:codError)
-                )
-              end
+            parsed_response = JSON.parse(response.body, symbolize_names: true)
+            if (parsed_response[:codError]).zero? && parsed_response[:numRecogida].present?
+              parsed_response[:numRecogida]
             else
-              raise ClientError, "Failed with status code #{response.code}"
+              exception_class =
+                case parsed_response[:codError]
+                when 105 then InvalidDateError
+                when 154 then InvalidTimeIntervalError
+                else APIError
+                end
+
+              raise exception_class.new(
+                parsed_response[:mensError],
+                parsed_response[:codError]
+              )
             end
           end
 
@@ -57,7 +55,7 @@ module Deliveries
           end
 
           def headers
-            { "Content-Type" => "application/json" }
+            { 'Content-Type' => 'application/json' }
           end
         end
       end

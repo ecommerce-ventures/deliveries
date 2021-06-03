@@ -29,19 +29,19 @@ module Deliveries
               api_endpoint,
               basic_auth: auth,
               body: xml,
-              headers: { "Content-Type" => "application/xml" },
+              headers: { 'Content-Type' => 'application/xml' },
               debug_output: Deliveries.debug ? Deliveries.logger : nil
             )
 
             raise Deliveries::ClientError unless response.success?
 
             result = Hash.from_xml response.force_encoding(Encoding::ISO_8859_1).encode(Encoding::UTF_8)
-            if result.dig("SeguimientoEnviosResponse").dig("Error") == "0"
-              result["SeguimientoEnviosResponse"]
+            if result['SeguimientoEnviosResponse']['Error'] == '0'
+              result['SeguimientoEnviosResponse']
             else
               raise Deliveries::APIError.new(
-                result.dig("SeguimientoEnviosResponse").dig("MensajeError"),
-                result.dig("SeguimientoEnviosResponse").dig("Error")
+                result['SeguimientoEnviosResponse']['MensajeError'],
+                result['SeguimientoEnviosResponse']['Error']
               )
             end
           end

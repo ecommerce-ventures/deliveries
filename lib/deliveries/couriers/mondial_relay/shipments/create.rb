@@ -19,7 +19,8 @@ module Deliveries
             if response_result && response_result[:stat] == '0'
               {
                 tracking_code: response_result[:expedition_num],
-                label_url: 'http://www.mondialrelay.com' + response_result[:url_etiquette].gsub('format=A4', 'format=10x15')
+                label_url: "http://www.mondialrelay.com#{response_result[:url_etiquette].gsub('format=A4',
+                                                                                              'format=10x15')}"
               }
             else
               raise Deliveries::APIError.new(

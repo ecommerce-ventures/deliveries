@@ -27,7 +27,7 @@ module Deliveries
         end
 
         def headers
-          { "Content-Type" => "text/json; charset='UTF-8'" }
+          { 'Content-Type' => "text/json; charset='UTF-8'" }
         end
 
         def endpoint

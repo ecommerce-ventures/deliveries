@@ -11,10 +11,10 @@ module Deliveries
 
           def execute
             params = {
-              "Apikey": Deliveries::Couriers::Spring.config(:api_key),
-              "Command": "TrackShipment",
-              "Shipment": {
-                "TrackingNumber": tracking_code
+              Apikey: Deliveries::Couriers::Spring.config(:api_key),
+              Command: 'TrackShipment',
+              Shipment: {
+                TrackingNumber: tracking_code
               }
             }
 

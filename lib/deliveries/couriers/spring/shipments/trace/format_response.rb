@@ -11,7 +11,7 @@ module Deliveries
             end
 
             def execute
-              checkpoints = response[:Events].sort_by{ |event| event[:DateTime] }
+              checkpoints = response[:Events].sort_by { |event| event[:DateTime] }
 
               tracking_info_params = {}
               tracking_info_params[:courier_id] = Deliveries::Couriers::Spring::COURIER_ID

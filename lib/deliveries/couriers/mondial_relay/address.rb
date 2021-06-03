@@ -3,11 +3,11 @@ module Deliveries
     module MondialRelay
       class Address < Deliveries::Address
         def name
-          I18n.transliterate(@name.to_s).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: '')
+          I18n.transliterate(@name.to_s).gsub(%r{[^0-9A-Z_\-'., /]}i, '').upcase.truncate(32, omission: '')
         end
 
         def street
-          I18n.transliterate(@street.to_s).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(32, omission: '')
+          I18n.transliterate(@street.to_s).gsub(%r{[^0-9A-Z_\-'., /]}i, '').upcase.truncate(32, omission: '')
         end
 
         def city

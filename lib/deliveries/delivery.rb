@@ -14,7 +14,7 @@ module Deliveries
     end
 
     def attributes
-      ATTRIBUTES.map{ |attr| { attr => send(attr) } }.inject(&:merge)
+      ATTRIBUTES.map { |attr| { attr => send(attr) } }.inject(&:merge)
     end
   end
 end

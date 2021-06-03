@@ -63,10 +63,10 @@ module Deliveries
         global_point = Deliveries::CollectionPoint.parse_global_point_id(global_point_id: global_point_id)
 
         params = { 'Enseigne' => Deliveries::Couriers::MondialRelay.config(:mondial_relay_merchant),
-                  'Pays' => global_point.country, 'NumPointRelais' => global_point.point_id, 'Ville' => '',
-                  'CP' => '', 'Latitude' => '', 'Longitude' => '',
-                  'Taille' => '', 'Poids' => '', 'Action' => '',
-                  'DelaiEnvoi' => '0', 'RayonRecherche' => '', 'TypeActivite' => '', 'NACE' => '' }
+                   'Pays' => global_point.country, 'NumPointRelais' => global_point.point_id, 'Ville' => '',
+                   'CP' => '', 'Latitude' => '', 'Longitude' => '',
+                   'Taille' => '', 'Poids' => '', 'Action' => '',
+                   'DelaiEnvoi' => '0', 'RayonRecherche' => '', 'TypeActivite' => '', 'NACE' => '' }
 
         # Calculate security parameters.
         params['Security'] = calculate_security_param params
@@ -78,19 +78,18 @@ module Deliveries
 
         point_relais_details = response_result.dig(:points_relais, :point_relais_details)
 
-        if response_result.dig(:stat) == '0' && point_relais_details.present?
+        if response_result[:stat] == '0' && point_relais_details.present?
           collection_point_params = CollectionPoints::Search::FormatResponse.new(response: point_relais_details).execute
           Deliveries::CollectionPoint.new(collection_point_params)
         else
           raise Deliveries::APIError.new(
-            StatusCodes.message_for(response_result.dig(:stat).to_i),
-            response_result.dig(:stat)
+            StatusCodes.message_for(response_result[:stat].to_i),
+            response_result[:stat]
           )
         end
       end
 
-      def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil, language: 'FR')
+      def create_shipment(sender:, receiver:, parcels:, reference_code:, collection_point: nil, shipment_date: nil, remarks: nil, language: 'FR')
         params = Shipments::Create::FormatParams.new(
           sender: sender.courierize(:mondial_relay),
           receiver: receiver.courierize(:mondial_relay),
@@ -133,7 +132,7 @@ module Deliveries
           params: params
         ).execute.values_at(:tracking_code, :label_url)
 
-        pickup = Deliveries::Pickup.new(
+        Deliveries::Pickup.new(
           courier_id: 'mondial_relay',
           sender: sender,
           receiver: receiver,
@@ -143,8 +142,6 @@ module Deliveries
           pickup_date: pickup_date,
           label: Label.new(url: label_url)
         )
-
-        pickup
       end
 
       def shipment_info(tracking_code:, language: 'FR')
@@ -156,9 +153,7 @@ module Deliveries
         tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
 
         tracking_info_params = tracking_info_params.merge(tracking_code: tracking_code)
-        tracking_info = Deliveries::TrackingInfo.new(tracking_info_params)
-
-        tracking_info
+        Deliveries::TrackingInfo.new(tracking_info_params)
       end
 
       def pickup_info(tracking_code:, language: 'FR')
@@ -184,7 +179,9 @@ module Deliveries
       end
 
       def calculate_security_param(params)
-        Digest::MD5.hexdigest(params.map { |_, v| v }.join + Deliveries::Couriers::MondialRelay.config(:mondial_relay_key)).upcase
+        Digest::MD5.hexdigest(params.map do |_, v|
+                                v
+                              end.join + Deliveries::Couriers::MondialRelay.config(:mondial_relay_key)).upcase
       end
     end
   end

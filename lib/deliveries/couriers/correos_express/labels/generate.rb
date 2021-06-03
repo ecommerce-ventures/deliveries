@@ -21,10 +21,10 @@ module Deliveries
               params = {
                 keyCli: CorreosExpress.config(:shipment_sender_code),
                 nenvio: tracking_code,
-                tipo: "1" # "1" - pdf, "2" - zpl image
+                tipo: '1' # "1" - pdf, "2" - zpl image
               }.to_json
 
-              headers = { "Content-Type" => "application/json" }
+              headers = { 'Content-Type' => 'application/json' }
               response = self.class.post(
                 api_endpoint,
                 basic_auth: auth,
@@ -33,16 +33,16 @@ module Deliveries
                 debug_output: Deliveries.debug ? Deliveries.logger : nil
               )
               parsed_response = JSON.parse(response.body)
-              if parsed_response.dig('codErr') == 0
-                if parsed_response["listaEtiquetas"].any?
-                  parsed_response["listaEtiquetas"].each do |encoded_label|
+              if (parsed_response['codErr']).zero?
+                if parsed_response['listaEtiquetas'].any?
+                  parsed_response['listaEtiquetas'].each do |encoded_label|
                     decoded_labels << Base64.decode64(encoded_label).force_encoding('binary')
                   end
                 end
               else
                 raise Deliveries::APIError.new(
-                  parsed_response.dig('desErr'),
-                  parsed_response.dig('codErr')
+                  parsed_response['desErr'],
+                  parsed_response['codErr']
                 )
               end
             end

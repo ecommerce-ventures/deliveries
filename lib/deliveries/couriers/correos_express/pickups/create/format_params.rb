@@ -23,11 +23,11 @@ module Deliveries
               params = {
                 solicitante: CorreosExpress.config(:client_code),
                 refRecogida: reference_code,
-                fechaRecogida: pickup_date&.strftime("%d%m%Y") || '',
+                fechaRecogida: pickup_date&.strftime('%d%m%Y') || '',
                 clienteRecogida: CorreosExpress.config(:pickup_receiver_code),
-                codRemit: "",
+                codRemit: '',
                 nomRemit: sender.name,
-                nifRemit: "",
+                nifRemit: '',
                 dirRecog: sender.street,
                 poblRecog: sender.city,
                 cpRecog: postcode,
@@ -56,8 +56,8 @@ module Deliveries
               defaults = defaults.merge(params)
 
               if time_interval
-                defaults[:horaDesde1] = '%02d:00' % time_interval.first
-                defaults[:horaHasta1] = '%02d:00' % time_interval.last
+                defaults[:horaDesde1] = format '%02d:00', time_interval.first
+                defaults[:horaHasta1] = format '%02d:00', time_interval.last
               else
                 # Try to set cutoff time for the sender postal code.
                 begin
@@ -68,9 +68,10 @@ module Deliveries
 
                     # Update start hour if the period if smaller than 2 hours
                     min_start_hour = cutoff_time.to_i - 2
-                    defaults[:horaDesde1] = '%02d:00' % min_start_hour if defaults[:horaDesde1].to_i > min_start_hour
+                    defaults[:horaDesde1] = format('%02d:00', min_start_hour) if defaults[:horaDesde1].to_i > min_start_hour
                   end
-                rescue Deliveries::Error
+                rescue Deliveries::Error => e
+                  Deliveries.logger&.error "Cannot obtain cutoff time: #{e.message}"
                 end
               end
 

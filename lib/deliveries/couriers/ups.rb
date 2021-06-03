@@ -90,12 +90,12 @@ module Deliveries
         )
       end
 
-      def get_label(tracking_code:, language: nil)
+      def get_label(tracking_code:, **)
         arguments = Labels::Generate.new(tracking_code: tracking_code).execute
         Label.new(**arguments)
       end
 
-      def get_labels(tracking_codes:, language: nil)
+      def get_labels(tracking_codes:, **)
         labels = Deliveries::Labels.new
 
         tracking_codes.each do |tracking_code|
@@ -110,7 +110,8 @@ module Deliveries
           Checkpoint.new(**arguments)
         end
 
-        TrackingInfo.new(courier_id: COURIER_ID, tracking_code: tracking_code, checkpoints: checkpoints, status: checkpoints.last&.status)
+        TrackingInfo.new(courier_id: COURIER_ID, tracking_code: tracking_code, checkpoints: checkpoints,
+                         status: checkpoints.last&.status)
       end
 
       def pickup_info(tracking_code:, language: nil)

@@ -30,18 +30,16 @@ module Deliveries
               headers: headers,
               debug_output: Deliveries.debug ? Deliveries.logger : nil
             )
-            if response.success?
-              parsed_response = JSON.parse(response.body, symbolize_names: true)
-              if parsed_response.dig(:codError) == 0 && parsed_response.dig(:horaCorte).present?
-                parsed_response.dig(:horaCorte)
-              else
-                raise Deliveries::APIError.new(
-                  parsed_response.dig(:mensError),
-                  parsed_response.dig(:codError)
-                )
-              end
+            raise Deliveries::Error unless response.success?
+
+            parsed_response = JSON.parse(response.body, symbolize_names: true)
+            if (parsed_response[:codError]).zero? && parsed_response[:horaCorte].present?
+              parsed_response[:horaCorte]
             else
-              raise Deliveries::Error
+              raise Deliveries::APIError.new(
+                parsed_response[:mensError],
+                parsed_response[:codError]
+              )
             end
           end
 
@@ -52,7 +50,7 @@ module Deliveries
           end
 
           def headers
-            { "Content-Type" => "application/json" }
+            { 'Content-Type' => 'application/json' }
           end
         end
       end

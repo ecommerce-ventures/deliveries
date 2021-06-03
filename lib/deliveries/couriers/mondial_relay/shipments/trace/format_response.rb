@@ -11,7 +11,9 @@ module Deliveries
             end
 
             def execute
-              statuses = response[:tracing][:ret_wsi2_sub_tracing_colis_detaille].delete_if{ |key, _value| key[:libelle].blank? }
+              statuses = response[:tracing][:ret_wsi2_sub_tracing_colis_detaille].delete_if do |key, _value|
+                key[:libelle].blank?
+              end
 
               tracking_info_params = {}
               tracking_info_params[:courier_id] = 'mondial_relay'
@@ -24,7 +26,7 @@ module Deliveries
             private
 
             def last_status(statuses)
-              statuses.map{ |v| v[:libelle] }
+              statuses.pluck(:libelle)
                       .compact
                       .last
             end
@@ -48,14 +50,14 @@ module Deliveries
             end
 
             def shipment_status(stat, last_checkpoint_status)
-              if stat == 80
+              case stat
+              when 80
                 :registered
-              elsif stat == 82
+              when 82
                 :delivered
-              elsif stat == 81
-                if last_checkpoint_status == 'Disponible en el Punto Pack' ||
-                   last_checkpoint_status == 'DISPONIBLE AU POINT RELAIS'
-                :in_collection_point
+              when 81
+                if ['Disponible en el Punto Pack', 'DISPONIBLE AU POINT RELAIS'].include?(last_checkpoint_status)
+                  :in_collection_point
                 else
                   :in_transit
                 end

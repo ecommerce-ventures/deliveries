@@ -16,7 +16,7 @@ module Deliveries
           )
           response = JSON.parse plain_response, symbolize_names: true
 
-          unless response.dig(:response, :errors).nil? || response.dig(:response, :errors).empty?
+          if response.dig(:response, :errors).present?
             error_code = response.dig(:response, :errors, 0, :code)&.to_i
             error_message = response.dig(:response, :errors, 0, :message) || 'Unknown error'
 
@@ -29,9 +29,9 @@ module Deliveries
         def headers
           {
             'Content-Type': 'application/json',
-            'AccessLicenseNumber': Ups.config(:license_number),
-            'Username': Ups.config(:username),
-            'Password': Ups.config(:password)
+            AccessLicenseNumber: Ups.config(:license_number),
+            Username: Ups.config(:username),
+            Password: Ups.config(:password)
           }
         end
       end

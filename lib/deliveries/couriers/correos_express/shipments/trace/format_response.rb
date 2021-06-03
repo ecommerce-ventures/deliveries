@@ -14,8 +14,8 @@ module Deliveries
               tracking_info_params = {}
               tracking_info_params[:courier_id] = 'correos_express'
               tracking_info_params[:tracking_code] = response['NumEnvio']
-              tracking_info_params[:status] = status(response["DescEstado"])
-              tracking_info_params[:checkpoints] = formatted_checkpoints(response["EstadoEnvios"])
+              tracking_info_params[:status] = status(response['DescEstado'])
+              tracking_info_params[:checkpoints] = formatted_checkpoints(response['EstadoEnvios'])
 
               tracking_info_params
             end
@@ -37,10 +37,11 @@ module Deliveries
 
             def formatted_checkpoint(shipment_status)
               Deliveries::Checkpoint.new(
-                status: status(shipment_status["DescEstado"]),
+                status: status(shipment_status['DescEstado']),
                 location: nil,
-                tracked_at: Time.zone.strptime("#{shipment_status['FechaEstado']} #{shipment_status['HoraEstado']}", '%d%m%Y %H%M%S'),
-                description: shipment_status["DescEstado"]
+                tracked_at: Time.zone.strptime("#{shipment_status['FechaEstado']} #{shipment_status['HoraEstado']}",
+                                               '%d%m%Y %H%M%S'),
+                description: shipment_status['DescEstado']
               )
             end
 

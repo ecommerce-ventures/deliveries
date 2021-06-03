@@ -17,7 +17,7 @@ module Deliveries
               password: CorreosExpress.config(:password)
             }
 
-            headers = { "Content-Type" => "application/json;charset=UTF-8", "Accept" => "application/json" }
+            headers = { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
 
             response = self.class.post(
               api_endpoint,
@@ -28,14 +28,14 @@ module Deliveries
             )
             parsed_response = JSON.parse(response.body)
 
-            if parsed_response.dig('tipoRespuesta') == 'KO'
+            if parsed_response['tipoRespuesta'] == 'KO'
               raise Deliveries::APIError.new(
-                parsed_response.dig('listaErrores').first['descError'],
-                parsed_response.dig('listaErrores').first['codError']
+                parsed_response['listaErrores'].first['descError'],
+                parsed_response['listaErrores'].first['codError']
               )
             end
 
-            parsed_response["oficinas"]
+            parsed_response['oficinas']
           end
 
           private

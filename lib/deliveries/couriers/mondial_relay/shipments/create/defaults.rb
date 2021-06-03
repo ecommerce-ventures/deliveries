@@ -65,7 +65,7 @@ module Deliveries
               'Poids' => '1000', # weight in grams
               'Longueur' => '', # length
               'Taille' => '', # size
-              'NbColis' => "1", # Number of parcels
+              'NbColis' => '1', # Number of parcels
 
               # TODO: COD shipment value in cents?
               'CRT_Valeur' => '0',

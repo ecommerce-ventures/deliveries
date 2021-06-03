@@ -27,7 +27,7 @@ module Deliveries
             request = {
               ShipmentRequest: {
                 Request: {
-                  RequestOption: 'nonvalidate',
+                  RequestOption: 'nonvalidate'
                 },
                 Shipment: {
                   Description: Ups.config('default_product.description', default: 'International Goods'),

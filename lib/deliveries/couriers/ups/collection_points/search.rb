@@ -17,51 +17,51 @@ module Deliveries
             request_id = SecureRandom.uuid
 
             access = Nokogiri::XML::Builder.new do |xml|
-              xml.AccessRequest('xml:lang': 'en-US') {
+              xml.AccessRequest('xml:lang': 'en-US') do
                 xml.AccessLicenseNumber Ups.config(:license_number)
                 xml.UserId Ups.config(:username)
                 xml.Password Ups.config(:password)
-              }
+              end
             end
 
             locator = Nokogiri::XML::Builder.new do |xml|
-              xml.LocatorRequest {
-                xml.Request {
+              xml.LocatorRequest do
+                xml.Request do
                   xml.RequestAction 'Locator'
                   xml.RequestOption '64'
-                  xml.TransactionReference {
+                  xml.TransactionReference do
                     xml.CustomerContext request_id
                     xml.XpciVersion '1.0014'
-                  }
-                }
-                xml.OriginAddress {
-                  xml.AddressKeyFormat {
+                  end
+                end
+                xml.OriginAddress do
+                  xml.AddressKeyFormat do
                     xml.SingleLineAddress postcode if postcode
                     xml.CountryCode country.upcase
-                  }
-                }
+                  end
+                end
 
-                xml.LocationSearchCriteria {
-                  xml.AccessPointSearch {
+                xml.LocationSearchCriteria do
+                  xml.AccessPointSearch do
                     xml.AccessPointStatus '01'
                     if point_id
                       xml.PublicAccessPointID point_id
                     else
-                      xml.IncludeCriteria {
-                        xml.SearchFilter {
+                      xml.IncludeCriteria do
+                        xml.SearchFilter do
                           xml.ShippingAvailabilityIndicator ''
-                        }
-                      }
+                        end
+                      end
                     end
-                  }
+                  end
 
                   xml.MaximumListSize '20'
-                }
+                end
 
-                xml.Translate {
+                xml.Translate do
                   xml.Locale locale
-                }
-              }
+                end
+              end
             end
 
             request_body = access.to_xml + locator.to_xml
@@ -87,9 +87,13 @@ module Deliveries
             response_doc.xpath('//LocatorResponse/SearchResults/DropLocation').map do |location_doc|
               timetable = location_doc.xpath('OperatingHours/StandardHours/DayOfWeek').map do |day_doc|
                 wday = day_doc.at_xpath('Day')&.content.to_i % 7
-                open_hours = day_doc.xpath('OpenHours')&.map(&:content)&.map { |h| h == '0' ? '00:00' : h.insert(-3, ':') } || []
-                close_hours = day_doc.xpath('CloseHours')&.map(&:content)&.map { |h| h == '0' ? '00:00' : h.insert(-3, ':') } || []
-                hours = open_hours.zip(close_hours).map{ |open, close| OpenStruct.new(open: open, close: close) }
+                open_hours = day_doc.xpath('OpenHours')&.map(&:content)&.map do |h|
+                  h == '0' ? '00:00' : h.insert(-3, ':')
+                end || []
+                close_hours = day_doc.xpath('CloseHours')&.map(&:content)&.map do |h|
+                  h == '0' ? '00:00' : h.insert(-3, ':')
+                end || []
+                hours = open_hours.zip(close_hours).map { |open, close| OpenStruct.new(open: open, close: close) }
 
                 [wday, hours]
               end.to_h

@@ -77,7 +77,7 @@ module Deliveries
             def format_date(date)
               raise Deliveries::Error if date.blank?
 
-              date.strftime("%d%m%Y")
+              date.strftime('%d%m%Y')
             end
 
             def format_postcode(postcode, country)

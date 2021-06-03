@@ -27,7 +27,8 @@ module Deliveries
             # Call web service.
             response = MondialRelay.api_client.call :wsi2_tracing_colis_detaille, message: params
 
-            response_result = response.body.dig(:wsi2_tracing_colis_detaille_response, :wsi2_tracing_colis_detaille_result)
+            response_result = response.body.dig(:wsi2_tracing_colis_detaille_response,
+                                                :wsi2_tracing_colis_detaille_result)
             if  response_result.present? &&
                 StatusCodes.tracking_info_success?(response_result[:stat].to_i)
 

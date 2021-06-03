@@ -3,8 +3,8 @@ module Deliveries
     module CorreosExpress
       module Pickups
         class Trace
-          WSDL_LIVE_PATH = Rails.root + "lib/deliveries/couriers/correos_express/pickups/trace/correos.wsdl".freeze
-          WSDL_TEST_PATH = Rails.root + "lib/deliveries/couriers/correos_express/pickups/trace/correos.test.wsdl".freeze
+          WSDL_LIVE_PATH = Rails.root + 'lib/deliveries/couriers/correos_express/pickups/trace/correos.wsdl'.freeze
+          WSDL_TEST_PATH = Rails.root + 'lib/deliveries/couriers/correos_express/pickups/trace/correos.test.wsdl'.freeze
 
           attr_accessor :tracking_code
 
@@ -14,10 +14,10 @@ module Deliveries
 
           def execute
             params = {
-              "solicitante" => CorreosExpress.config(:client_code),
-              "dato" => tracking_code,
-              "password" => "",
-              "codCliente" => CorreosExpress.config(:pickup_receiver_code)
+              'solicitante' => CorreosExpress.config(:client_code),
+              'dato' => tracking_code,
+              'password' => '',
+              'codCliente' => CorreosExpress.config(:pickup_receiver_code)
             }
 
             basic_auth = [
@@ -32,12 +32,13 @@ module Deliveries
 
             response = client.call(:seguimiento_recogida, message: params)
 
-            response_result = response.body.dig(:seguimiento_recogida_response).dig(:return)
-            if response_result && response_result.dig(:recogida).present?
-              response_result
-            else
-              raise Deliveries::APIError.new(response_result.dig(:mensaje_retorno).to_s.strip)
+            response_result = response.body[:seguimiento_recogida_response][:return]
+            unless response_result && response_result[:recogida].present?
+              raise Deliveries::APIError,
+                    response_result[:mensaje_retorno].to_s.strip
             end
+
+            response_result
           end
         end
       end

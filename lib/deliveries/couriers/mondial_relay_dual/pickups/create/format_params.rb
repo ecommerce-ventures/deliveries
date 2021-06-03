@@ -37,4 +37,3 @@ module Deliveries
     end
   end
 end
-  

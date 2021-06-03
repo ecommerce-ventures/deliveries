@@ -4,7 +4,6 @@ module Deliveries
       module Pickups
         class Trace
           class FormatResponse
-
             attr_accessor :response
 
             def initialize(response:)
@@ -32,7 +31,7 @@ module Deliveries
                 checkpoints << formatted_checkpoint(shipment_status)
               end
               checkpoints.delete_if { |k, _v| k.status == :unknown_status }
-                         .sort { |c| c.tracked_at }
+                         .sort_by(&:tracked_at)
             end
 
             def formatted_checkpoint(shipment_status)
@@ -41,7 +40,7 @@ module Deliveries
               Deliveries::Checkpoint.new(
                 status: status_code(shipment_status[:desc_situacion]),
                 location: nil,
-                tracked_at: Time.zone.strptime("#{shipment_status[:fec_situacion]}", '%d/%m/%Y %H:%M:%S'),
+                tracked_at: Time.zone.strptime((shipment_status[:fec_situacion]).to_s, '%d/%m/%Y %H:%M:%S'),
                 description: description
               )
             end

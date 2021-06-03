@@ -13,9 +13,9 @@ module Deliveries
       module CollectionPoints
         class Search
           class FormatResponse
-            SATURDAY_HOUR_KEY = "S:".freeze
-            WORKDAY_HOUR_KEY = "L-V:".freeze
-            HOLIDAY_HOUR_KEY = "Festivos:".freeze
+            SATURDAY_HOUR_KEY = 'S:'.freeze
+            WORKDAY_HOUR_KEY = 'L-V:'.freeze
+            HOLIDAY_HOUR_KEY = 'Festivos:'.freeze
 
             attr_accessor :response
 
@@ -31,7 +31,7 @@ module Deliveries
               collection_point[:street] = response['direccionOficina']
               collection_point[:city] = response['poblacionOficina']
               collection_point[:postcode] = response['codigoPostalOficina']
-              latitude, longitude = response['geoposicionOficina'].split(",")
+              latitude, longitude = response['geoposicionOficina'].split(',')
               collection_point[:latitude] = latitude.to_f
               collection_point[:longitude] = longitude.to_f
               collection_point[:timetable] = formatted_timetable(response['horarioOficina'])
@@ -52,23 +52,19 @@ module Deliveries
                 end
               end
 
-              if saturday_hour.present?
-                timetable[6] = [formatted_slot(saturday_hour, SATURDAY_HOUR_KEY)]
-              end
+              timetable[6] = [formatted_slot(saturday_hour, SATURDAY_HOUR_KEY)] if saturday_hour.present?
 
-              if holiday_hour.present?
-                timetable[0] = nil
-              end
+              timetable[0] = nil if holiday_hour.present?
 
               timetable
             end
 
             def get_week_hours_from_result(params)
-              week_hours = params.split("/")
+              week_hours = params.split('/')
 
-              workday_hour = week_hours.select{ |o| o.start_with?(WORKDAY_HOUR_KEY) }.first
-              saturday_hour = week_hours.select{ |o| o.start_with?(SATURDAY_HOUR_KEY) }.first
-              holiday_hour = week_hours.select{ |o| o.start_with?(HOLIDAY_HOUR_KEY) }.first
+              workday_hour = week_hours.select { |o| o.start_with?(WORKDAY_HOUR_KEY) }.first
+              saturday_hour = week_hours.select { |o| o.start_with?(SATURDAY_HOUR_KEY) }.first
+              holiday_hour = week_hours.select { |o| o.start_with?(HOLIDAY_HOUR_KEY) }.first
 
               [workday_hour, saturday_hour, holiday_hour]
             end

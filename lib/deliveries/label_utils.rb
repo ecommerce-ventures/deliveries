@@ -27,7 +27,7 @@ module Deliveries
           elsif height.nil?
             height = (width * ih) / iw
             [0, 0, width * 72, height * 72]
-          else
+          else # rubocop:disable Lint/DuplicateBranch
             [0, 0, iw, ih]
           end
 
@@ -39,8 +39,10 @@ module Deliveries
         pw = page.box(:media).width.to_f
         ph = page.box(:media).height.to_f
         ratio = [pw / iw, ph / ih].min
-        iw, ih = iw * ratio, ih * ratio
-        x, y = (pw - iw) / 2, (ph - ih) / 2
+        iw *= ratio
+        ih *= ratio
+        x = (pw - iw) / 2
+        y = (ph - ih) / 2
         page.canvas.image(doc_image, at: [x, y], width: iw, height: ih)
 
         output = StringIO.new

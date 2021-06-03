@@ -37,23 +37,24 @@ module Deliveries
                 'Dest_Tel1' => receiver.phone,
                 'Dest_Mail' => receiver.email,
                 'NbColis' => parcels,
-                'Instructions' => I18n.transliterate(remarks.to_s).gsub(/[^0-9A-Z_\-'., \/]/i, '').upcase.truncate(30, omission: '')
+                'Instructions' => I18n.transliterate(remarks.to_s).gsub(%r{[^0-9A-Z_\-'., /]}i, '').upcase.truncate(30,
+                                                                                                                    omission: '')
               }
 
               # Receiving in a collection point
-              if collection_point.present?
-                receive_mode_params = {
-                  'ModeLiv' => '24R',
-                  "LIV_Rel_Pays" => receiver.country,
-                  "LIV_Rel" => collection_point.point_id,
-                  "COL_Rel_Pays" => receiver.country,
-                  "COL_Rel" => collection_point.point_id
-                }
-              else
-                receive_mode_params = {
-                  'ModeLiv' => 'HOM'
-                }
-              end
+              receive_mode_params = if collection_point.present?
+                                      {
+                                        'ModeLiv' => '24R',
+                                        'LIV_Rel_Pays' => receiver.country,
+                                        'LIV_Rel' => collection_point.point_id,
+                                        'COL_Rel_Pays' => receiver.country,
+                                        'COL_Rel' => collection_point.point_id
+                                      }
+                                    else
+                                      {
+                                        'ModeLiv' => 'HOM'
+                                      }
+                                    end
 
               defaults = Defaults::PARAMS
 

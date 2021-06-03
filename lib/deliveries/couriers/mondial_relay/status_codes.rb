@@ -82,7 +82,7 @@ module Deliveries
         95 => 'Merchant account not activated',
         97 => 'Incorrect security key',
         98 => 'Generic error (Incorrect parameters)',
-        99 => 'Generic error of service system (technical). Contact MR',
+        99 => 'Generic error of service system (technical). Contact MR'
       }.freeze
 
       module StatusCodes

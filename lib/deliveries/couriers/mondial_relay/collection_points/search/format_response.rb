@@ -28,14 +28,14 @@ module Deliveries
       module CollectionPoints
         class Search
           class FormatResponse
-            WEEKDAYS_STARTING_SUNDAY = [
-              'dimanche',
-              'lundi',
-              'mardi',
-              'mercredi',
-              'jeudi',
-              'vendredi',
-              'samedi'
+            WEEKDAYS_STARTING_SUNDAY = %w[
+              dimanche
+              lundi
+              mardi
+              mercredi
+              jeudi
+              vendredi
+              samedi
             ].freeze
 
             attr_accessor :response
@@ -75,9 +75,7 @@ module Deliveries
                   timetable[i] << nil
                 else
                   timetable[i] << formatted_slot(open: times[0], close: times[1])
-                  if times[2] != '0000'
-                    timetable[i] << formatted_slot(open: times[2], close: times[3])
-                  end
+                  timetable[i] << formatted_slot(open: times[2], close: times[3]) if times[2] != '0000'
                 end
                 timetable[i] = nil unless timetable[i].any?
               end
@@ -97,7 +95,6 @@ module Deliveries
             def formatted_slot(open:, close:)
               OpenStruct.new(open: open.insert(2, ':'), close: close.insert(2, ':'))
             end
-
           end
         end
       end

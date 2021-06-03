@@ -1,6 +1,6 @@
 module Deliveries
   module Couriers
-    Dir[File.dirname(__FILE__) + '/couriers/*.rb'].each do |f|
+    Dir["#{File.dirname(__FILE__)}/couriers/*.rb"].each do |f|
       # Get camelized class name
       filename = File.basename(f, '.rb')
 

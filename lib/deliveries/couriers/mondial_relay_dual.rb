@@ -31,8 +31,7 @@ module Deliveries
         MondialRelay.get_collection_point(global_point_id: global_point_id)
       end
 
-      def create_shipment(sender:, receiver:, collection_point: nil, shipment_date: nil,
-                          parcels:, reference_code:, remarks: nil, language: nil)
+      def create_shipment(sender:, receiver:, parcels:, reference_code:, collection_point: nil, shipment_date: nil, remarks: nil, language: nil)
         params = Shipments::Create::FormatParams.new(
           sender: sender,
           receiver: receiver,
