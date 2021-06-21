@@ -380,8 +380,8 @@ def register_correos_express_create_pickup_stubs
       body: {
         "resultado": "1",
         "numRecogida": "69153759",
-        "codError": 0,
-        "mensError": nil
+        "codigoRetorno": 0,
+        "mensajeRetorno": nil
       }.to_json,
       headers: {}
     )
@@ -449,8 +449,8 @@ def register_correos_express_create_pickup_stubs
       body: {
         "resultado": nil,
         "numRecogida": nil,
-        "codError": 11,
-        "mensError": "NOMBRE REMITENTE: DATO OBLIGATORIO"
+        "codigoRetorno": 11,
+        "mensajeRetorno": "NOMBRE REMITENTE: DATO OBLIGATORIO"
       }.to_json,
       headers: {}
     )

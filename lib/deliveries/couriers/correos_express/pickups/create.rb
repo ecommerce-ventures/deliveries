@@ -27,19 +27,19 @@ module Deliveries
             raise ClientError, "Failed with status code #{response.code}" unless response.success?
 
             parsed_response = JSON.parse(response.body, symbolize_names: true)
-            if (parsed_response[:codError]).zero? && parsed_response[:numRecogida].present?
+            if parsed_response[:codigoRetorno]&.zero? && parsed_response[:numRecogida].present?
               parsed_response[:numRecogida]
             else
               exception_class =
-                case parsed_response[:codError]
+                case parsed_response[:codigoRetorno]
                 when 105 then InvalidDateError
                 when 154 then InvalidTimeIntervalError
                 else APIError
                 end
 
               raise exception_class.new(
-                parsed_response[:mensError],
-                parsed_response[:codError]
+                parsed_response[:mensajeRetorno],
+                parsed_response[:codigoRetorno]
               )
             end
           end
