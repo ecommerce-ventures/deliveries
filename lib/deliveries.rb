@@ -14,8 +14,8 @@ require 'deliveries/labels'
 
 module Deliveries
   def self.mode
-    if class_variable_defined? :@@mode
-      class_variable_get :@@mode
+    if instance_variable_defined? :@mode
+      instance_variable_get :@mode
     else
       :test
     end
@@ -25,7 +25,7 @@ module Deliveries
     mode = mode&.to_sym
     raise "Invalid mode #{mode}" unless %i[live test].include?(mode)
 
-    class_variable_set :@@mode, mode
+    instance_variable_set :@mode, mode
   end
 
   def self.test?
@@ -37,19 +37,19 @@ module Deliveries
   end
 
   def self.logger
-    class_variable_get :@@logger
+    instance_variable_get :@logger
   end
 
   def self.logger=(logger)
-    class_variable_set :@@logger, logger
+    instance_variable_set :@logger, logger
   end
 
   def self.debug
-    class_variable_get(:@@debug) == true
+    instance_variable_get(:@debug) == true
   end
 
   def self.debug=(debug)
-    class_variable_set :@@debug, debug
+    instance_variable_set :@debug, debug
   end
 
   def self.courier(courier_id)
