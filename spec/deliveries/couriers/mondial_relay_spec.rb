@@ -1,7 +1,7 @@
-require 'rails_helper'
+# require 'rails_helper'
 require 'deliveries/support/mondial_relay_stubs'
 
-describe "Mondial Relay" do
+RSpec.describe "Mondial Relay" do
 
   before do
     savon.mock!

@@ -1,7 +1,7 @@
-require 'rails_helper'
+# require 'rails_helper'
 require 'deliveries/support/correos_express_stubs'
 
-describe "Correos Express" do
+RSpec.describe "Correos Express" do
 
   it ".get_collection_point" do
     # Arrange
@@ -152,7 +152,7 @@ describe "Correos Express" do
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '3230002000342722'
-    expect(response.shipment_date).to eq Date.tomorrow
+    expect(response.shipment_date).to eq (Date.tomorrow)
     expect(response.label.raw).to start_with '%PDF-'
 
     # Error
@@ -169,7 +169,7 @@ describe "Correos Express" do
         collection_point: nil,
         parcels: 1,
         reference_code: 'shipmentX',
-        shipment_date: Date.tomorrow,
+        shipment_date: (Date.tomorrow),
         remarks: nil
       )
     }.to raise_error(Deliveries::APIError) do |error|
@@ -225,7 +225,7 @@ describe "Correos Express" do
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '69153759'
-    expect(response.pickup_date).to eq Date.tomorrow
+    expect(response.pickup_date).to eq (Date.tomorrow)
 
     # Error
     # ---
@@ -240,7 +240,7 @@ describe "Correos Express" do
         receiver: receiver,
         parcels: 1,
         reference_code: 'shipmentX',
-        pickup_date: Date.tomorrow,
+        pickup_date: (Date.tomorrow),
         remarks: nil
       )
     }.to raise_error(Deliveries::APIError) do |error|
@@ -269,7 +269,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_label(tracking_code: 'E000')
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente test'
       expect(error.code).to eq -1
     end
   end
@@ -294,7 +294,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_labels(tracking_codes: %w[E000])
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente test'
       expect(error.code).to eq -1
     end
 
@@ -302,7 +302,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_labels(tracking_codes: %w[E000 E001])
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente test'
       expect(error.code).to eq -1
     end
   end

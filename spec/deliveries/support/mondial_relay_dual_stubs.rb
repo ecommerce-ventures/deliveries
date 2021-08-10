@@ -9,9 +9,9 @@ def register_mondial_relay_dual_create_shipment_stubs
       <?xml version="1.0" encoding="utf-8"?>
       <ShipmentCreationRequest xmlns:xsi0="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org/Request">
         <Context>
-          <Login>BDTEST@business-api.mondialrelay.com</Login>
-          <Password>xxxxxxxxxx</Password>
-          <CustomerId>BDTEST</CustomerId>
+          <Login>test</Login>
+          <Password>test</Password>
+          <CustomerId>test</CustomerId>
           <Culture>es-ES</Culture>
           <VersionAPI>1.0</VersionAPI>
         </Context>
@@ -82,9 +82,9 @@ def register_mondial_relay_dual_create_shipment_stubs
       body: <<~XML,
         <ShipmentCreationResponse xmlns="http://www.example.org/Response" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <Context>
-            <Login>BDTEST@business-api.mondialrelay.com</Login>
-            <Password>xxxxxxxxxx</Password>
-            <CustomerId>BDTEST</CustomerId>
+            <Login>test</Login>
+            <Password>test</Password>
+            <CustomerId>test</CustomerId>
             <Culture>es-ES</Culture>
             <VersionAPI>1.0</VersionAPI>
           </Context>
@@ -159,9 +159,9 @@ def register_mondial_relay_dual_create_shipment_stubs
       <?xml version="1.0" encoding="utf-8"?>
       <ShipmentCreationRequest xmlns:xsi0="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org/Request">
         <Context>
-          <Login>BDTEST@business-api.mondialrelay.com</Login>
-          <Password>xxxxxxxxxx</Password>
-          <CustomerId>BDTEST</CustomerId>
+          <Login>test</Login>
+          <Password>test</Password>
+          <CustomerId>test</CustomerId>
           <Culture>es-ES</Culture>
           <VersionAPI>1.0</VersionAPI>
         </Context>
@@ -251,9 +251,9 @@ def register_mondial_relay_dual_create_pickup_stubs
         <?xml version="1.0" encoding="utf-8"?>
         <ShipmentCreationRequest xmlns:xsi0="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org/Request">
           <Context>
-            <Login>BDTEST@business-api.mondialrelay.com</Login>
-            <Password>xxxxxxxxxx</Password>
-            <CustomerId>BDTEST</CustomerId>
+            <Login>test</Login>
+            <Password>test</Password>
+            <CustomerId>test</CustomerId>
             <Culture>es-ES</Culture>
             <VersionAPI>1.0</VersionAPI>
           </Context>
@@ -324,9 +324,9 @@ def register_mondial_relay_dual_create_pickup_stubs
       body: <<~XML,
       <ShipmentCreationResponse xmlns="http://www.example.org/Response" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Context>
-          <Login>BDTEST@business-api.mondialrelay.com</Login>
-          <Password>xxxxxxxxxx</Password>
-          <CustomerId>BDTEST</CustomerId>
+          <Login>test</Login>
+          <Password>test</Password>
+          <CustomerId>test</CustomerId>
           <Culture>es-ES</Culture>
           <VersionAPI>1.0</VersionAPI>
         </Context>
@@ -401,9 +401,9 @@ def register_mondial_relay_dual_create_pickup_stubs
         <?xml version="1.0" encoding="utf-8"?>
         <ShipmentCreationRequest xmlns:xsi0="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org/Request">
           <Context>
-            <Login>BDTEST@business-api.mondialrelay.com</Login>
-            <Password>xxxxxxxxxx</Password>
-            <CustomerId>BDTEST</CustomerId>
+            <Login>test</Login>
+            <Password>test</Password>
+            <CustomerId>test</CustomerId>
             <Culture>es-ES</Culture>
             <VersionAPI>1.0</VersionAPI>
           </Context>

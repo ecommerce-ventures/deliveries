@@ -1,7 +1,7 @@
-require 'rails_helper'
+# require 'rails_helper'
 require 'deliveries/support/mondial_relay_dual_stubs'
 
-describe "Mondial Relay Dual" do
+RSpec.describe "Mondial Relay Dual" do
   it ".create_shipment" do
     # Arrange
     register_mondial_relay_dual_create_shipment_stubs

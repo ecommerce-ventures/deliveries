@@ -6,7 +6,7 @@ def register_spring_create_shipment_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        "Apikey": "xxxxxxxxxx",
+        "Apikey": "test",
         "Command": "OrderShipment",
         "Shipment": {
           "LabelFormat": "PDF",
@@ -95,7 +95,7 @@ def register_spring_create_shipment_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        "Apikey": "xxxxxxxxxx",
+        "Apikey": "test",
         "Command": "OrderShipment",
         "Shipment": {
           "LabelFormat": "PDF",
@@ -175,7 +175,7 @@ def register_spring_get_label_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        Apikey: "xxxxxxxxxx",
+        Apikey: "test",
         Command: "GetShipmentLabel",
         Shipment: {
           LabelFormat: "PDF",
@@ -209,7 +209,7 @@ def register_spring_get_label_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        Apikey: "xxxxxxxxxx",
+        Apikey: "test",
         Command: "GetShipmentLabel",
         Shipment: {
           LabelFormat: "PDF",
@@ -225,12 +225,12 @@ def register_spring_get_label_stub
         "Error": "",
         "Shipment": {
           "TrackingNumber": "002",
-          "ShipperReference": "xxxxxxxxxx",
-          "DisplayId": "xxxxxxxxxx",
-          "Service": "xxxxxxxxxx",
-          "Carrier": "xxxxxxxxxx",
-          "CarrierTrackingNumber": "xxxxxxxxxx",
-          "CarrierLocalTrackingNumber": "xxxxxxxxxx",
+          "ShipperReference": "test",
+          "DisplayId": "test",
+          "Service": "test",
+          "Carrier": "test",
+          "CarrierTrackingNumber": "test",
+          "CarrierLocalTrackingNumber": "test",
           "CarrierTrackingUrl": "http://tracking.url.example/002",
           "LabelFormat": "PDF",
           "LabelType": "Label",
@@ -246,7 +246,7 @@ def register_spring_get_label_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        Apikey: "xxxxxxxxxx",
+        Apikey: "test",
         Command: "GetShipmentLabel",
         Shipment: {
           LabelFormat: "PDF",
@@ -273,7 +273,7 @@ def register_spring_shipment_info_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        Apikey: "xxxxxxxxxx",
+        Apikey: "test",
         Command: "TrackShipment",
         Shipment: {
           TrackingNumber: "001"
@@ -324,7 +324,7 @@ def register_spring_shipment_info_stub
   stub_request(:post, spring_endpoint)
     .with(
       body: {
-        Apikey: "xxxxxxxxxx",
+        Apikey: "test",
         Command: "TrackShipment",
         Shipment: {
           TrackingNumber: "000"
