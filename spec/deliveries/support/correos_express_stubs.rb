@@ -1,5 +1,3 @@
-include Savon::SpecHelper
-
 def register_correos_express_get_collection_points_stubs
   # Success
   # ---

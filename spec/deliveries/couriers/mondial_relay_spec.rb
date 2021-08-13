@@ -2,6 +2,7 @@
 require 'deliveries/support/mondial_relay_stubs'
 
 RSpec.describe "Mondial Relay" do
+  include Savon::SpecHelper
 
   before do
     savon.mock!

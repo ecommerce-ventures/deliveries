@@ -1,5 +1,3 @@
-include Savon::SpecHelper
-
 def register_mondial_relay_wsdl
   wsdl = (File.open(File.expand_path("../..", __dir__) + '/fixtures/files/mondial_relay_wsdl.xml')).read
 

@@ -2,6 +2,15 @@
 require 'deliveries/support/correos_express_stubs'
 
 RSpec.describe "Correos Express" do
+  include Savon::SpecHelper
+
+  before do
+    savon.mock!
+  end
+
+  after do
+    savon.unmock!
+  end
 
   it ".get_collection_point" do
     # Arrange
@@ -344,7 +353,6 @@ RSpec.describe "Correos Express" do
 
   it ".pickup_info" do
     # Arrange
-    savon.mock!
     register_correos_express_pickup_info_stubs
 
     # Success
@@ -386,7 +394,5 @@ RSpec.describe "Correos Express" do
       expect(error.message).to eq 'NO SE ENCUENTRA LA RECOGIDA'
       expect(error.code).to eq nil
     end
-
-    savon.unmock!
   end
 end
