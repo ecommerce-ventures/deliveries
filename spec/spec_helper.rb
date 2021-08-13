@@ -1,11 +1,12 @@
 # frozen_string_literal: true
-
+require 'savon'
 require 'deliveries'
 require 'active_support/all'
 require 'webmock/rspec'
 require 'savon/mock/spec_helper'
 require 'rspec'
 require 'active_support/core_ext/time'
+require 'active_support/testing/file_fixtures'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -25,7 +26,7 @@ RSpec.configure do |config|
   # Load configuration file.
   conf_mondial = 'test'
   Deliveries.courier(:mondial_relay).configure do |config|
-    config.mondial_relay_merchant = 'conf_mondial'
+    config.mondial_relay_merchant = 'test'
     config.mondial_relay_key = 'test'
   end
 

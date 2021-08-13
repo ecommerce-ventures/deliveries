@@ -152,7 +152,7 @@ RSpec.describe "Correos Express" do
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '3230002000342722'
-    expect(response.shipment_date).to eq (Date.tomorrow)
+    expect(response.shipment_date).to eq Date.tomorrow
     expect(response.label.raw).to start_with '%PDF-'
 
     # Error
@@ -169,7 +169,7 @@ RSpec.describe "Correos Express" do
         collection_point: nil,
         parcels: 1,
         reference_code: 'shipmentX',
-        shipment_date: (Date.tomorrow),
+        shipment_date: Date.tomorrow,
         remarks: nil
       )
     }.to raise_error(Deliveries::APIError) do |error|
@@ -225,7 +225,7 @@ RSpec.describe "Correos Express" do
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '69153759'
-    expect(response.pickup_date).to eq (Date.tomorrow)
+    expect(response.pickup_date).to eq Date.tomorrow
 
     # Error
     # ---
@@ -240,7 +240,7 @@ RSpec.describe "Correos Express" do
         receiver: receiver,
         parcels: 1,
         reference_code: 'shipmentX',
-        pickup_date: (Date.tomorrow),
+        pickup_date: Date.tomorrow,
         remarks: nil
       )
     }.to raise_error(Deliveries::APIError) do |error|
