@@ -13,7 +13,7 @@ jobs:
         ruby-version: 2.6.7
     - name: Run the default task
       run: |
+        sudo apt-get install poppler-utils
         gem install bundler -v 2.2.4
         bundle install
         bundle exec rake
-        sudo apt-get install poppler-utils
