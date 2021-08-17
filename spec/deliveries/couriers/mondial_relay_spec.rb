@@ -333,13 +333,13 @@ RSpec.describe "Mondial Relay" do
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :registered
     expect(checkpoint.location).to eq nil
-    expect(checkpoint.tracked_at).to eq "#{Date.yesterday} 10:10:00".in_time_zone
+    expect(checkpoint.tracked_at).to eq "#{Date.yesterday} 10:10:00".in_time_zone('CET')
     expect(checkpoint.description).to eq "RÉCEPTION DES DONNÉES"
     checkpoint = response.checkpoints.last
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :in_transit
     expect(checkpoint.location).to eq 'ESPAGNE'
-    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:11:00".in_time_zone
+    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:11:00".in_time_zone('CET')
     expect(checkpoint.description).to eq "PRISE EN CHARGE EN AGENCE"
 
     # Error

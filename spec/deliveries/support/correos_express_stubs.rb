@@ -399,7 +399,7 @@ def register_correos_express_create_pickup_stubs
         "horaDesde2": "",
         "horaHasta1": "17:30",
         "horaHasta2": "",
-        "clienteRecogida": "555550111",
+        "clienteRecogida": "test",
         "codRemit": "",
         "nomRemit": "",
         "nifRemit": "",
@@ -412,7 +412,7 @@ def register_correos_express_create_pickup_stubs
         "emailRecog": "sender@example.com",
         "observ": "",
         "tipoServ": "",
-        "codDest": "555550111",
+        "codDest": "test",
         "nomDest": "Receiver name",
         "nifDest": "",
         "dirDest": "Receiver street",
@@ -645,7 +645,7 @@ def register_correos_express_pickup_info_stubs
     "solicitante" => "test",
     "dato" => "E001",
     "password" => "",
-    "codCliente" => "555550111"
+    "codCliente" => "test"
   }).returns(%(
     <?xml version='1.0' encoding='utf-8'?>
     <soapenv:Envelope
@@ -658,7 +658,7 @@ def register_correos_express_pickup_info_stubs
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns1:RetornoSeguimientoRecogida">
             <s937:mensajeRetorno
               xmlns:s937="http://ws.chx.es/xsd" xsi:nil="1" />
-              <ns1:cliente>555550111</ns1:cliente>
+              <ns1:cliente>test</ns1:cliente>
               <ns1:codPosRecogida>48950</ns1:codPosRecogida>
               <ns1:contactoRecogida>Receiver name</ns1:contactoRecogida>
               <ns1:domRecogida>Receiver street</ns1:domRecogida>
@@ -740,7 +740,7 @@ def register_correos_express_pickup_info_stubs
     "solicitante" => "test",
     "dato" => "E000",
     "password" => "",
-    "codCliente" => "555550111"
+    "codCliente" => "test"
   }).returns(%(
     <?xml version='1.0' encoding='utf-8'?>
     <soapenv:Envelope

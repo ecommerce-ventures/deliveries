@@ -336,7 +336,7 @@ RSpec.describe "Correos Express" do
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :registered
     expect(checkpoint.location).to eq nil
-    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:12:13".in_time_zone
+    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:12:13".in_time_zone('CET')
     expect(checkpoint.description).to eq "SIN RECEPCION"
 
     # Error

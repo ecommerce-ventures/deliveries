@@ -103,4 +103,5 @@ RSpec.configure do |config|
     %x(pdfinfo "#{file.path}" | grep Pages | sed 's/[^0-9]*//').to_i
   end
 
+  Time.zone = 'Madrid'
 end

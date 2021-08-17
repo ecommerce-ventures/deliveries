@@ -520,7 +520,7 @@ def register_mondial_relay_create_shipment_stubs
     "TRDV" => "",
     "Assurance" => "",
     "Instructions" => "",
-    "Security" => "E1FCC672CB1290C1C1E44E2A5643AF38"
+    "Security" => "23DA0DB6BE8DEA0B88C5AD7425ADAE98"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
@@ -658,7 +658,7 @@ def register_mondial_relay_create_pickup_stubs
     "TRDV" => "",
     "Assurance" => "",
     "Instructions" => "",
-    "Security" => "876957F524EB62279E8D96371C9545BD"
+    "Security" => "824157885C5E0615925E9381915C52DB"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
@@ -742,7 +742,7 @@ def register_mondial_relay_get_label_stubs
     "Enseigne" => "test",
     "Expeditions" => "E000",
     "Langue" => "FR",
-    "Security" => "295415E8DFCC359C24F9BE9BC3E3966B"
+    "Security" => "1057DDDAE337C2E00627E9B3D8C5F39D"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
@@ -815,7 +815,7 @@ def register_mondial_relay_get_labels_stubs
     "Enseigne" => "test",
     "Expeditions" => "E001;E000",
     "Langue" => "FR",
-    "Security" => "2DF1275F8E242408F41ABD6F8F36F3FD"
+    "Security" => "1EEB4DC34A947AADF4F0BB37D1477CB8"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
@@ -838,7 +838,6 @@ def register_mondial_relay_get_labels_stubs
 end
 
 def register_mondial_relay_shipment_info_stubs
-
   # Success
   # ---
 
@@ -997,7 +996,7 @@ def register_mondial_relay_shipment_info_stubs
     "Enseigne" => "test",
     "Expedition" => "E000",
     "Langue" => "FR",
-    "Security" => "295415E8DFCC359C24F9BE9BC3E3966B"
+    "Security" => "1057DDDAE337C2E00627E9B3D8C5F39D"
   }).returns(%(
     <?xml version="1.0" encoding="utf-8"?>
     <soap:Envelope
