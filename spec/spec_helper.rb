@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 require 'savon'
+require 'rspec'
 require 'deliveries'
 require 'active_support/all'
 require 'webmock/rspec'
 require 'savon/mock/spec_helper'
-require 'rspec'
+require 'hexapdf'
 require 'active_support/core_ext/time'
-require 'active_support/testing/file_fixtures'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
