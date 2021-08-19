@@ -4,7 +4,7 @@ require 'deliveries'
 
 module DeliveriesConfig
   Deliveries.mode = :test
-  Deliveries.logger = Logger.new(File.expand_path("../..", __dir__) + '/log/deliveries.log')
+  Deliveries.logger = Logger.new(File.expand_path("../..", __dir__) + '/deliveries.log')
   Deliveries.debug = true
 
   # Load configuration file.
