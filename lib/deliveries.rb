@@ -12,20 +12,6 @@ require 'deliveries/tracking_info'
 require 'deliveries/label'
 require 'deliveries/labels'
 
-require 'deliveries/label_utils'
-require 'deliveries/address'
-require 'deliveries/checkpoint'
-require 'deliveries/collection_point'
-require 'deliveries/courier'
-require 'deliveries/couriers'
-require 'deliveries/delivery'
-require 'deliveries/errors'
-require 'deliveries/pickup'
-require 'deliveries/shipment'
-require 'deliveries/tracking_info'
-require 'deliveries/label'
-require 'deliveries/labels'
-
 module Deliveries
   def self.mode
     if instance_variable_defined? :@mode

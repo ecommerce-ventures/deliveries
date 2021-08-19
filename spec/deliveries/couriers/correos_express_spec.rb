@@ -1,4 +1,3 @@
-# require 'rails_helper'
 require 'deliveries/support/correos_express_stubs'
 
 RSpec.describe "Correos Express" do

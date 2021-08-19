@@ -1,4 +1,3 @@
-# require 'rails_helper'
 require 'deliveries/support/spring_stubs'
 
 RSpec.describe "Spring" do

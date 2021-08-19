@@ -1,5 +1,4 @@
 def register_spring_create_shipment_stub
-
   # Success
   # ---
 
@@ -266,7 +265,6 @@ def register_spring_get_label_stub
 end
 
 def register_spring_shipment_info_stub
-
   # Success
   # ---
 

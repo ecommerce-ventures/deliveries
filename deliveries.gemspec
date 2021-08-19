@@ -5,11 +5,10 @@ require_relative "lib/deliveries/version"
 Gem::Specification.new do |spec|
   spec.name          = "deliveries"
   spec.version       = Deliveries::VERSION
-  spec.authors       = ["Pedro Guerra"]
-  spec.email         = ["pdrowr@gmail.com"]
+  spec.authors       = ["Fran Vega", "Raúl Rodríguez", "Roberto Martínez", "Pedro Guerra"]
+  spec.email         = ["admin@micolet.com"]
 
-  spec.summary       = "Write a short summary, because RubyGems requires one."
-  spec.description   = "Write a longer description or delete this line."
+  spec.summary       = "Library to abstract multiple courier web services."
   spec.homepage      = "https://github.com/ecommerce-ventures/deliveries"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.6.7")
@@ -30,14 +29,15 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  spec.add_dependency 'rspec-rails', '~> 3.4'
-  spec.add_dependency 'mini_magick'
   spec.add_dependency 'hexapdf'
-  spec.add_dependency 'savon', '~> 2.8'
   spec.add_dependency 'httparty'
-  spec.add_dependency 'webmock', '~> 3.5'
+  spec.add_dependency 'mini_magick'
   spec.add_dependency 'nokogiri'
-  spec.add_dependency 'byebug'
+  spec.add_dependency 'rspec-rails', '~> 3.4'
+  spec.add_dependency 'savon', '~> 2.8'
+
+  spec.add_development_dependency 'byebug'
+  spec.add_development_dependency 'webmock', '~> 3.5'
 
 
   # For more information and examples about making a new gem, checkout our

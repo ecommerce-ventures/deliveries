@@ -2,14 +2,12 @@ PATH
   remote: .
   specs:
     deliveries (0.1.0)
-      byebug
       hexapdf
       httparty
       mini_magick
       nokogiri
       rspec-rails (~> 3.4)
       savon (~> 2.8)
-      webmock (~> 3.5)
 
 GEM
   remote: https://rubygems.org/
@@ -159,12 +157,12 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  byebug
   deliveries!
-  hexapdf
   rake (~> 13.0)
   rspec (~> 3.0)
   rubocop (~> 0.80)
-  savon (~> 2.8)
+  webmock (~> 3.5)
 
 BUNDLED WITH
    2.2.24

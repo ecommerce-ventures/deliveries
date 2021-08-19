@@ -1,4 +1,3 @@
-# require 'rails_helper'
 require 'deliveries/support/mondial_relay_dual_stubs'
 
 RSpec.describe "Mondial Relay Dual" do
