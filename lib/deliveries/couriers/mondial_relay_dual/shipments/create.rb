@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module Deliveries
   module Couriers
     module MondialRelayDual

@@ -3,8 +3,8 @@ module Deliveries
     module CorreosExpress
       module Pickups
         class Trace
-          WSDL_LIVE_PATH = Rails.root + 'lib/deliveries/couriers/correos_express/pickups/trace/correos.wsdl'.freeze
-          WSDL_TEST_PATH = Rails.root + 'lib/deliveries/couriers/correos_express/pickups/trace/correos.test.wsdl'.freeze
+          WSDL_LIVE_PATH = File.expand_path("../..", __dir__) + '/correos_express/pickups/trace/correos.wsdl'.freeze
+          WSDL_TEST_PATH = File.expand_path("../..", __dir__) + '/correos_express/pickups/trace/correos.test.wsdl'.freeze
 
           attr_accessor :tracking_code
 

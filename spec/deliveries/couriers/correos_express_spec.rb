@@ -1,7 +1,15 @@
-require 'rails_helper'
 require 'deliveries/support/correos_express_stubs'
 
-describe "Correos Express" do
+RSpec.describe "Correos Express" do
+  include Savon::SpecHelper
+
+  before do
+    savon.mock!
+  end
+
+  after do
+    savon.unmock!
+  end
 
   it ".get_collection_point" do
     # Arrange
@@ -269,7 +277,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_label(tracking_code: 'E000')
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente test'
       expect(error.code).to eq -1
     end
   end
@@ -294,7 +302,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_labels(tracking_codes: %w[E000])
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente test'
       expect(error.code).to eq -1
     end
 
@@ -302,7 +310,7 @@ describe "Correos Express" do
     expect {
       Deliveries.courier(:correos_express).get_labels(tracking_codes: %w[E000 E001])
     }.to raise_error(Deliveries::APIError) do |error|
-      expect(error.message).to eq 'El envío E000 no existe para el cliente 555559999'
+      expect(error.message).to eq 'El envío E000 no existe para el cliente test'
       expect(error.code).to eq -1
     end
   end
@@ -327,7 +335,7 @@ describe "Correos Express" do
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :registered
     expect(checkpoint.location).to eq nil
-    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:12:13".in_time_zone
+    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:12:13".in_time_zone('CET')
     expect(checkpoint.description).to eq "SIN RECEPCION"
 
     # Error
@@ -344,7 +352,6 @@ describe "Correos Express" do
 
   it ".pickup_info" do
     # Arrange
-    savon.mock!
     register_correos_express_pickup_info_stubs
 
     # Success
@@ -386,7 +393,5 @@ describe "Correos Express" do
       expect(error.message).to eq 'NO SE ENCUENTRA LA RECOGIDA'
       expect(error.code).to eq nil
     end
-
-    savon.unmock!
   end
 end

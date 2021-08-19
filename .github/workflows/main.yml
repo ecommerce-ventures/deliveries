@@ -1,0 +1,19 @@
+name: Ruby
+
+on: [push,pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6.7
+    - name: Run the default task
+      run: |
+        sudo apt-get install poppler-utils
+        gem install bundler -v 2.2.4
+        bundle install
+        bundle exec rake

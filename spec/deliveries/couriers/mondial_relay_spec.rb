@@ -1,7 +1,7 @@
-require 'rails_helper'
 require 'deliveries/support/mondial_relay_stubs'
 
-describe "Mondial Relay" do
+RSpec.describe "Mondial Relay" do
+  include Savon::SpecHelper
 
   before do
     savon.mock!
@@ -162,7 +162,7 @@ describe "Mondial Relay" do
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '31297410'
     expect(response.shipment_date).to eq Date.tomorrow
-    expect(response.label.url).to eq 'http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&expedition=31297410&lg=ES&format=10x15&crc=EC60EED67AF9052EEA4394F6964C0EBF'
+    expect(response.label.url).to eq 'http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=test11&expedition=31297410&lg=ES&format=10x15&crc=EC60EED67AF9052EEA4394F6964C0EBF'
 
     # Error
     # ---
@@ -237,7 +237,7 @@ describe "Mondial Relay" do
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '31297410'
     expect(response.pickup_date).to eq Date.tomorrow
-    expect(response.label.url).to eq 'http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&expedition=31297410&lg=ES&format=10x15&crc=EC60EED67AF9052EEA4394F6964C0EBF'
+    expect(response.label.url).to eq 'http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=test11&expedition=31297410&lg=ES&format=10x15&crc=EC60EED67AF9052EEA4394F6964C0EBF'
 
     # Error
     # ---
@@ -272,7 +272,7 @@ describe "Mondial Relay" do
     # Act
     response = Deliveries.courier(:mondial_relay).get_label(tracking_code: 'E001')
     # Assert
-    expect(response.url).to eq 'http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&expedition=E001&lg=FR&format=10x15&crc=585C8413D5BC74EF6C7B2A620CED8366'
+    expect(response.url).to eq 'http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=test11&expedition=E001&lg=FR&format=10x15&crc=585C8413D5BC74EF6C7B2A620CED8366'
     expect(pdf_pages_count(response.raw).to_i).to eq 1
 
     # Error
@@ -297,7 +297,7 @@ describe "Mondial Relay" do
     # Act
     response = Deliveries.courier(:mondial_relay).get_labels(tracking_codes: %w[E001 E002])
     # Assert
-    expect(response.url).to eq "http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=BDTEST1311&expedition=E001;E002&lg=FR&format=10x15&crc=585C8413D5BC74EF6C7B2A620CED8366"
+    expect(response.url).to eq "http://www.mondialrelay.com/ww2/PDF/StickerMaker2.aspx?ens=test11&expedition=E001;E002&lg=FR&format=10x15&crc=585C8413D5BC74EF6C7B2A620CED8366"
     expect(pdf_pages_count(response.raw).to_i).to eq 2
 
     # Error
@@ -332,13 +332,13 @@ describe "Mondial Relay" do
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :registered
     expect(checkpoint.location).to eq nil
-    expect(checkpoint.tracked_at).to eq "#{Date.yesterday} 10:10:00".in_time_zone
+    expect(checkpoint.tracked_at).to eq "#{Date.yesterday} 10:10:00".in_time_zone('CET')
     expect(checkpoint.description).to eq "RÉCEPTION DES DONNÉES"
     checkpoint = response.checkpoints.last
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :in_transit
     expect(checkpoint.location).to eq 'ESPAGNE'
-    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:11:00".in_time_zone
+    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:11:00".in_time_zone('CET')
     expect(checkpoint.description).to eq "PRISE EN CHARGE EN AGENCE"
 
     # Error

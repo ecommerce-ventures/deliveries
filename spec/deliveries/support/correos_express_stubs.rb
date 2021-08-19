@@ -1,5 +1,3 @@
-include Savon::SpecHelper
-
 def register_correos_express_get_collection_points_stubs
   # Success
   # ---
@@ -11,7 +9,7 @@ def register_correos_express_get_collection_points_stubs
       }.to_json,
       headers: {
         "Accept" => "application/json",
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json;charset=UTF-8"
       }
     )
@@ -47,7 +45,7 @@ def register_correos_express_get_collection_points_stubs
       }.to_json,
       headers: {
         "Accept" => "application/json",
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json;charset=UTF-8"
       }
     )
@@ -74,7 +72,7 @@ def register_correos_express_get_collection_points_stubs
       }.to_json,
       headers: {
         "Accept" => "application/json",
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json;charset=UTF-8"
       }
     )
@@ -96,12 +94,12 @@ def register_correos_express_create_shipment_stubs
   stub_request(:post, correos_express_create_shipment_url)
     .with(
       body: {
-        "solicitante": "1",
+        "solicitante": "test",
         "canalEntrada": "",
         "numEnvio": "",
         "ref": "shipmentX",
         "fecha": Date.tomorrow.strftime('%d%m%Y'),
-        "codRte": "555559999",
+        "codRte": "test",
         "nomRte": "Sender name",
         "nifRte": "",
         "dirRte": "Sender street",
@@ -164,7 +162,7 @@ def register_correos_express_create_shipment_stubs
         ]
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json; charset='UTF-8'"
       }
     )
@@ -201,12 +199,12 @@ def register_correos_express_create_shipment_stubs
   stub_request(:post, correos_express_create_shipment_url)
     .with(
       body: {
-        "solicitante": "1",
+        "solicitante": "test",
         "canalEntrada": "",
         "numEnvio": "",
         "ref": "shipmentX",
         "fecha": Date.tomorrow.strftime('%d%m%Y'),
-        "codRte": "555559999",
+        "codRte": "test",
         "nomRte": "Sender name",
         "nifRte": "",
         "dirRte": "Sender street",
@@ -269,7 +267,7 @@ def register_correos_express_create_shipment_stubs
         ]
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json; charset='UTF-8'"
       }
     )
@@ -302,7 +300,7 @@ def register_correos_express_create_pickup_stubs
         strPais: '34'
       }.to_json,
       headers: {
-        'Authorization' => 'Basic bWljb2xldF93czp4eHh4eHh4eHh4',
+        'Authorization' => 'Basic dGVzdDp0ZXN0',
         'Content-Type' => 'application/json'
      }
     )
@@ -323,7 +321,7 @@ def register_correos_express_create_pickup_stubs
   stub_request(:post, correos_express_create_pickup_url)
     .with(
       body: {
-        "solicitante": "1",
+        "solicitante": "test",
         "password": "",
         "canalEntrada": "",
         "refRecogida": "shipmentX",
@@ -332,7 +330,7 @@ def register_correos_express_create_pickup_stubs
         "horaDesde2": "",
         "horaHasta1": "17:30",
         "horaHasta2": "",
-        "clienteRecogida": "555550111",
+        "clienteRecogida": "test",
         "codRemit": "",
         "nomRemit": "Sender name",
         "nifRemit": "",
@@ -345,7 +343,7 @@ def register_correos_express_create_pickup_stubs
         "emailRecog": "sender@example.com",
         "observ": "",
         "tipoServ": "",
-        "codDest": "555550111",
+        "codDest": "test",
         "nomDest": "Receiver name",
         "nifDest": "",
         "dirDest": "Receiver street",
@@ -371,7 +369,7 @@ def register_correos_express_create_pickup_stubs
         "latente": "0"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -392,7 +390,7 @@ def register_correos_express_create_pickup_stubs
   stub_request(:post, correos_express_create_pickup_url)
     .with(
       body: {
-        "solicitante": "1",
+        "solicitante": "test",
         "password": "",
         "canalEntrada": "",
         "refRecogida": "shipmentX",
@@ -401,7 +399,7 @@ def register_correos_express_create_pickup_stubs
         "horaDesde2": "",
         "horaHasta1": "17:30",
         "horaHasta2": "",
-        "clienteRecogida": "555550111",
+        "clienteRecogida": "test",
         "codRemit": "",
         "nomRemit": "",
         "nifRemit": "",
@@ -414,7 +412,7 @@ def register_correos_express_create_pickup_stubs
         "emailRecog": "sender@example.com",
         "observ": "",
         "tipoServ": "",
-        "codDest": "555550111",
+        "codDest": "test",
         "nomDest": "Receiver name",
         "nifDest": "",
         "dirDest": "Receiver street",
@@ -440,7 +438,7 @@ def register_correos_express_create_pickup_stubs
         "latente": "0"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -463,12 +461,12 @@ def register_correos_express_get_label_stubs
   stub_request(:post, correos_express_get_label_url)
     .with(
       body: {
-        "keyCli": "555559999",
+        "keyCli": "test",
         "nenvio": "E001",
         "tipo": "1"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -485,12 +483,12 @@ def register_correos_express_get_label_stubs
   stub_request(:post, correos_express_get_label_url)
     .with(
       body: {
-        "keyCli": "555559999",
+        "keyCli": "test",
         "nenvio": "E002",
         "tipo": "1"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -510,12 +508,12 @@ def register_correos_express_get_label_stubs
   stub_request(:post, correos_express_get_label_url)
     .with(
       body: {
-        "keyCli": "555559999",
+        "keyCli": "test",
         "nenvio": "E000",
         "tipo": "1"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -523,7 +521,7 @@ def register_correos_express_get_label_stubs
       status: 200,
       body: {
         "listaEtiquetas": nil,
-        "desErr": "El envío E000 no existe para el cliente 555559999",
+        "desErr": "El envío E000 no existe para el cliente test",
         "codErr": -1
       }.to_json,
       headers: {}
@@ -536,9 +534,9 @@ def register_correos_express_shipment_info_stubs
 
   stub_request(:post, correos_express_shipment_info_url)
     .with(
-      body: "<?xml version='1.0'?>\n              <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xsi:noNamespaceSchemaLocation='SeguimientoEnviosRequest.xsd'>\n                                <Solicitante>1</Solicitante>\n                                <Dato>E001</Dato>\n              </SeguimientoEnviosRequest>",
+      body: "<?xml version='1.0'?>\n              <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xsi:noNamespaceSchemaLocation='SeguimientoEnviosRequest.xsd'>\n                                <Solicitante>test</Solicitante>\n                                <Dato>E001</Dato>\n              </SeguimientoEnviosRequest>",
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/xml"
       }
     )
@@ -553,7 +551,7 @@ def register_correos_express_shipment_info_stubs
             <NumEnvio>XXXXXX</NumEnvio>
             <Ref>E001</Ref>
             <Fecha>#{Date.current.strftime('%d/%m/%y')}</Fecha>
-            <CodRte>555559999</CodRte>
+            <CodRte>test</CodRte>
             <NomRte>Sender name</NomRte>
             <NifRte></NifRte>
             <DirRte>Sender street</DirRte>
@@ -620,9 +618,9 @@ def register_correos_express_shipment_info_stubs
 
   stub_request(:post, correos_express_shipment_info_url)
     .with(
-      body: "<?xml version='1.0'?>\n              <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xsi:noNamespaceSchemaLocation='SeguimientoEnviosRequest.xsd'>\n                                <Solicitante>1</Solicitante>\n                                <Dato>E000</Dato>\n              </SeguimientoEnviosRequest>",
+      body: "<?xml version='1.0'?>\n              <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xsi:noNamespaceSchemaLocation='SeguimientoEnviosRequest.xsd'>\n                                <Solicitante>test</Solicitante>\n                                <Dato>E000</Dato>\n              </SeguimientoEnviosRequest>",
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czp4eHh4eHh4eHh4",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/xml"
       }
     )
@@ -644,10 +642,10 @@ def register_correos_express_pickup_info_stubs
   # ---
 
   savon.expects(:seguimiento_recogida).with(message: {
-    "solicitante" => "1",
+    "solicitante" => "test",
     "dato" => "E001",
     "password" => "",
-    "codCliente" => "555550111"
+    "codCliente" => "test"
   }).returns(%(
     <?xml version='1.0' encoding='utf-8'?>
     <soapenv:Envelope
@@ -660,7 +658,7 @@ def register_correos_express_pickup_info_stubs
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns1:RetornoSeguimientoRecogida">
             <s937:mensajeRetorno
               xmlns:s937="http://ws.chx.es/xsd" xsi:nil="1" />
-              <ns1:cliente>555550111</ns1:cliente>
+              <ns1:cliente>test</ns1:cliente>
               <ns1:codPosRecogida>48950</ns1:codPosRecogida>
               <ns1:contactoRecogida>Receiver name</ns1:contactoRecogida>
               <ns1:domRecogida>Receiver street</ns1:domRecogida>
@@ -739,10 +737,10 @@ def register_correos_express_pickup_info_stubs
   # ---
 
   savon.expects(:seguimiento_recogida).with(message: {
-    "solicitante" => "1",
+    "solicitante" => "test",
     "dato" => "E000",
     "password" => "",
-    "codCliente" => "555550111"
+    "codCliente" => "test"
   }).returns(%(
     <?xml version='1.0' encoding='utf-8'?>
     <soapenv:Envelope

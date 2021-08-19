@@ -27,7 +27,7 @@ module Deliveries
           elsif height.nil?
             height = (width * ih) / iw
             [0, 0, width * 72, height * 72]
-          else # rubocop:disable Lint/DuplicateBranch
+          else
             [0, 0, iw, ih]
           end
 

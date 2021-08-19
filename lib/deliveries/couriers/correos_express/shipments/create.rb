@@ -1,3 +1,5 @@
+require 'httparty'
+
 module Deliveries
   module Couriers
     module CorreosExpress

@@ -1,7 +1,6 @@
-require 'rails_helper'
 require 'deliveries/support/spring_stubs'
 
-describe "Spring" do
+RSpec.describe "Spring" do
 
   it ".get_collection_point" do
     # Act/Assert

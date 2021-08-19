@@ -1,3 +1,5 @@
+require 'active_support/time'
+
 module Deliveries
   module Couriers
     module CorreosExpress

@@ -18,7 +18,7 @@
 # :horaires_dimanche=>{:string=>["0000", "0000", "0000", "0000"]},
 # :information=>nil,
 # :url_photo=>"https://ww2.mondialrelay.com/public/permanent/photo_relais.aspx?ens=CC______41&num=070912&pays=ES&crc=17576B6AE31EA66C7C66463BCDD955A4",
-# :url_plan=>"https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=BDTEST1311&num=070912&pays=ES&crc=4F83CD143A1506242F025F9C11311A3C"}
+# :url_plan=>"https://ww2.mondialrelay.com/public/permanent/plan_relais.aspx?ens=test11&num=070912&pays=ES&crc=4F83CD143A1506242F025F9C11311A3C"}
 
 # Deliveries.courier('mondial_relay').get_collection_point(point_id: 23191, country: 'ES')
 

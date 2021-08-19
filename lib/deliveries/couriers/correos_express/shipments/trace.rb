@@ -1,3 +1,6 @@
+require 'httparty'
+require 'active_support/core_ext/hash/conversions'
+
 module Deliveries
   module Couriers
     module CorreosExpress
