@@ -9,7 +9,7 @@ def register_correos_express_get_collection_points_stubs
       }.to_json,
       headers: {
         "Accept" => "application/json",
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json;charset=UTF-8"
       }
     )
@@ -45,7 +45,7 @@ def register_correos_express_get_collection_points_stubs
       }.to_json,
       headers: {
         "Accept" => "application/json",
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json;charset=UTF-8"
       }
     )
@@ -72,7 +72,7 @@ def register_correos_express_get_collection_points_stubs
       }.to_json,
       headers: {
         "Accept" => "application/json",
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json;charset=UTF-8"
       }
     )
@@ -162,7 +162,7 @@ def register_correos_express_create_shipment_stubs
         ]
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json; charset='UTF-8'"
       }
     )
@@ -267,7 +267,7 @@ def register_correos_express_create_shipment_stubs
         ]
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json; charset='UTF-8'"
       }
     )
@@ -300,7 +300,7 @@ def register_correos_express_create_pickup_stubs
         strPais: '34'
       }.to_json,
       headers: {
-        'Authorization' => 'Basic bWljb2xldF93czpMSld0Mg==',
+        'Authorization' => 'Basic dGVzdDp0ZXN0',
         'Content-Type' => 'application/json'
      }
     )
@@ -369,7 +369,7 @@ def register_correos_express_create_pickup_stubs
         "latente": "0"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -438,7 +438,7 @@ def register_correos_express_create_pickup_stubs
         "latente": "0"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -466,7 +466,7 @@ def register_correos_express_get_label_stubs
         "tipo": "1"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -488,7 +488,7 @@ def register_correos_express_get_label_stubs
         "tipo": "1"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -513,7 +513,7 @@ def register_correos_express_get_label_stubs
         "tipo": "1"
       }.to_json,
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/json"
       }
     )
@@ -536,7 +536,7 @@ def register_correos_express_shipment_info_stubs
     .with(
       body: "<?xml version='1.0'?>\n              <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xsi:noNamespaceSchemaLocation='SeguimientoEnviosRequest.xsd'>\n                                <Solicitante>test</Solicitante>\n                                <Dato>E001</Dato>\n              </SeguimientoEnviosRequest>",
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/xml"
       }
     )
@@ -620,7 +620,7 @@ def register_correos_express_shipment_info_stubs
     .with(
       body: "<?xml version='1.0'?>\n              <SeguimientoEnviosRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xsi:noNamespaceSchemaLocation='SeguimientoEnviosRequest.xsd'>\n                                <Solicitante>test</Solicitante>\n                                <Dato>E000</Dato>\n              </SeguimientoEnviosRequest>",
       headers: {
-        "Authorization" => "Basic bWljb2xldF93czpMSld0Mg==",
+        "Authorization" => "Basic dGVzdDp0ZXN0",
         "Content-Type" => "application/xml"
       }
     )

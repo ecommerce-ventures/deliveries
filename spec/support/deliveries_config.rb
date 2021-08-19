@@ -34,8 +34,8 @@ module DeliveriesConfig
 
   # conf_correos = 'test'
   Deliveries.courier(:correos_express).configure do |config|
-    config.username = 'micolet_ws'
-    config.password = 'LJWt2'
+    config.username = 'test'
+    config.password = 'test'
     config.client_code = 'test'
     config.shipment_sender_code = 'test'
     config.pickup_receiver_code = 'test'

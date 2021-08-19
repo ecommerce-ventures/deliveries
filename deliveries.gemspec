@@ -33,8 +33,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'httparty'
   spec.add_dependency 'mini_magick'
   spec.add_dependency 'nokogiri'
-  spec.add_dependency 'rspec-rails', '~> 3.4'
   spec.add_dependency 'savon', '~> 2.8'
+  spec.add_dependency 'activesupport', '>= 5.2.0'
 
   spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'webmock', '~> 3.5'
