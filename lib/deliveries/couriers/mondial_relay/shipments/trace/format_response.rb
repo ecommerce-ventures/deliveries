@@ -1,3 +1,5 @@
+require 'active_support/time'
+
 module Deliveries
   module Couriers
     module MondialRelay
@@ -26,7 +28,7 @@ module Deliveries
             private
 
             def last_status(statuses)
-              statuses.pluck(:libelle)
+              statuses.map{ |s| s[:libelle] }
                       .compact
                       .last
             end

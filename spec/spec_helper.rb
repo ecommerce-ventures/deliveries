@@ -2,11 +2,10 @@
 
 require 'savon'
 require 'rspec'
-require 'active_support/all'
 require 'webmock/rspec'
 require 'savon/mock/spec_helper'
 require 'hexapdf'
-require 'active_support/core_ext/time'
+require 'active_support/time'
 
 Dir["#{File.expand_path("../", __dir__)}/spec/support/**/*.rb"].each.each { |f| require f }
 
@@ -24,5 +23,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  # Configure time zone
   Time.zone = 'Madrid'
 end
