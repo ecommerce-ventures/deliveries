@@ -1,5 +1,8 @@
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 2.6.7
+  Exclude:
+    - spec/**/*.rb
 
 Style/StringLiterals:
   Enabled: true
@@ -7,7 +10,7 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   Enabled: true
-  EnforcedStyle: double_quotes
+  EnforcedStyle: single_quotes
 
 Layout/LineLength:
   Max: 120
@@ -19,4 +22,22 @@ Metrics/CyclomaticComplexity:
   Enabled: false
 
 Metrics/MethodLength:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/LineLength:
+  # We have a lot of very long lines in the code to fix,
+  # this is a start but we should aim to lower it to
+  # at least 120
+  Max: 155
+
+Style/FormatStringToken:
   Enabled: false
