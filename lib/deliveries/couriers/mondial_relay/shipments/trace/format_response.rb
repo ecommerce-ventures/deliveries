@@ -28,7 +28,7 @@ module Deliveries
             private
 
             def last_status(statuses)
-              statuses.map{ |s| s[:libelle] }
+              statuses.map { |s| s[:libelle] }
                       .compact
                       .last
             end

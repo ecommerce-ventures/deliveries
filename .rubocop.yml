@@ -18,12 +18,6 @@ Layout/LineLength:
 StringLiterals:
   Enabled: false
 
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
 Metrics:
   Enabled: false
 
@@ -40,4 +34,7 @@ Layout/LineLength:
   Max: 155
 
 Style/FormatStringToken:
+  Enabled: false
+
+Style/IfUnlessModifier:
   Enabled: false
