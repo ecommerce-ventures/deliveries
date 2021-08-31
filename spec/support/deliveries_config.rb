@@ -72,8 +72,8 @@ module DeliveriesConfig
     config.license_number = 'test'
     config.username = 'test'
     config.password = 'test'
-    config.point_account_number = 'test'
-    config.home_account_number = 'test'
+    config.point_account_number = 'test01'
+    config.home_account_number = 'test02'
     config.default_product = {
       description: 'clothes',
       weight: '1'
