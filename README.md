@@ -91,11 +91,11 @@ end
 #### 5. UPS
 ```bash
 Deliveries.courier(:ups).configure do |config|
-  config.license_number = 'test'
-  config.username = 'test'
-  config.password = 'test'
-  config.point_account_number = 'test01'
-  config.home_account_number = 'test02'
+  config.license_number = '...'
+  config.username = '...'
+  config.password = '...'
+  config.point_account_number = '...'
+  config.home_account_number = '...'
   config.default_product = {
     description: 'clothes',
     weight: '1'
@@ -107,6 +107,13 @@ end
 
 #### Create a collection point
 ```bash
+# Get collection point by country and postcode
+
+# Example Using Ups
+Deliveries.courier(:ups).get_collection_points(postcode: '...', country: 'it')
+
+# Get collection point info
+
 # Example Using Mondial Relay
 
 Deliveries.courier(:mondial_relay).get_collection_point(global_point_id: 'mondial_relay~fr~00000~XXXXXX')
@@ -184,11 +191,15 @@ response = Deliveries.courier(:spring).create_pickup(
 )
 ```
 
-#### Create a Pickup
+#### Download a Label
 ```bash
 # Example Using Spring
 
-Deliveries.courier(:spring).get_label(tracking_code: '...')
+label = Deliveries.courier(:spring).get_label(tracking_code: '...')
+
+# And then, we can use it as follows
+
+File.write('label.pdf', label.raw)
 ```
 
 ## License
