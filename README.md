@@ -1,39 +1,195 @@
-# Deliveries
+# Deliveries Gem
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/deliveries`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Deliveries is a gem that gives you the ability to integrate multiple shipping services through different couriers
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add the following line to your Gemfile
 
-```ruby
-gem 'deliveries'
+```bash
+gem 'deliveries', git: 'git@github.com:ecommerce-ventures/deliveries.git'
+```
+Then run:
+
+```bash
+bundle install
 ```
 
-And then execute:
+## Configuration
 
-    $ bundle install
+Each courier requires a different configuration, below we will leave some examples
 
-Or install it yourself as:
+#### 1. Mondial Relay
+```bash
+Deliveries.courier(:mondial_relay).configure do |config|
+  config.mondial_relay_merchant = '...'
+  config.mondial_relay_key = '...'
+end
+```
 
-    $ gem install deliveries
+#### 2. Mondial Relay Dual
+```bash
+Deliveries.courier(:mondial_relay_dual).configure do |config|
+  config.dual_carrier_login = '...'
+  config.dual_carrier_password = '...'
+  config.dual_carrier_customer_id = '...'
+  config.countries = {
+    fr: {
+      home_delivery_mode: 'HOC'
+    },
+    de: {
+      home_delivery_mode: 'HOM'
+    },
+    gb: {
+      home_delivery_mode: 'HOM'
+    }
+ }
+end
+```
+
+#### 3. Correos Express
+```bash
+Deliveries.courier(:correos_express).configure do |config|
+  config.username = '...'
+  config.password = '...'
+  config.client_code = '...'
+  config.shipment_sender_code = '...'
+  config.pickup_receiver_code = '...'
+  config.countries = {
+    es: {
+      product: '93'
+    },
+    pt: {
+      product: '63'
+    }
+  }
+end
+```
+
+#### 4. Spring
+```bash
+Deliveries.courier(:spring).configure do |config|
+  config.api_key = '...'
+  config.countries = {
+    gb: {
+      service: 'TRCK'
+    },
+    it: {
+      service: 'TRCK'
+    }
+   }
+   config.default_product = {
+    description: 'ROPA',
+    hs_code: '',
+    origin_country: 'ES',
+    quantity: 1,
+    value: 100
+  }
+end
+```
+
+#### 5. UPS
+```bash
+Deliveries.courier(:ups).configure do |config|
+  config.license_number = 'test'
+  config.username = 'test'
+  config.password = 'test'
+  config.point_account_number = 'test01'
+  config.home_account_number = 'test02'
+  config.default_product = {
+    description: 'clothes',
+    weight: '1'
+  }
+end
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+#### Create a collection point
+```bash
+# Example Using Mondial Relay
 
-## Development
+Deliveries.courier(:mondial_relay).get_collection_point(global_point_id: 'mondial_relay~fr~00000~XXXXXX')
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+#### Create a Shipment
+```bash
+# Example Using Correos Express
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+sender = Deliveries::Address.new(
+  name: '...',
+  email: 'sender@example.com',
+  phone: '...',
+  country: 'ES',
+  state: '...',
+  city: '...',
+  street: '...',
+  postcode: '...'
+)
 
-## Contributing
+receiver = Deliveries::Address.new(
+  name: '...',
+  email: 'receiver@example.com',
+  phone: '...',
+  country: 'ES',
+  state: '...',
+  city: '...',
+  street: '...',
+  postcode: '...'
+)
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/deliveries.
+response = Deliveries.courier(:correos_express).create_shipment(
+  sender: sender,
+  receiver: receiver,
+  collection_point: nil,
+  parcels: 1,
+  reference_code: '...',
+  shipment_date: Date.tomorrow,
+  remarks: nil
+)
+```
+
+#### Create a Pickup
+```bash
+# Example Using Spring
+
+sender = Deliveries::Address.new(
+  name: '...',
+  email: 'sender@example.com',
+  phone: '...',
+  country: 'ES',
+  state: '...',
+  city: '...',
+  street: '...',
+  postcode: '...'
+)
+
+receiver = Deliveries::Address.new(
+  name: '...',
+  email: 'receiver@example.com',
+  phone: '...',
+  country: 'ES',
+  state: '...',
+  city: '...',
+  street: '...',
+  postcode: '...'
+)
+
+response = Deliveries.courier(:spring).create_pickup(
+  sender: sender,
+  receiver: receiver,
+  parcels: 1,
+  reference_code: '...',
+  pickup_date: 2.days.since.to_date
+)
+```
+
+#### Create a Pickup
+```bash
+# Example Using Spring
+
+Deliveries.courier(:spring).get_label(tracking_code: '...')
+```
 
 ## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+[MIT](https://choosealicense.com/licenses/mit/)
