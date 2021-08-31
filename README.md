@@ -110,6 +110,7 @@ end
 # Get collection point by country and postcode
 
 # Example Using Ups
+
 Deliveries.courier(:ups).get_collection_points(postcode: '...', country: 'it')
 
 # Get collection point info
