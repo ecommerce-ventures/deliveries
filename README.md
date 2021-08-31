@@ -105,15 +105,16 @@ end
 
 ## Usage
 
-#### Create a collection point
+#### Get collection point by country and postcode
+
 ```bash
-# Get collection point by country and postcode
-
 # Example Using Ups
+
 Deliveries.courier(:ups).get_collection_points(postcode: '...', country: 'it')
+```
+#### Get collection point info
 
-# Get collection point info
-
+```bash
 # Example Using Mondial Relay
 
 Deliveries.courier(:mondial_relay).get_collection_point(global_point_id: 'mondial_relay~fr~00000~XXXXXX')
