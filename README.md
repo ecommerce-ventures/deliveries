@@ -109,11 +109,6 @@ end
 
 ```bash
 # Example Using Ups
-<<<<<<< HEAD
-=======
-
-Deliveries.courier(:ups).get_collection_points(postcode: '...', country: 'it')
->>>>>>> d6d24ef1ca6644ff837000dd1af3085d58bad6be
 
 Deliveries.courier(:ups).get_collection_points(postcode: '...', country: 'it')
 ```
