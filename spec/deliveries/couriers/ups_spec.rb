@@ -132,7 +132,7 @@ RSpec.describe "Ups" do
     expect(response.receiver).to eq receiver
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
-    expect(response.tracking_code).to eq '1ZW673A16814843169'
+    expect(response.tracking_code).to eq '1Ztest016814843169'
     expect(response.shipment_date).to eq Date.tomorrow
     expect(response.label.raw).to start_with '%PDF-'
 
@@ -205,7 +205,7 @@ RSpec.describe "Ups" do
     expect(response.receiver).to eq receiver
     expect(response.parcels).to eq 1
     expect(response.reference_code).to eq 'shipmentX'
-    expect(response.tracking_code).to eq '1ZW673A16814843169'
+    expect(response.tracking_code).to eq '1Ztest016814843169'
     expect(response.pickup_date).to eq Date.tomorrow
 
     # Error
@@ -285,11 +285,11 @@ RSpec.describe "Ups" do
     # ---
 
     # Act
-    response = Deliveries.courier(:ups).shipment_info(tracking_code: '1ZW673A16814843169')
+    response = Deliveries.courier(:ups).shipment_info(tracking_code: '1Ztest016814843169')
     # Assert
     expect(response).to be_a Deliveries::TrackingInfo
     expect(response.courier_id).to eq :ups
-    expect(response.tracking_code).to eq '1ZW673A16814843169'
+    expect(response.tracking_code).to eq '1Ztest016814843169'
     expect(response.url).to eq nil
     expect(response.status).to eq :registered
     expect(response.checkpoints).to be_a Array
@@ -305,7 +305,7 @@ RSpec.describe "Ups" do
 
     # Act/Assert
     expect {
-      Deliveries.courier(:ups).shipment_info(tracking_code: '1ZW673A16814843180')
+      Deliveries.courier(:ups).shipment_info(tracking_code: '1Ztest016814843180')
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'Invalid inquiry number'
       expect(error.code).to eq 0
@@ -320,11 +320,11 @@ RSpec.describe "Ups" do
     # ---
 
     # Act
-    response = Deliveries.courier(:ups).pickup_info(tracking_code: '1ZW673A16814843169')
+    response = Deliveries.courier(:ups).pickup_info(tracking_code: '1Ztest016814843169')
     # Assert
     expect(response).to be_a Deliveries::TrackingInfo
     expect(response.courier_id).to eq :ups
-    expect(response.tracking_code).to eq '1ZW673A16814843169'
+    expect(response.tracking_code).to eq '1Ztest016814843169'
     expect(response.url).to eq nil
     expect(response.status).to eq :in_transit
     expect(response.checkpoints).to be_a Array
@@ -345,7 +345,7 @@ RSpec.describe "Ups" do
 
     # Act/Assert
     expect {
-      Deliveries.courier(:ups).pickup_info(tracking_code: '1ZW673A16814843180')
+      Deliveries.courier(:ups).pickup_info(tracking_code: '1Ztest016814843180')
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'Invalid inquiry number'
       expect(error.code).to eq 0

@@ -560,10 +560,10 @@ def register_ups_create_shipment_stubs
               },
               "Weight": "3.0"
             },
-            "ShipmentIdentificationNumber": "1ZW673A16814843169",
+            "ShipmentIdentificationNumber": "1Ztest016814843169",
             "PackageResults": [
               {
-                "TrackingNumber": "1ZW673A16814843169",
+                "TrackingNumber": "1Ztest016814843169",
                 "ServiceOptionsCharges": {
                   "CurrencyCode": "EUR",
                   "MonetaryValue": "0.00"
@@ -578,7 +578,7 @@ def register_ups_create_shipment_stubs
                 }
               },
               {
-                "TrackingNumber": "1ZW673A16800380177",
+                "TrackingNumber": "1Ztest016800380177",
                 "ServiceOptionsCharges": {
                   "CurrencyCode": "EUR",
                   "MonetaryValue": "0.00"
@@ -1023,10 +1023,10 @@ def register_ups_create_pickup_stubs
                },
                "Weight": "3.0"
              },
-             "ShipmentIdentificationNumber": "1ZW673A16814843169",
+             "ShipmentIdentificationNumber": "1Ztest016814843169",
              "PackageResults": [
                {
-                 "TrackingNumber": "1ZW673A16814843169",
+                 "TrackingNumber": "1Ztest016814843169",
                  "ServiceOptionsCharges": {
                    "CurrencyCode": "EUR",
                    "MonetaryValue": "0.00"
@@ -1041,7 +1041,7 @@ def register_ups_create_pickup_stubs
                  }
                },
                {
-                 "TrackingNumber": "1ZW673A16800380177",
+                 "TrackingNumber": "1Ztest016800380177",
                  "ServiceOptionsCharges": {
                    "CurrencyCode": "EUR",
                    "MonetaryValue": "0.00"
@@ -1189,7 +1189,7 @@ def register_ups_create_pickup_stubs
 end
 
 def register_ups_shipment_info_stubs
-  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843169?locale=en_US").
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1Ztest016814843169?locale=en_US").
    with(
      headers: {
    	  'Accept'=>'*/*',
@@ -1208,7 +1208,7 @@ def register_ups_shipment_info_stubs
             {
               "package": [
                 {
-                  "trackingNumber": "1ZW673A16814843169",
+                  "trackingNumber": "1Ztest016814843169",
                   "activity": [
                     {
                       "location": {
@@ -1237,7 +1237,7 @@ def register_ups_shipment_info_stubs
       headers: {}
     )
 
-  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843180?locale=en_US").
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1Ztest016814843180?locale=en_US").
    with(
      headers: {
    	  'Accept'=>'*/*',
@@ -1265,7 +1265,7 @@ def register_ups_shipment_info_stubs
 end
 
 def register_ups_pickup_info_stubs
-  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843169?locale=en_US").
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1Ztest016814843169?locale=en_US").
     with(
       headers: {
      	  'Accept'=>'*/*',
@@ -1284,7 +1284,7 @@ def register_ups_pickup_info_stubs
             {
               "package": [
                 {
-                  "trackingNumber": "1ZW673A16814843169",
+                  "trackingNumber": "1Ztest016814843169",
                   "deliveryDate": [
                     {
                       "type": "SDD",
@@ -1341,7 +1341,7 @@ def register_ups_pickup_info_stubs
        headers: {}
      )
 
-  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843180?locale=en_US").
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1Ztest016814843180?locale=en_US").
   with(
     headers: {
   	  'Accept'=>'*/*',
