@@ -35,7 +35,7 @@ RSpec.describe "Ups" do
 
     # Act/Assert
     expect {
-      Deliveries.courier(:ups).get_collection_point(global_point_id: 'ups~it~10141~U782679401')
+      Deliveries.courier(:ups).get_collection_point(global_point_id: 'ups~it~101411~U782679401')
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'Unable to find any locations.'
       expect(error.code).to eq "350201"
@@ -70,25 +70,19 @@ RSpec.describe "Ups" do
     expect(collection_point.phone).to eq "0230303039"
     expect(collection_point.country).to eq "it"
     expect(collection_point.state).to eq "TORINO"
-    #
-    # # Error
-    # # ---
-    #
-    # # Act/Assert
-    # expect {
-    #   Deliveries.courier(:correos_express).get_collection_points(postcode: '')
-    # }.to raise_error(Deliveries::APIError) do |error|
-    #   expect(error.message).to eq 'Postcode cannot be null'
-    #   expect(error.code).to eq nil
-    # end
-    #
-    # # Act/Assert
-    # expect {
-    #   Deliveries.courier(:correos_express).get_collection_points(postcode: '1')
-    # }.to raise_error(Deliveries::APIError) do |error|
-    #   expect(error.message).to eq 'java.lang.NullPointerException - null'
-    #   expect(error.code).to eq '500'
-    # end
+
+    # Error
+    # ---
+
+    # Deliveries.courier(:ups).get_collection_points(postcode: '', country: 'it')
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:ups).get_collection_points(postcode: '', country: 'it')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'Unable to find any locations.'
+      expect(error.code).to eq "350201"
+    end
   end
 
   it ".create_shipment" do
@@ -295,27 +289,27 @@ RSpec.describe "Ups" do
     # Assert
     expect(response).to be_a Deliveries::TrackingInfo
     expect(response.courier_id).to eq :ups
-    expect(response.tracking_code).to eq 'XXXXXX'
+    expect(response.tracking_code).to eq '1ZW673A16814843169'
     expect(response.url).to eq nil
     expect(response.status).to eq :registered
     expect(response.checkpoints).to be_a Array
     checkpoint = response.checkpoints.first
     expect(checkpoint).to be_a Deliveries::Checkpoint
     expect(checkpoint.status).to eq :registered
-    expect(checkpoint.location).to eq nil
-    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:12:13".in_time_zone('CET')
-    expect(checkpoint.description).to eq "SIN RECEPCION"
-    #
-    # # Error
-    # # ---
-    #
-    # # Act/Assert
-    # expect {
-    #   Deliveries.courier(:correos_express).shipment_info(tracking_code: 'E000')
-    # }.to raise_error(Deliveries::APIError) do |error|
-    #   expect(error.message).to eq 'ERROR EN BBDD - NO SE HAN ENCONTRADO DATOS'
-    #   expect(error.code).to eq "402"
-    # end
+    expect(checkpoint.location).to eq ""
+    expect(checkpoint.tracked_at).to eq "#{Date.current} 11:12:13"
+    expect(checkpoint.description).to eq "Shipment Ready for UPS"
+
+    # Error
+    # ---
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:ups).shipment_info(tracking_code: '1ZW673A16814843180')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'Invalid inquiry number'
+      expect(error.code).to eq 0
+    end
   end
 
   it ".pickup_info" do
@@ -326,40 +320,35 @@ RSpec.describe "Ups" do
     # ---
 
     # Act
-    response = Deliveries.courier(:ups).pickup_info(tracking_code: 'E001')
+    response = Deliveries.courier(:ups).pickup_info(tracking_code: '1ZW673A16814843169')
     # Assert
     expect(response).to be_a Deliveries::TrackingInfo
     expect(response.courier_id).to eq :ups
-    expect(response.tracking_code).to eq 'E001'
+    expect(response.tracking_code).to eq '1ZW673A16814843169'
     expect(response.url).to eq nil
-    expect(response.status).to eq :delivered
+    expect(response.status).to eq :in_transit
     expect(response.checkpoints).to be_a Array
-    expect(response.checkpoints.length).to eq 3
+    expect(response.checkpoints.length).to eq 2
     expect(response.checkpoints[0]).to be_a Deliveries::Checkpoint
-    expect(response.checkpoints[0].status).to eq :registered
-    expect(response.checkpoints[0].location).to eq nil
-    expect(response.checkpoints[0].tracked_at).to eq "#{Date.yesterday} 11:11:11".in_time_zone
-    expect(response.checkpoints[0].description).to eq 'PDTE ASIGNAR'
+    expect(response.checkpoints[0].status).to eq :in_transit
+    expect(response.checkpoints[0].location).to eq "Valle de Trapage"
+    expect(response.checkpoints[0].tracked_at).to eq "#{Date.current} 11:11:11"
+    expect(response.checkpoints[0].description).to eq 'Arrived at Facility'
     expect(response.checkpoints[1]).to be_a Deliveries::Checkpoint
     expect(response.checkpoints[1].status).to eq :in_transit
-    expect(response.checkpoints[1].location).to eq nil
-    expect(response.checkpoints[1].tracked_at).to eq "#{Date.current} 13:13:13".in_time_zone
-    expect(response.checkpoints[1].description).to eq 'TRANSMITIDA'
-    expect(response.checkpoints[2]).to be_a Deliveries::Checkpoint
-    expect(response.checkpoints[2].status).to eq :delivered
-    expect(response.checkpoints[2].location).to eq nil
-    expect(response.checkpoints[2].tracked_at).to eq "#{Date.current} 15:15:15".in_time_zone
-    expect(response.checkpoints[2].description).to eq 'EFECTUADA'
-    #
-    # # Error
-    # # ---
-    #
-    # # Act/Assert
-    # expect {
-    #   Deliveries.courier(:correos_express).pickup_info(tracking_code: 'E000')
-    # }.to raise_error(Deliveries::APIError) do |error|
-    #   expect(error.message).to eq 'NO SE ENCUENTRA LA RECOGIDA'
-    #   expect(error.code).to eq nil
-    # end
+    expect(response.checkpoints[1].location).to eq "Valle de Trapage"
+    expect(response.checkpoints[1].tracked_at).to eq "#{Date.current} 13:13:13"
+    expect(response.checkpoints[1].description).to eq 'On the Way'
+
+    # Error
+    # ---
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:ups).pickup_info(tracking_code: '1ZW673A16814843180')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'Invalid inquiry number'
+      expect(error.code).to eq 0
+    end
   end
 end

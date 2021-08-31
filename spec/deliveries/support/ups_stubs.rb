@@ -168,40 +168,35 @@ def register_ups_get_collection_point_stubs
 
   # Error
   # ---
-
   expect(SecureRandom).to receive(:uuid).and_return('2d85b983-e17f-41f0-83f0-d5968611c92e')
 
-  # Not found.
-  stub_request(:post, "https://onlinetools.ups.com/ups.app/xml/Locator")
-    .with(
-      body: {
-        "<?xml version"=>"\"1.0\"?>\n<AccessRequest xml:lang=\"en-US\">\n  <AccessLicenseNumber>test</AccessLicenseNumber>\n  <UserId>test</UserId>\n  <Password>test</Password>\n</AccessRequest>\n<?xml version=\"1.0\"?>\n<LocatorRequest>\n  <Request>\n    <RequestAction>Locator</RequestAction>\n    <RequestOption>64</RequestOption>\n    <TransactionReference>\n      <CustomerContext>2d85b983-e17f-41f0-83f0-d5968611c92e</CustomerContext>\n      <XpciVersion>1.0014</XpciVersion>\n    </TransactionReference>\n  </Request>\n  <OriginAddress>\n    <AddressKeyFormat>\n      <CountryCode>IT</CountryCode>\n    </AddressKeyFormat>\n  </OriginAddress>\n  <LocationSearchCriteria>\n    <AccessPointSearch>\n      <AccessPointStatus>01</AccessPointStatus>\n      <PublicAccessPointID>U782679401</PublicAccessPointID>\n    </AccessPointSearch>\n    <MaximumListSize>20</MaximumListSize>\n  </LocationSearchCriteria>\n  <Translate>\n    <Locale>it_IT</Locale>\n  </Translate>\n</LocatorRequest>\n"
-      },
-      headers: {
-        'Accept'=>'*/*',
-        'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'Content-Type'=>'application/x-www-form-urlencoded',
-        'User-Agent'=>'Ruby'
-      }
-    )
-    .to_return(
+  stub_request(:post, "https://onlinetools.ups.com/ups.app/xml/Locator").
+    with(
+      body: {"<?xml version"=>"\"1.0\"?>\n<AccessRequest xml:lang=\"en-US\">\n  <AccessLicenseNumber>test</AccessLicenseNumber>\n  <UserId>test</UserId>\n  <Password>test</Password>\n</AccessRequest>\n<?xml version=\"1.0\"?>\n<LocatorRequest>\n  <Request>\n    <RequestAction>Locator</RequestAction>\n    <RequestOption>64</RequestOption>\n    <TransactionReference>\n      <CustomerContext>2d85b983-e17f-41f0-83f0-d5968611c92e</CustomerContext>\n      <XpciVersion>1.0014</XpciVersion>\n    </TransactionReference>\n  </Request>\n  <OriginAddress>\n    <AddressKeyFormat>\n      <CountryCode>IT</CountryCode>\n    </AddressKeyFormat>\n  </OriginAddress>\n  <LocationSearchCriteria>\n    <AccessPointSearch>\n      <AccessPointStatus>01</AccessPointStatus>\n      <PublicAccessPointID>U782679401</PublicAccessPointID>\n    </AccessPointSearch>\n    <MaximumListSize>20</MaximumListSize>\n  </LocationSearchCriteria>\n  <Translate>\n    <Locale>it_IT</Locale>\n  </Translate>\n</LocatorRequest>\n"},
+    headers: {
+     'Accept'=>'*/*',
+     'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+     'Content-Type'=>'application/x-www-form-urlencoded',
+     'User-Agent'=>'Ruby'
+    }).
+    to_return(
       status: 200,
       body: '<?xml version="1.0" encoding="UTF-8"?>
-          <LocatorResponse>
-            <Response>
-              <TransactionReference>
-                <CustomerContext>2d85b983-e17f-41f0-83f0-d5968611c92e</CustomerContext>
-                <XpciVersion>1.0014</XpciVersion>
-              </TransactionReference>
-              <ResponseStatusCode>0</ResponseStatusCode>
-              <ResponseStatusDescription>Failure</ResponseStatusDescription>
-              <Error>
-                <ErrorSeverity>Hard</ErrorSeverity>
-                <ErrorCode>350201</ErrorCode>
-                <ErrorDescription>Unable to find any locations.</ErrorDescription>
-              </Error>
-            </Response>
-          </LocatorResponse>',
+    <LocatorResponse>
+      <Response>
+        <TransactionReference>
+          <CustomerContext>2d85b983-e17f-41f0-83f0-d5968611c92e</CustomerContext>
+          <XpciVersion>1.0014</XpciVersion>
+        </TransactionReference>
+        <ResponseStatusCode>0</ResponseStatusCode>
+        <ResponseStatusDescription>Failure</ResponseStatusDescription>
+        <Error>
+          <ErrorSeverity>Hard</ErrorSeverity>
+          <ErrorCode>350201</ErrorCode>
+          <ErrorDescription>Unable to find any locations.</ErrorDescription>
+        </Error>
+      </Response>
+    </LocatorResponse>',
       headers: {}
     )
 end
@@ -376,31 +371,38 @@ def register_ups_get_collection_points_stubs
   # ---
 
   # Not found.
-  # stub_request(:post, "https://onlinetools.ups.com/ups.app/xml/Locator")
-  #   .with(
-  #     body: {
-  #       cod_postal: "1"
-  #     }.to_json,
-  #     headers: {
-  #       "Accept" => "application/json",
-  #       "Authorization" => "Basic dGVzdDp0ZXN0",
-  #       "Content-Type" => "application/json;charset=UTF-8"
-  #     }
-  #   )
-  #   .to_return(
-  #     status: 200,
-  #     body: {
-  #       "tipoRespuesta": "KO",
-  #       "listaErrores": [
-  #         {
-  #           "tipoMensajeError": "OTROS",
-  #           "codError": "500",
-  #           "descError": "java.lang.NullPointerException - null"
-  #         }
-  #       ]
-  #     }.to_json,
-  #     headers: {}
-  #   )
+  expect(SecureRandom).to receive(:uuid).and_return('2d85b983-e17f-41f0-83f0-d5968611c92e')
+
+  # Not found.
+  stub_request(:post, "https://onlinetools.ups.com/ups.app/xml/Locator").
+    with(
+      body: {"<?xml version"=>"\"1.0\"?>\n<AccessRequest xml:lang=\"en-US\">\n  <AccessLicenseNumber>test</AccessLicenseNumber>\n  <UserId>test</UserId>\n  <Password>test</Password>\n</AccessRequest>\n<?xml version=\"1.0\"?>\n<LocatorRequest>\n  <Request>\n    <RequestAction>Locator</RequestAction>\n    <RequestOption>64</RequestOption>\n    <TransactionReference>\n      <CustomerContext>2d85b983-e17f-41f0-83f0-d5968611c92e</CustomerContext>\n      <XpciVersion>1.0014</XpciVersion>\n    </TransactionReference>\n  </Request>\n  <OriginAddress>\n    <AddressKeyFormat>\n      <SingleLineAddress/>\n      <CountryCode>IT</CountryCode>\n    </AddressKeyFormat>\n  </OriginAddress>\n  <LocationSearchCriteria>\n    <AccessPointSearch>\n      <AccessPointStatus>01</AccessPointStatus>\n      <IncludeCriteria>\n        <SearchFilter>\n          <ShippingAvailabilityIndicator/>\n        </SearchFilter>\n      </IncludeCriteria>\n    </AccessPointSearch>\n    <MaximumListSize>20</MaximumListSize>\n  </LocationSearchCriteria>\n  <Translate>\n    <Locale>it_IT</Locale>\n  </Translate>\n</LocatorRequest>\n"},
+    headers: {
+      'Accept'=>'*/*',
+      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'Content-Type'=>'application/x-www-form-urlencoded',
+      'User-Agent'=>'Ruby'
+    })
+    .to_return(
+      status: 200,
+      body: '<?xml version="1.0" encoding="UTF-8"?>
+            <LocatorResponse>
+              <Response>
+                <TransactionReference>
+                  <CustomerContext>2d85b983-e17f-41f0-83f0-d5968611c92e</CustomerContext>
+                  <XpciVersion>1.0014</XpciVersion>
+                </TransactionReference>
+                <ResponseStatusCode>0</ResponseStatusCode>
+                <ResponseStatusDescription>Failure</ResponseStatusDescription>
+                <Error>
+                  <ErrorSeverity>Hard</ErrorSeverity>
+                  <ErrorCode>350201</ErrorCode>
+                  <ErrorDescription>Unable to find any locations.</ErrorDescription>
+                </Error>
+              </Response>
+            </LocatorResponse>',
+      headers: {}
+    )
 end
 
 def register_ups_create_shipment_stubs
@@ -1187,7 +1189,7 @@ def register_ups_create_pickup_stubs
 end
 
 def register_ups_shipment_info_stubs
-  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/E001?locale=en_US").
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843169?locale=en_US").
    with(
      headers: {
    	  'Accept'=>'*/*',
@@ -1198,11 +1200,72 @@ def register_ups_shipment_info_stubs
    	  'User-Agent'=>'Ruby',
    	  'Username'=>'test'
     }).
-    to_return(status: 200, body: "", headers: {})
+    to_return(
+      status: 200,
+      body: {
+        "trackResponse": {
+          "shipment": [
+            {
+              "package": [
+                {
+                  "trackingNumber": "1ZW673A16814843169",
+                  "activity": [
+                    {
+                      "location": {
+                        "address": {
+                          "city": "",
+                          "stateProvince": "",
+                          "postalCode": "",
+                          "country": "ES"
+                        }
+                      },
+                      "status": {
+                        "type": "M",
+                        "description": "Shipment Ready for UPS",
+                        "code": "MP"
+                      },
+                      "date": "#{Date.current.strftime('%Y%m%d')}",
+                      "time": "111213"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }.to_json,
+      headers: {}
+    )
+
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843180?locale=en_US").
+   with(
+     headers: {
+   	  'Accept'=>'*/*',
+   	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+   	  'Accesslicensenumber'=>'test',
+   	  'Content-Type'=>'application/json',
+   	  'Password'=>'test',
+   	  'User-Agent'=>'Ruby',
+   	  'Username'=>'test'
+    }).
+    to_return(
+      status: 200,
+      body: {
+        "response": {
+          "errors": [
+            {
+              "code": "TV1002",
+              "message": "Invalid inquiry number"
+            }
+          ]
+        }
+      }.to_json,
+      headers: {}
+    )
 end
 
 def register_ups_pickup_info_stubs
-  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/E001?locale=en_US").
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843169?locale=en_US").
     with(
       headers: {
      	  'Accept'=>'*/*',
@@ -1213,5 +1276,94 @@ def register_ups_pickup_info_stubs
      	  'User-Agent'=>'Ruby',
      	  'Username'=>'test'
       }).
-     to_return(status: 200, body: "", headers: {})
+     to_return(
+       status: 200,
+       body: {
+        "trackResponse": {
+          "shipment": [
+            {
+              "package": [
+                {
+                  "trackingNumber": "1ZW673A16814843169",
+                  "deliveryDate": [
+                    {
+                      "type": "SDD",
+                      "date": "#{Date.current.strftime('%Y%m%d')}"
+                    }
+                  ],
+                  "deliveryTime": {
+                    "startTime": "104500",
+                    "endTime": "144500",
+                    "Type": "EDW"
+                  },
+                  "activity": [
+                    {
+                      "location": {
+                        "address": {
+                          "city": "Valle de Trapage",
+                          "stateProvince": "",
+                          "postalCode": "",
+                          "country": "ES"
+                        }
+                      },
+                      "status": {
+                        "type": "I",
+                        "description": "On the Way",
+                        "code": "DS"
+                      },
+                      "date": "#{Date.current.strftime('%Y%m%d')}",
+                      "time": "131313"
+                    },
+                    {
+                      "location": {
+                        "address": {
+                          "city": "Valle de Trapage",
+                          "stateProvince": "",
+                          "postalCode": "",
+                          "country": "ES"
+                        }
+                      },
+                      "status": {
+                        "type": "I",
+                        "description": "Arrived at Facility",
+                        "code": "AR"
+                      },
+                      "date": "#{Date.current.strftime('%Y%m%d')}",
+                      "time": "111111"
+                    },
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }.to_json,
+       headers: {}
+     )
+
+  stub_request(:get, "https://wwwcie.ups.com/track/v1/details/1ZW673A16814843180?locale=en_US").
+  with(
+    headers: {
+  	  'Accept'=>'*/*',
+  	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+  	  'Accesslicensenumber'=>'test',
+  	  'Content-Type'=>'application/json',
+  	  'Password'=>'test',
+  	  'User-Agent'=>'Ruby',
+  	  'Username'=>'test'
+   }).
+   to_return(
+     status: 200,
+     body: {
+       "response": {
+         "errors": [
+           {
+             "code": "TV1002",
+             "message": "Invalid inquiry number"
+           }
+         ]
+       }
+     }.to_json,
+     headers: {}
+   )
 end
