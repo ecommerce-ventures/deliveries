@@ -1,3 +1,5 @@
+require 'savon'
+
 module Deliveries
   module Couriers
     module CorreosExpress

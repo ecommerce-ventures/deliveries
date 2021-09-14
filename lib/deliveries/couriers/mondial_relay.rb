@@ -8,6 +8,7 @@ require_relative 'mondial_relay/pickups/create/format_params'
 require_relative 'mondial_relay/labels/generate'
 require_relative 'mondial_relay/status_codes'
 require_relative 'mondial_relay/address'
+require 'savon'
 
 module Deliveries
   module Couriers

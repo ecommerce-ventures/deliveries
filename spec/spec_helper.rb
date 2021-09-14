@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'savon'
 require 'rspec'
 require 'webmock/rspec'
 require 'savon/mock/spec_helper'
