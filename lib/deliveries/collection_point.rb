@@ -4,7 +4,7 @@ module Deliveries
     attr_writer :timetable
 
     def initialize(**attributes)
-      super(attributes)
+      super(**attributes)
 
       self.courier_id = attributes[:courier_id]
       self.point_id = attributes[:point_id]

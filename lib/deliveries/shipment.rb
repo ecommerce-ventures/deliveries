@@ -6,7 +6,7 @@ module Deliveries
       if delivery.is_a? Deliveries::Delivery
         super(**delivery.attributes)
       else
-        super(attributes)
+        super(**attributes)
       end
 
       self.shipment_date = attributes[:shipment_date]
