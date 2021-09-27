@@ -7,7 +7,7 @@ Deliveries is a gem that gives you the ability to integrate multiple shipping se
 Add the following line to your Gemfile
 
 ```bash
-gem 'deliveries', git: 'git@github.com:ecommerce-ventures/deliveries.git'
+gem 'deliveries'
 ```
 Then run:
 
