@@ -48,7 +48,7 @@ module Deliveries
           collection_points = []
           [response_result.dig(:points_relais, :point_relais_details)].flatten.compact.each do |point_params|
             collection_point_params = CollectionPoints::Search::FormatResponse.new(response: point_params).execute
-            collection_points << Deliveries::CollectionPoint.new(collection_point_params)
+            collection_points << Deliveries::CollectionPoint.new(**collection_point_params)
           end
 
           collection_points
@@ -81,7 +81,7 @@ module Deliveries
 
         if response_result[:stat] == '0' && point_relais_details.present?
           collection_point_params = CollectionPoints::Search::FormatResponse.new(response: point_relais_details).execute
-          Deliveries::CollectionPoint.new(collection_point_params)
+          Deliveries::CollectionPoint.new(**collection_point_params)
         else
           raise Deliveries::APIError.new(
             StatusCodes.message_for(response_result[:stat].to_i),
@@ -154,7 +154,7 @@ module Deliveries
         tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
 
         tracking_info_params = tracking_info_params.merge(tracking_code: tracking_code)
-        Deliveries::TrackingInfo.new(tracking_info_params)
+        Deliveries::TrackingInfo.new(**tracking_info_params)
       end
 
       def pickup_info(tracking_code:, language: 'FR')
