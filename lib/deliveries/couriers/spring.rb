@@ -30,7 +30,7 @@ module Deliveries
         ).execute
 
         tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
-        Deliveries::TrackingInfo.new(tracking_info_params)
+        Deliveries::TrackingInfo.new(**tracking_info_params)
       end
 
       def get_label(tracking_code:, **)

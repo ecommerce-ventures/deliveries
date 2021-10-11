@@ -51,7 +51,7 @@ module Deliveries
         points = CollectionPoints::Search.new(postcode: postcode).execute
         points.each do |point|
           collection_point_params = CollectionPoints::Search::FormatResponse.new(response: point).execute
-          collection_points << Deliveries::CollectionPoint.new(collection_point_params)
+          collection_points << Deliveries::CollectionPoint.new(**collection_point_params)
         end
 
         collection_points
@@ -79,7 +79,7 @@ module Deliveries
         ).execute
 
         tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
-        Deliveries::TrackingInfo.new(tracking_info_params)
+        Deliveries::TrackingInfo.new(**tracking_info_params)
       end
 
       def pickup_info(tracking_code:, **)
@@ -89,7 +89,7 @@ module Deliveries
 
         tracking_info_params = Pickups::Trace::FormatResponse.new(response: response).execute
 
-        Deliveries::TrackingInfo.new(tracking_info_params)
+        Deliveries::TrackingInfo.new(**tracking_info_params)
       end
 
       def get_label(tracking_code:, **)
