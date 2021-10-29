@@ -9,16 +9,20 @@ module Deliveries
         :agency_code
       )
 
-      API_ENDPOINT = 'http://wstest.envialia.com:9085/SOAP?service=LoginService'.freeze
+      LOGIN_ENDPOINT = 'http://wstest.envialia.com:9085/SOAP?service=LoginService'.freeze
 
       module_function
 
       def login
-        HTTParty.post(
-          API_ENDPOINT,
+        response = HTTParty.post(
+          LOGIN_ENDPOINT,
           body: body,
           headers: headers
         )
+
+        parsed_response = Hash.from_xml(response)
+
+        parsed_response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
       end
 
       def body
