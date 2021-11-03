@@ -23,7 +23,7 @@ module Deliveries
             def execute
               params = {
                 solicitante: CorreosExpress.config(:client_code),
-                codRte: CorreosExpress.config(:shipment_sender_code),
+                codRte: sender.address_id || CorreosExpress.config(:shipment_sender_code),
                 ref: reference_code,
                 fecha: format_date(shipment_date),
                 nomRte: sender.name,
@@ -33,6 +33,7 @@ module Deliveries
                 contacRte: sender.name,
                 telefRte: sender.phone,
                 emailRte: sender.email,
+                codDest: receiver.address_id || '',
                 nomDest: receiver.name,
                 dirDest: receiver.street,
                 pobDest: receiver.city,

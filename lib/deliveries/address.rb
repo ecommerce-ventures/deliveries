@@ -1,6 +1,6 @@
 module Deliveries
   class Address
-    attr_accessor :name, :email, :phone, :country, :state, :city, :street, :postcode
+    attr_accessor :name, :email, :phone, :country, :state, :city, :street, :postcode, :address_id
 
     COUNTRY_PHONE_PREFIXES = {
       be: 32,
@@ -30,6 +30,7 @@ module Deliveries
       self.city = attributes[:city]
       self.street = attributes[:street]
       self.postcode = attributes[:postcode]
+      self.address_id = attributes[:address_id]
     end
 
     def courierize(courier_id)
