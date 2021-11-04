@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    deliveries (0.2.0)
+    deliveries (0.2.1)
       activesupport (>= 5.2.0)
       hexapdf
       httparty
