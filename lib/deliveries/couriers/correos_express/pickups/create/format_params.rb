@@ -24,7 +24,7 @@ module Deliveries
                 solicitante: CorreosExpress.config(:client_code),
                 refRecogida: reference_code,
                 fechaRecogida: pickup_date&.strftime('%d%m%Y') || '',
-                clienteRecogida: CorreosExpress.config(:pickup_receiver_code),
+                clienteRecogida: receiver.address_id || CorreosExpress.config(:pickup_receiver_code),
                 codRemit: sender.address_id || '',
                 nomRemit: sender.name,
                 nifRemit: '',
