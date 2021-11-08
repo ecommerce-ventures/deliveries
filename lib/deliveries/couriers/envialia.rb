@@ -1,3 +1,5 @@
+require_relative 'envialia/shipments/create'
+
 module Deliveries
   module Couriers
     module Envialia
@@ -23,6 +25,18 @@ module Deliveries
         parsed_response = Hash.from_xml(response)
 
         parsed_response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
+      end
+
+      def create_shipment(sender:, receiver:, parcels:, reference_code:, collection_point: nil, shipment_date: nil, remarks: nil, **)
+        Shipments::Create.new(
+          sender: sender,
+          receiver: receiver,
+          collection_point: collection_point,
+          shipment_date: shipment_date,
+          parcels: parcels,
+          reference_code: reference_code,
+          remarks: remarks
+        ).execute
       end
 
       def body
