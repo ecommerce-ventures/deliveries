@@ -1,4 +1,5 @@
 require_relative 'envialia/shipments/create'
+require_relative 'envialia/pickups/create'
 
 module Deliveries
   module Couriers
@@ -37,6 +38,21 @@ module Deliveries
           reference_code: reference_code,
           remarks: remarks
         ).execute
+      end
+
+      def create_pickup(sender:, receiver:, parcels:, reference_code:,
+                        pickup_date: nil, remarks: nil, language: nil)
+
+        Deliveries::Pickup.new(
+          courier_id: 'envialia',
+          sender: sender,
+          receiver: receiver,
+          parcels: parcels,
+          reference_code: reference_code,
+          tracking_code: tracking_code,
+          pickup_date: pickup_date,
+          label: nil # need to be implemented
+        )
       end
 
       def body
