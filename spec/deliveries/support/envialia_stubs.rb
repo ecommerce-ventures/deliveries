@@ -4,7 +4,7 @@ def register_envialia_login_stubs
 
   stub_request(:post, "http://wstest.envialia.com:9085/SOAP?service=LoginService").
     with(
-      body: "<?xml version='1.0' encoding='utf-8'?>\n          <soap:Envelope\n            xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'\n            xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n            xmlns:xsd='http://www.w3.org/2001/XMLSchema'>\n            <soap:Body>\n              <LoginWSService___LoginCli2>\n              <strCodAge>test</strCodAge>\n              <strCliente>test</strCliente>\n              <strPass>test</strPass>\n              </LoginWSService___LoginCli2>\n            </soap:Body>\n        </soap:Envelope>",
+      body: "<?xml version='1.0' encoding='utf-8'?>\n            <soap:Envelope\n              xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'\n              xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n              xmlns:xsd='http://www.w3.org/2001/XMLSchema'>\n              <soap:Body>\n                <LoginWSService___LoginCli2>\n                <strCodAge>test</strCodAge>\n                <strCliente>test</strCliente>\n                <strPass>test</strPass>\n                </LoginWSService___LoginCli2>\n              </soap:Body>\n          </soap:Envelope>",
     headers: {
       'Accept'=>'*/*',
       'Content-Type'=>"text/json; charset='UTF-8'",
@@ -105,6 +105,51 @@ def register_envialia_create_shipment_stubs
     )
 end
 
+def register_envialia_create_pickup_stubs
+  login_request
+
+  stub_request(:post, "http://wstest.envialia.com:9085/SOAP?service=WebServService").
+    with(
+      body: "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <soap:Header>\n    <ROClientIDHeader xmlns=\"http://tempuri.org/\">\n      <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>\n    </ROClientIDHeader>\n  </soap:Header>\n  <soap:Body>\n    <WebServService___GrabaEnvio8 xmlns=\"http://tempuri.org/\">\n      <strCodAgeCargo>002800</strCodAgeCargo>\n      <strCodAgeOri>002800</strCodAgeOri>\n      <dtFecha>2021/11/05</dtFecha>\n      <strCodTipoServ>72</strCodTipoServ>\n      <strCodCli>1004</strCodCli>\n      <strNomOri>Sender name</strNomOri>\n      <strDirOri>Sender street</strDirOri>\n      <strCPOri>48950</strCPOri>\n      <strTlfOri>666666666</strTlfOri>\n      <strNomDes>Receiver name</strNomDes>\n      <strDirDes>Receiver street</strDirDes>\n      <strCPDes>48950</strCPDes>\n      <strTlfDes>666666666</strTlfDes>\n      <intDoc>0</intDoc>\n      <intPaq>1</intPaq>\n      <dPesoOri>0</dPesoOri>\n      <dAltoOri>0</dAltoOri>\n      <dAnchoOri>0</dAnchoOri>\n      <dLargoOri>0</dLargoOri>\n      <dReembolso>0</dReembolso>\n      <dValor>0</dValor>\n      <dAnticipo>0</dAnticipo>\n      <dCobCli>0</dCobCli>\n      <strObs></strObs>\n      <boSabado>false</boSabado>\n      <boRetorno>false</boRetorno>\n      <boGestOri>false</boGestOri>\n      <boGestDes>false</boGestDes>\n      <boAnulado>false</boAnulado>\n      <boAcuse>false</boAcuse>\n      <strRef>shipmentX</strRef>\n      <dBaseImp>0</dBaseImp>\n      <dImpuesto>0</dImpuesto>\n      <boPorteDebCli>false</boPorteDebCli>\n      <strDesDirEmails>receiver@example.com</strDesDirEmails>\n      <boInsert>true</boInsert>\n      <boCampo5>false</boCampo5>\n      <boPagoDUAImp>false</boPagoDUAImp>\n      <boPagoImpDes>false</boPagoImpDes>\n    </WebServService___GrabaEnvio8>\n  </soap:Body>\n</soap:Envelope>\n",
+      headers: {
+ 	      'Accept'=>'*/*',
+ 	      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+ 	      'Content-Type'=>"application/xml; charset='UTF-8'",
+ 	      'User-Agent'=>'Ruby'
+      }
+    ).to_return(
+      status: 200,
+      body: <<~XML,
+      <?xml version="1.0" encoding="utf-8"?>
+        <SOAP-ENV:Envelope
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:HNS="http://tempuri.org/"
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:v1="http://tempuri.org/">
+        <SOAP-ENV:Header>
+          <ROClientIDHeader SOAP-ENV:mustUnderstand="0"
+            xmlns="urn:envialianet">
+            <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>
+          </ROClientIDHeader>
+        </SOAP-ENV:Header>
+          <SOAP-ENV:Body xmlns:ro="http://tempuri.org/">
+            <v1:WebServService___GrabaRecogida3Response>
+              <v1:strCodOut>0023104927</v1:strCodOut>
+              <v1:strTipoRecOut>N</v1:strTipoRecOut>
+              <v1:dtFecHoraAltaOut>2021-11-09T20:33:04</v1:dtFecHoraAltaOut>
+              <v1:strCodAgeOriOut>004612</v1:strCodAgeOriOut>
+              <v1:strCodProOriOut>46</v1:strCodProOriOut>
+              <v1:strCodAgeDesOut>004612</v1:strCodAgeDesOut>
+              <v1:strCodProDesOut>46</v1:strCodProDesOut>
+              <v1:fPorteDebOut>0</v1:fPorteDebOut>
+            </v1:WebServService___GrabaRecogida3Response>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      XML
+      headers: {}
+    )
+end
 
 def login_request
   # Stub login request
