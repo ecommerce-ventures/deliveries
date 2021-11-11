@@ -27,6 +27,18 @@ module Deliveries
           remarks: remarks
         ).execute
       end
+
+      def create_pickup(sender:, receiver:, parcels:, reference_code:, pickup_date: nil, remarks: nil, tracking_code: nil, **)
+        Pickups::Create.new(
+          sender: sender,
+          receiver: receiver,
+          parcels: parcels,
+          reference_code: reference_code,
+          pickup_date: pickup_date,
+          remarks: remarks,
+          tracking_code: tracking_code
+        ).execute
+      end
     end
   end
 end

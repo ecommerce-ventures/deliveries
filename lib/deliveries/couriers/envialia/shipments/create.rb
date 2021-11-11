@@ -29,6 +29,21 @@ module Deliveries
               body: body,
               headers: headers
             )
+
+            parsed_response = Hash.from_xml(response)
+
+            tracking_code = parsed_response.dig("Envelope", "Body", "WebServService___GrabaEnvio8Response", "strAlbaranOut")
+
+            Deliveries::Shipment.new(
+              courier_id: 'envialia',
+              sender: sender,
+              receiver: receiver,
+              parcels: parcels,
+              reference_code: reference_code,
+              tracking_code: tracking_code,
+              shipment_date: shipment_date,
+              label: nil
+            )
           end
 
           private
@@ -43,8 +58,8 @@ module Deliveries
                 </soap:Header>
                 <soap:Body>
                   <WebServService___GrabaEnvio8 xmlns="http://tempuri.org/">
-                    <strCodAgeCargo>002800</strCodAgeCargo>
-                    <strCodAgeOri>002800</strCodAgeOri>
+                    <strCodAgeCargo>#{Deliveries.courier(:envialia).config(:username)}</strCodAgeCargo>
+                    <strCodAgeOri>#{Deliveries.courier(:envialia).config(:username)}</strCodAgeOri>
                     <dtFecha>#{shipment_date.strftime('%Y/%m/%d')}</dtFecha>
                     <strCodTipoServ>72</strCodTipoServ>
                     <strCodCli>1004</strCodCli>
