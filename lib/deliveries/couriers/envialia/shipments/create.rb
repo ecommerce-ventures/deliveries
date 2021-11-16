@@ -6,6 +6,7 @@ module Deliveries
       module Shipments
         class Create
           include HTTParty
+          extend Authentication
 
           API_URL = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
 
@@ -24,11 +25,14 @@ module Deliveries
           end
 
           def execute
-            response = HTTParty.post(
+            response = self.class.post(
               API_URL,
               body: body,
-              headers: headers
+              headers: headers,
+              debug_output: Deliveries.debug ? Deliveries.logger : nil
             )
+
+            raise Deliveries::ClientError unless response.success?
 
             parsed_response = Hash.from_xml(response)
 
@@ -105,10 +109,6 @@ module Deliveries
 
           def headers
             { 'Content-Type' => "application/xml; charset='UTF-8'" }
-          end
-
-          def session_id
-            Deliveries.courier(:envialia).login
           end
         end
       end

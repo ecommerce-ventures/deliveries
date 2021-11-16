@@ -5,11 +5,11 @@ module Deliveries
 
         LOGIN_ENDPOINT = 'http://wstest.envialia.com:9085/SOAP?service=LoginService'.freeze
 
-        def login
+        def session_id
           response = HTTParty.post(
             LOGIN_ENDPOINT,
-            body: body,
-            headers: headers
+            body: login_body,
+            headers: login_headers
           )
 
           parsed_response = Hash.from_xml(response)
@@ -17,7 +17,7 @@ module Deliveries
           parsed_response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
         end
 
-        def body
+        def login_body
           "<?xml version='1.0' encoding='utf-8'?>
             <soap:Envelope
               xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'
@@ -33,7 +33,7 @@ module Deliveries
           </soap:Envelope>"
         end
 
-        def headers
+        def login_headers
           { "Content-Type"=>"text/json; charset='UTF-8'" }
         end
       end

@@ -1,12 +1,13 @@
-require_relative 'envialia/shipments/create'
-require_relative 'envialia/pickups/create'
 require_relative 'envialia/authentication'
+require_relative 'envialia/shipments/create'
+require_relative 'envialia/shipments/trace/format_response'
+require_relative 'envialia/shipments/trace'
+require_relative 'envialia/pickups/create'
 
 module Deliveries
   module Couriers
     module Envialia
       extend Courier
-      extend Authentication
 
       Config = Struct.new(
         :username,
@@ -38,6 +39,15 @@ module Deliveries
           remarks: remarks,
           tracking_code: tracking_code
         ).execute
+      end
+
+      def shipment_info(tracking_code:, **)
+        response = Shipments::Trace.new(
+          tracking_code: tracking_code
+        ).execute
+
+        tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
+        Deliveries::TrackingInfo.new(**tracking_info_params)
       end
     end
   end

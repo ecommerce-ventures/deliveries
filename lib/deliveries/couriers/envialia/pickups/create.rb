@@ -6,6 +6,7 @@ module Deliveries
       module Pickups
         class Create
           include HTTParty
+          extend Authentication
 
           API_URL = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
 
@@ -103,10 +104,6 @@ module Deliveries
 
           def headers
             { 'Content-Type' => "application/xml; charset='UTF-8'" }
-          end
-
-          def session_id
-            Deliveries.courier(:envialia).login
           end
         end
       end
