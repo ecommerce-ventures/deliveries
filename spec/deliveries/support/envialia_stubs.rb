@@ -205,6 +205,60 @@ def register_envialia_shipment_info_stubs
     )
 end
 
+def register_envialia_pickup_info_stubs
+  login_request
+
+  stub_request(:post, "http://wstest.envialia.com:9085/SOAP?service=WebServService").
+    with(
+      body: "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soapenv:Header>\n    <tns:ROClientIDHeader xmlns:tns=\"http://tempuri.org/\">\n      <tns:ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</tns:ID>\n    </tns:ROClientIDHeader>\n  </soapenv:Header>\n  <soapenv:Body>\n    <tns:WebServService___ConsRecEstados xmlns:tns=\"http://tempuri.org/\">\n      <tns:strCodRec>E001</tns:strCodRec>\n    </tns:WebServService___ConsRecEstados>\n  </soapenv:Body>\n</soapenv:Envelope>\n",
+      headers: {
+ 	      'Accept'=>'*/*',
+ 	      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+ 	      'Content-Type'=>"application/xml; charset='UTF-8'",
+ 	      'User-Agent'=>'Ruby'
+      }
+    ).to_return(
+      status: 200,
+      body: <<~XML,
+        <?xml version="1.0" encoding="utf-8"?>
+          <SOAP-ENV:Envelope
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:HNS="http://tempuri.org/"
+          xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:v1="http://tempuri.org/">
+          <SOAP-ENV:Header>
+            <ROClientIDHeader SOAP-ENV:mustUnderstand="0"
+              xmlns="urn:envialianet">
+              <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>
+            </ROClientIDHeader>
+          </SOAP-ENV:Header>
+          <SOAP-ENV:Body
+            xmlns:ro="http://tempuri.org/">
+            <v1:WebServService___ConsRecEstadosResponse>
+              <v1:strRecEstados>&lt;CONSULTA&gt;&lt;REC_ESTADOS
+                I_ID="1"
+                V_COD_TIPO_EST="R0"
+                D_FEC_HORA_ALTA="11/11/2021 12:44:14"
+                V_COD_USU_ALTA=""
+                V_COD_AGE_ALTA="002800"
+                V_COD_REP_ALTA=""
+                V_COD_CLI_ALTA="WS101"
+                V_COD_CLI_DEP_ALTA=""
+                V_CAMPO_1=""
+                V_CAMPO_2=""
+                V_CAMPO_3=""
+                V_CAMPO_4=""
+                B_CAMPO_5="False"/&gt;&lt;/CONSULTA&gt;
+              </v1:strRecEstados>
+            </v1:WebServService___ConsRecEstadosResponse>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      XML
+      headers: {}
+    )
+end
+
 def login_request
   # Stub login request
   allow_any_instance_of(Deliveries::Couriers::Envialia::Authentication).to receive(:session_id).and_return(

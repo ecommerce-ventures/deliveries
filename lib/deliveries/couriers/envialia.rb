@@ -2,6 +2,8 @@ require_relative 'envialia/authentication'
 require_relative 'envialia/shipments/create'
 require_relative 'envialia/shipments/trace/format_response'
 require_relative 'envialia/shipments/trace'
+require_relative 'envialia/pickups/trace/format_response'
+require_relative 'envialia/pickups/trace'
 require_relative 'envialia/pickups/create'
 
 module Deliveries
@@ -47,6 +49,17 @@ module Deliveries
         ).execute
 
         tracking_info_params = Shipments::Trace::FormatResponse.new(response: response).execute
+        tracking_info_params.merge!({ tracking_code: tracking_code })
+        Deliveries::TrackingInfo.new(**tracking_info_params)
+      end
+
+      def pickup_info(tracking_code:, **)
+        response = Pickups::Trace.new(
+          tracking_code: tracking_code
+        ).execute
+
+        tracking_info_params = Pickups::Trace::FormatResponse.new(response: response).execute
+        tracking_info_params.merge!({ tracking_code: tracking_code })
         Deliveries::TrackingInfo.new(**tracking_info_params)
       end
     end
