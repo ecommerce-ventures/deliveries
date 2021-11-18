@@ -51,6 +51,27 @@ RSpec.describe 'Envialia' do
       shipment_date: Date.tomorrow,
       remarks: nil
     )
+
+    # Error
+    # ---
+
+    # Arrange
+    sender.postcode = ''
+
+    expect {
+      Deliveries.courier(:envialia).create_shipment(
+        sender: sender,
+        receiver: receiver,
+        collection_point: nil,
+        parcels: 1,
+        reference_code: 'shipmentX',
+        shipment_date: Date.tomorrow,
+        remarks: nil
+      )
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'El código postal origen es nulo o no válido'
+      expect(error.code).to eq 41
+    end
   end
 
   it '.create_pickup' do
@@ -102,6 +123,26 @@ RSpec.describe 'Envialia' do
     expect(response.reference_code).to eq 'shipmentX'
     expect(response.tracking_code).to eq '0128346910'
     expect(response.pickup_date).to eq Date.tomorrow
+
+    # Error
+    # ---
+
+    # Arrange
+    sender.postcode = ''
+
+    expect {
+      Deliveries.courier(:envialia).create_pickup(
+        sender: sender,
+        receiver: receiver,
+        parcels: 1,
+        reference_code: 'shipmentX',
+        pickup_date: Date.tomorrow,
+        remarks: nil
+      )
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'La agencia de origen no existe o está inactiva'
+      expect(error.code).to eq 7
+    end
   end
 
   it ".shipment_info" do
@@ -120,6 +161,17 @@ RSpec.describe 'Envialia' do
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
     expect(response.status).to eq :registered
+
+    # Error
+    # ---
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:envialia).shipment_info(tracking_code: 'E000')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'No se han encontrado datos para este envío'
+      expect(error.code).to eq "402"
+    end
   end
 
   it ".pickup_info" do
@@ -138,6 +190,42 @@ RSpec.describe 'Envialia' do
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
     expect(response.status).to eq :registered
+
+    # Error
+    # ---
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:envialia).pickup_info(tracking_code: 'E000')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'No se han encontrado datos para este envío'
+      expect(error.code).to eq "402"
+    end
   end
 
+  it ".get_label" do
+    # Arrange
+    register_envialia_get_label_stubs
+
+    # Success
+    # ---
+
+    # Act
+    response = Deliveries.courier(:envialia).get_label(tracking_code: 'E001')
+
+    # Assert
+    expect(response.url).to eq nil
+    expect(pdf_pages_count(response.raw).to_i).to eq 1
+
+    # # Error
+    # # ---
+    #
+    # # Act/Assert
+    # expect {
+    #   Deliveries.courier(:correos_express).get_label(tracking_code: 'E000')
+    # }.to raise_error(Deliveries::APIError) do |error|
+    #   expect(error.message).to eq 'El envío E000 no existe para el cliente test'
+    #   expect(error.code).to eq -1
+    # end
+  end
 end

@@ -36,15 +36,30 @@ module Deliveries
 
             pickup_number = parsed_response.dig("Envelope", "Body", "WebServService___GrabaRecogida3Response", "strCodOut")
 
-            Deliveries::Pickup.new(
-              courier_id: 'envialia',
-              sender: sender,
-              receiver: receiver,
-              parcels: parcels,
-              reference_code: reference_code,
-              tracking_code: pickup_number,
-              pickup_date: pickup_date
-            )
+            if pickup_number
+              Deliveries::Pickup.new(
+                courier_id: 'envialia',
+                sender: sender,
+                receiver: receiver,
+                parcels: parcels,
+                reference_code: reference_code,
+                tracking_code: pickup_number,
+                pickup_date: pickup_date
+              )
+            else
+              exception = parsed_response.dig("Envelope", "Body", "Fault")
+
+              if exception.dig('faultcode').eql?('Exception')
+                exception_code, exception_str = exception.dig('faultstring').split(':')
+              else
+                exception_code = 400
+                exception_str = exception.dig('faultstring')
+              end
+                raise Deliveries::APIError.new(
+                  exception_str.strip,
+                  exception_code.to_i
+                )
+            end  
           end
 
           private

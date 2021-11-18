@@ -28,7 +28,14 @@ module Deliveries
 
             parsed_response = Hash.from_xml(response)
 
-            parsed_response
+            if parsed_response.dig("Envelope", "Body", "WebServService___ConsEnvEstadosResponse", "strEnvEstados").nil?
+              raise Deliveries::APIError.new(
+                'No se han encontrado datos para este envío',
+                '402'
+              )
+            else
+              parsed_response
+            end
           end
 
           def body
