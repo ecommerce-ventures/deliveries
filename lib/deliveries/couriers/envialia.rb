@@ -5,6 +5,7 @@ require_relative 'envialia/shipments/trace'
 require_relative 'envialia/pickups/trace/format_response'
 require_relative 'envialia/pickups/trace'
 require_relative 'envialia/pickups/create'
+require_relative 'envialia/labels/generate'
 
 module Deliveries
   module Couriers
@@ -61,6 +62,14 @@ module Deliveries
         tracking_info_params = Pickups::Trace::FormatResponse.new(response: response).execute
         tracking_info_params.merge!({ tracking_code: tracking_code })
         Deliveries::TrackingInfo.new(**tracking_info_params)
+      end
+
+      def get_label(tracking_code:, **)
+        pdf = Labels::Generate.new(
+          tracking_codes: tracking_code
+        ).execute.first
+
+        Deliveries::Label.new(raw: pdf)
       end
     end
   end
