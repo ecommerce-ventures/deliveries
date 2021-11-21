@@ -137,7 +137,8 @@ RSpec.describe 'Envialia' do
         parcels: 1,
         reference_code: 'shipmentX',
         pickup_date: Date.tomorrow,
-        remarks: nil
+        remarks: nil,
+        tracking_code: '0128346910'
       )
     }.to raise_error(Deliveries::APIError) do |error|
       expect(error.message).to eq 'La agencia de origen no existe o está inactiva'
