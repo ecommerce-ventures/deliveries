@@ -271,7 +271,7 @@ def register_envialia_shipment_info_stubs
               <v1:strEnvEstados>&lt;CONSULTA&gt;&lt;ENV_ESTADOS
                 I_ID="1"
                 V_COD_TIPO_EST="0"
-                D_FEC_HORA_ALTA="11/11/2021 12:44:14"
+                D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 11:11:11"
                 V_COD_USU_ALTA=""
                 V_COD_AGE_ALTA="002800"
                 V_COD_REP_ALTA=""
@@ -367,7 +367,7 @@ def register_envialia_pickup_info_stubs
               <v1:strRecEstados>&lt;CONSULTA&gt;&lt;REC_ESTADOS
                 I_ID="1"
                 V_COD_TIPO_EST="R0"
-                D_FEC_HORA_ALTA="11/11/2021 12:44:14"
+                D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 11:11:11"
                 V_COD_USU_ALTA=""
                 V_COD_AGE_ALTA="002800"
                 V_COD_REP_ALTA=""

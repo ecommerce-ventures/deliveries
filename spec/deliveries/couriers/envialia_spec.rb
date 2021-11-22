@@ -162,6 +162,12 @@ RSpec.describe 'Envialia' do
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
     expect(response.status).to eq :registered
+    expect(response.checkpoints.length).to eq 1
+    expect(response.checkpoints[0]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[0].status).to eq :registered
+    expect(response.checkpoints[0].location).to eq nil
+    expect(response.checkpoints[0].tracked_at).to eq "#{Date.yesterday} 11:11:11".in_time_zone
+    expect(response.checkpoints[0].description).to eq 'Documentado'
 
     # Error
     # ---
@@ -191,6 +197,13 @@ RSpec.describe 'Envialia' do
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
     expect(response.status).to eq :registered
+    expect(response.checkpoints).to be_a Array
+    expect(response.checkpoints.length).to eq 1
+    expect(response.checkpoints[0]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[0].status).to eq :registered
+    expect(response.checkpoints[0].location).to eq nil
+    expect(response.checkpoints[0].tracked_at).to eq "#{Date.yesterday} 11:11:11".in_time_zone
+    expect(response.checkpoints[0].description).to eq 'Solicitada'
 
     # Error
     # ---

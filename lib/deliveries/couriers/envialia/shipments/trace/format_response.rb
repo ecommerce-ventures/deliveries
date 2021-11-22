@@ -39,7 +39,7 @@ module Deliveries
               tracking_info_params[:courier_id] = 'envialia'
               tracking_info_params[:tracking_code] = parsed_response.dig("I_ID")
               tracking_info_params[:status] = status(status)
-              tracking_info_params[:checkpoints] = nil
+              tracking_info_params[:checkpoints] = formatted_checkpoints(parsed_response)
 
               tracking_info_params
             end
@@ -60,12 +60,15 @@ module Deliveries
             end
 
             def formatted_checkpoint(shipment_status)
+              status = STATUS_CODES[shipment_status.dig("V_COD_TIPO_EST")]
+
+              date = shipment_status.dig("D_FEC_HORA_ALTA")
+
               Deliveries::Checkpoint.new(
-                status: status(shipment_status['DescEstado']),
+                status: status(status),
                 location: nil,
-                tracked_at: Time.zone.strptime("#{shipment_status['FechaEstado']} #{shipment_status['HoraEstado']}",
-                                               '%d%m%Y %H%M%S'),
-                description: shipment_status['DescEstado']
+                tracked_at: Time.zone.strptime(date, '%m/%d/%Y %H:%M:%S'),
+                description: status
               )
             end
 
