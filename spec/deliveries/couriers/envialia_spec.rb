@@ -231,15 +231,15 @@ RSpec.describe 'Envialia' do
     expect(response.url).to eq nil
     expect(pdf_pages_count(response.raw).to_i).to eq 1
 
-    # # Error
-    # # ---
-    #
-    # # Act/Assert
-    # expect {
-    #   Deliveries.courier(:correos_express).get_label(tracking_code: 'E000')
-    # }.to raise_error(Deliveries::APIError) do |error|
-    #   expect(error.message).to eq 'El envío E000 no existe para el cliente test'
-    #   expect(error.code).to eq -1
-    # end
+    # Error
+    # ---
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:envialia).get_label(tracking_code: 'E000')
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'No hay etiqutas disponibles'
+      expect(error.code).to eq 404
+    end
   end
 end

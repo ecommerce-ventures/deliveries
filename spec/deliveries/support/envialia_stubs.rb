@@ -465,6 +465,41 @@ def register_envialia_get_label_stubs
       XML
       headers: {}
     )
+  stub_request(:post, "http://wstest.envialia.com:9085/SOAP?service=WebServService").
+    with(
+      body: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope\n  xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"\n  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n  xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <soap:Header>\n    <ROClientIDHeader xmlns=\"http://tempuri.org/\">\n      <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>\n    </ROClientIDHeader>\n  </soap:Header>\n  <soap:Body>\n    <WebServService___ConsEtiquetaEnvio6>\n      <strCodAgeOri>test</strCodAgeOri>\n      <strAlbaran>E000</strAlbaran>\n      <strBulto></strBulto>\n      <boPaginaA4>false</boPaginaA4>\n      <intNumEtiqImpresasA4>0</intNumEtiqImpresasA4>\n      <strFormato>PDF</strFormato>\n    </WebServService___ConsEtiquetaEnvio6>\n  </soap:Body>\n</soap:Envelope>\n",
+      headers: {
+ 	      'Accept'=>'*/*',
+ 	      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+ 	      'Content-Type'=>"application/xml; charset='UTF-8'",
+ 	      'User-Agent'=>'Ruby'
+      }
+    ).to_return(
+      status: 200,
+      body: <<~XML,
+      <?xml version="1.0" encoding="utf-8"?>
+        <SOAP-ENV:Envelope
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:HNS="http://tempuri.org/"
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:v1="http://tempuri.org/">
+        <SOAP-ENV:Header>
+          <ROClientIDHeader SOAP-ENV:mustUnderstand="0"
+            xmlns="urn:envialianet">
+            <ID>{D6893DB0-03B9-4FD2-BA59-547B14E679EB}</ID>
+          </ROClientIDHeader>
+        </SOAP-ENV:Header>
+        <SOAP-ENV:Body
+          xmlns:ro="http://tempuri.org/">
+          <v1:WebServService___ConsEtiquetaEnvio6Response>
+            <v1:strEtiquetas></v1:strEtiquetas>
+          </v1:WebServService___ConsEtiquetaEnvio6Response>
+        </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      XML
+      headers: {}
+    )
 end
 
 def login_request
