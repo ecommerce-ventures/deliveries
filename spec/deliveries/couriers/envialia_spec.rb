@@ -272,4 +272,37 @@ RSpec.describe 'Envialia' do
       expect(error.code).to eq 404
     end
   end
+
+  it ".get_labels" do
+    # Arrange
+    register_envialia_get_label_stubs
+
+    # Success
+    # ---
+
+    # Act
+    response = Deliveries.courier(:envialia).get_labels(tracking_codes: %w[E001 E002])
+    # Assert
+    expect(response.url).to eq nil
+    expect(pdf_pages_count(response.raw).to_i).to eq 2
+
+    # Error
+    # ---
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:envialia).get_labels(tracking_codes: %w[E000])
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'No hay etiqutas disponibles'
+      expect(error.code).to eq 404
+    end
+
+    # Act/Assert
+    expect {
+      Deliveries.courier(:envialia).get_labels(tracking_codes: %w[E000 E001])
+    }.to raise_error(Deliveries::APIError) do |error|
+      expect(error.message).to eq 'No hay etiqutas disponibles'
+      expect(error.code).to eq 404
+    end
+  end
 end

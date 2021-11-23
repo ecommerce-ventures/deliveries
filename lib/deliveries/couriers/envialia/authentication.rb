@@ -1,40 +1,52 @@
+require 'httparty'
+
 module Deliveries
   module Couriers
     module Envialia
       module Authentication
-
-        LOGIN_ENDPOINT = 'http://wstest.envialia.com:9085/SOAP?service=LoginService'.freeze
+        include HTTParty
 
         def session_id
           response = HTTParty.post(
-            LOGIN_ENDPOINT,
+            login_endpoint,
             body: login_body,
-            headers: login_headers
+            headers: login_headers,
+            debug_output: Deliveries.debug ? Deliveries.logger : nil
           )
 
-          parsed_response = Hash.from_xml(response)
+          raise Deliveries::ClientError unless response.success?
 
-          parsed_response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
+          unless Envialia.live?
+            response = Hash.from_xml(response)
+          end
+
+          response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
         end
 
         def login_body
-          "<?xml version='1.0' encoding='utf-8'?>
-            <soap:Envelope
-              xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'
-              xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-              xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
-              <soap:Body>
-                <LoginWSService___LoginCli2>
-                <strCodAge>#{Deliveries.courier(:envialia).config(:agency_code)}</strCodAge>
-                <strCliente>#{Deliveries.courier(:envialia).config(:username)}</strCliente>
-                <strPass>#{Deliveries.courier(:envialia).config(:password)}</strPass>
-                </LoginWSService___LoginCli2>
-              </soap:Body>
-          </soap:Envelope>"
+          <<~XML
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+              <soapenv:Body>
+                <tns:LoginWSService___LoginCli2 xmlns:tns="http://tempuri.org/">
+                  <strCodAge>#{Deliveries.courier(:envialia).config(:agency_code)}</strCodAge>
+                  <strCliente>#{Deliveries.courier(:envialia).config(:username)}</strCliente>
+                  <strPass>#{Deliveries.courier(:envialia).config(:password)}</strPass>
+                </tns:LoginWSService___LoginCli2>
+              </soapenv:Body>
+            </soapenv:Envelope>
+          XML
         end
 
         def login_headers
           { "Content-Type"=>"text/json; charset='UTF-8'" }
+        end
+
+        def login_endpoint
+          if Envialia.live?
+            Envialia::ENVIALIA_LOGIN_ENDPOINT_LIVE
+          else
+            Envialia::ENVIALIA_LOGIN_ENDPOINT_TEST
+          end
         end
       end
     end

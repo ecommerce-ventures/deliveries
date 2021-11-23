@@ -6,9 +6,7 @@ module Deliveries
       module Shipments
         class Create
           include HTTParty
-          extend Authentication
-
-          API_URL = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
+          include Authentication
 
           attr_accessor :sender, :receiver, :collection_point, :parcels,
                         :reference_code, :shipment_date, :remarks
@@ -26,7 +24,7 @@ module Deliveries
 
           def execute
             response = self.class.post(
-              API_URL,
+              api_endpoint,
               body: body,
               headers: headers,
               debug_output: Deliveries.debug ? Deliveries.logger : nil
@@ -34,9 +32,11 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            parsed_response = Hash.from_xml(response)
-
-            tracking_code = parsed_response.dig("Envelope", "Body", "WebServService___GrabaEnvio8Response", "strAlbaranOut")
+            unless Envialia.live?
+              response = Hash.from_xml(response)
+            end
+            
+            tracking_code = response.dig("Envelope", "Body", "WebServService___GrabaEnvio8Response", "strAlbaranOut")
 
             if tracking_code
               Deliveries::Shipment.new(
@@ -50,7 +50,7 @@ module Deliveries
                 label: nil
               )
             else
-              exception = parsed_response.dig("Envelope", "Body", "Fault")
+              exception = response.dig("Envelope", "Body", "Fault")
 
               if exception.dig('faultcode').eql?('Exception')
                 exception_code, exception_str = exception.dig('faultstring').split(':')
@@ -77,11 +77,11 @@ module Deliveries
                 </soap:Header>
                 <soap:Body>
                   <WebServService___GrabaEnvio8 xmlns="http://tempuri.org/">
-                    <strCodAgeCargo>#{Deliveries.courier(:envialia).config(:username)}</strCodAgeCargo>
-                    <strCodAgeOri>#{Deliveries.courier(:envialia).config(:username)}</strCodAgeOri>
+                    <strCodAgeCargo>#{Deliveries.courier(:envialia).config(:agency_code)}</strCodAgeCargo>
+                    <strCodAgeOri>#{Deliveries.courier(:envialia).config(:agency_code)}</strCodAgeOri>
                     <dtFecha>#{shipment_date.strftime('%Y/%m/%d')}</dtFecha>
                     <strCodTipoServ>72</strCodTipoServ>
-                    <strCodCli>1004</strCodCli>
+                    <strCodCli>#{Deliveries.courier(:envialia).config(:username)}</strCodCli>
                     <strNomOri>#{sender.name}</strNomOri>
                     <strDirOri>#{sender.street}</strDirOri>
                     <strCPOri>#{sender.postcode}</strCPOri>
@@ -124,6 +124,14 @@ module Deliveries
 
           def headers
             { 'Content-Type' => "application/xml; charset='UTF-8'" }
+          end
+
+          def api_endpoint
+            if Envialia.live?
+              Envialia::ENVIALIA_ENDPOINT_LIVE
+            else
+              Envialia::ENVIALIA_ENDPOINT_TEST
+            end
           end
         end
       end

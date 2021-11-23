@@ -6,9 +6,7 @@ module Deliveries
       module Pickups
         class Create
           include HTTParty
-          extend Authentication
-
-          API_URL = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
+          include Authentication
 
           attr_accessor :sender, :receiver, :parcels,
                         :reference_code, :pickup_date, :remarks, :tracking_code
@@ -26,15 +24,20 @@ module Deliveries
           end
 
           def execute
-            response = HTTParty.post(
-              API_URL,
+            response = self.class.post(
+              api_endpoint,
               body: body,
-              headers: headers
+              headers: headers,
+              debug_output: Deliveries.debug ? Deliveries.logger : nil
             )
 
-            parsed_response = Hash.from_xml(response)
+            raise Deliveries::ClientError unless response.success?
 
-            pickup_number = parsed_response.dig("Envelope", "Body", "WebServService___GrabaRecogida3Response", "strCodOut")
+            unless Envialia.live?
+              response = Hash.from_xml(response)
+            end
+
+            pickup_number = response.dig("Envelope", "Body", "WebServService___GrabaRecogida3Response", "strCodOut")
 
             if pickup_number
               Deliveries::Pickup.new(
@@ -47,7 +50,7 @@ module Deliveries
                 pickup_date: pickup_date
               )
             else
-              exception = parsed_response.dig("Envelope", "Body", "Fault")
+              exception = response.dig("Envelope", "Body", "Fault")
 
               if exception.dig('faultcode').eql?('Exception')
                 exception_code, exception_str = exception.dig('faultstring').split(':')
@@ -59,7 +62,7 @@ module Deliveries
                   exception_str.strip,
                   exception_code.to_i
                 )
-            end  
+            end
           end
 
           private
@@ -76,7 +79,7 @@ module Deliveries
               <WebServService___GrabaRecogida3 xmlns="http://tempuri.org/">
                 <strCod></strCod>
                 <strAlbaran>#{tracking_code}</strAlbaran>
-                <strCodAgeCargo>#{Deliveries.courier(:envialia).config(:username)}</strCodAgeCargo>
+                <strCodAgeCargo>#{Deliveries.courier(:envialia).config(:agency_code)}</strCodAgeCargo>
                 <strCodAgeOri></strCodAgeOri>
                 <dtFecRec>#{pickup_date.strftime('%Y/%m/%d')}</dtFecRec>
                 <strNomOri>#{sender.name}</strNomOri>
@@ -119,6 +122,14 @@ module Deliveries
 
           def headers
             { 'Content-Type' => "application/xml; charset='UTF-8'" }
+          end
+
+          def api_endpoint
+            if Envialia.live?
+              Envialia::ENVIALIA_ENDPOINT_LIVE
+            else
+              Envialia::ENVIALIA_ENDPOINT_TEST
+            end
           end
         end
       end

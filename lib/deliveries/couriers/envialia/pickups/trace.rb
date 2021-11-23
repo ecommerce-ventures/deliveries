@@ -1,4 +1,5 @@
 require 'httparty'
+require 'active_support/core_ext/hash/conversions'
 
 module Deliveries
   module Couriers
@@ -6,11 +7,9 @@ module Deliveries
       module Pickups
         class Trace
           include HTTParty
-          extend Authentication
+          include Authentication
 
           attr_accessor :tracking_code
-
-          API_URL = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
 
           def initialize(tracking_code:)
             self.tracking_code = tracking_code
@@ -18,7 +17,7 @@ module Deliveries
 
           def execute
             response = self.class.post(
-              API_URL,
+              api_endpoint,
               body: body,
               headers: headers,
               debug_output: Deliveries.debug ? Deliveries.logger : nil
@@ -26,15 +25,17 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            parsed_response = Hash.from_xml(response)
-
-            if parsed_response.dig("Envelope", "Body", "WebServService___ConsRecEstadosResponse", "strRecEstados").nil?
+            unless Envialia.live?
+              response = Hash.from_xml(response)
+            end
+            
+            if response.dig("Envelope", "Body", "WebServService___ConsRecEstadosResponse", "strRecEstados").nil?
               raise Deliveries::APIError.new(
                 'No se han encontrado datos para este envío',
                 '402'
               )
             else
-              parsed_response
+              response
             end
           end
 
@@ -57,6 +58,14 @@ module Deliveries
 
           def headers
             { 'Content-Type' => "application/xml; charset='UTF-8'" }
+          end
+
+          def api_endpoint
+            if Envialia.live?
+              Envialia::ENVIALIA_ENDPOINT_LIVE
+            else
+              Envialia::ENVIALIA_ENDPOINT_TEST
+            end
           end
         end
       end

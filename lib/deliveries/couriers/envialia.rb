@@ -18,6 +18,11 @@ module Deliveries
         :agency_code
       )
 
+      ENVIALIA_LOGIN_ENDPOINT_LIVE = 'http://ws.envialia.com/SOAP?service=LoginService'.freeze
+      ENVIALIA_LOGIN_ENDPOINT_TEST = 'http://wstest.envialia.com:9085/SOAP?service=LoginService'.freeze
+      ENVIALIA_ENDPOINT_LIVE = 'http://ws.envialia.com/SOAP?service=WebServService'.freeze
+      ENVIALIA_ENDPOINT_TEST = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
+
       module_function
 
       def create_shipment(sender:, receiver:, parcels:, reference_code:, collection_point: nil, shipment_date: nil, remarks: nil, **)

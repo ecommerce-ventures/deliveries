@@ -6,9 +6,7 @@ module Deliveries
       module Labels
         class Generate
           include HTTParty
-          extend Authentication
-
-          API_URL = 'http://wstest.envialia.com:9085/SOAP?service=WebServService'.freeze
+          include Authentication
 
           attr_accessor :tracking_codes
 
@@ -21,7 +19,7 @@ module Deliveries
 
             tracking_codes.each do |tracking_code|
               response = self.class.post(
-                API_URL,
+                api_endpoint,
                 body: body(tracking_code),
                 headers: headers,
                 debug_output: Deliveries.debug ? Deliveries.logger : nil
@@ -29,9 +27,11 @@ module Deliveries
 
               raise Deliveries::ClientError unless response.success?
 
-              parsed_response = Hash.from_xml(response)
-
-              labels = parsed_response.dig("Envelope", "Body", "WebServService___ConsEtiquetaEnvio6Response", "strEtiquetas")
+              unless Envialia.live?
+                response = Hash.from_xml(response)
+              end
+              
+              labels = response.dig("Envelope", "Body", "WebServService___ConsEtiquetaEnvio6Response", "strEtiquetas")
 
               if labels.blank?
                 raise Deliveries::APIError.new(
@@ -62,7 +62,7 @@ module Deliveries
                 </soap:Header>
                 <soap:Body>
                   <WebServService___ConsEtiquetaEnvio6>
-                    <strCodAgeOri>#{Deliveries.courier(:envialia).config(:username)}</strCodAgeOri>
+                    <strCodAgeOri>#{Deliveries.courier(:envialia).config(:agency_code)}</strCodAgeOri>
                     <strAlbaran>#{tracking_code}</strAlbaran>
                     <strBulto></strBulto>
                     <boPaginaA4>false</boPaginaA4>
@@ -76,6 +76,14 @@ module Deliveries
 
           def headers
             { 'Content-Type' => "application/xml; charset='UTF-8'" }
+          end
+
+          def api_endpoint
+            if Envialia.live?
+              Envialia::ENVIALIA_ENDPOINT_LIVE
+            else
+              Envialia::ENVIALIA_ENDPOINT_TEST
+            end
           end
         end
       end

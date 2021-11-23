@@ -1,4 +1,5 @@
 require 'active_support/time'
+require 'active_support/core_ext/hash/conversions'
 
 module Deliveries
   module Couriers
