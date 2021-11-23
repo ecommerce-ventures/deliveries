@@ -1,5 +1,4 @@
 require 'httparty'
-require 'byebug'
 
 module Deliveries
   module Couriers

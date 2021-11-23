@@ -269,20 +269,10 @@ def register_envialia_shipment_info_stubs
             xmlns:ro="http://tempuri.org/">
             <v1:WebServService___ConsEnvEstadosResponse>
               <v1:strEnvEstados>&lt;CONSULTA&gt;&lt;ENV_ESTADOS
-                I_ID="1"
-                V_COD_TIPO_EST="0"
-                D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 11:11:11"
-                V_COD_USU_ALTA=""
-                V_COD_AGE_ALTA="002800"
-                V_COD_REP_ALTA=""
-                V_COD_CLI_ALTA="WS101"
-                V_COD_CLI_DEP_ALTA=""
-                V_CAMPO_1=""
-                V_CAMPO_2=""
-                V_CAMPO_3=""
-                V_CAMPO_4=""
-                B_CAMPO_5="False"/&gt;&lt;/CONSULTA&gt;
-              </v1:strEnvEstados>
+              I_ID="1" V_COD_TIPO_EST="0" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 11:11:11" V_COD_USU_ALTA="" V_COD_AGE_ALTA="004895" V_COD_REP_ALTA="" V_COD_CLI_ALTA="651" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;ENV_ESTADOS
+              I_ID="2" V_COD_TIPO_EST="1" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 12:12:12" V_COD_USU_ALTA="JA489" V_COD_AGE_ALTA="" V_COD_REP_ALTA="" V_COD_CLI_ALTA="" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;ENV_ESTADOS
+              I_ID="3" V_COD_TIPO_EST="5" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 13:13:13" V_COD_USU_ALTA="02T02" V_COD_AGE_ALTA="000295" V_COD_REP_ALTA="" V_COD_CLI_ALTA="" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;ENV_ESTADOS
+              I_ID="5" V_COD_TIPO_EST="4" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 14:14:14" V_COD_USU_ALTA="" V_COD_AGE_ALTA="000295" V_COD_REP_ALTA="011" V_COD_CLI_ALTA="" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;/CONSULTA&gt;</v1:strEnvEstados>
             </v1:WebServService___ConsEnvEstadosResponse>
           </SOAP-ENV:Body>
         </SOAP-ENV:Envelope>
@@ -348,39 +338,30 @@ def register_envialia_pickup_info_stubs
     ).to_return(
       status: 200,
       body: <<~XML,
-        <?xml version="1.0" encoding="utf-8"?>
-          <SOAP-ENV:Envelope
-          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xmlns:HNS="http://tempuri.org/"
-          xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-          xmlns:v1="http://tempuri.org/">
-          <SOAP-ENV:Header>
-            <ROClientIDHeader SOAP-ENV:mustUnderstand="0"
-              xmlns="urn:envialianet">
-              <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>
-            </ROClientIDHeader>
-          </SOAP-ENV:Header>
-          <SOAP-ENV:Body
-            xmlns:ro="http://tempuri.org/">
-            <v1:WebServService___ConsRecEstadosResponse>
-              <v1:strRecEstados>&lt;CONSULTA&gt;&lt;REC_ESTADOS
-                I_ID="1"
-                V_COD_TIPO_EST="R0"
-                D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 11:11:11"
-                V_COD_USU_ALTA=""
-                V_COD_AGE_ALTA="002800"
-                V_COD_REP_ALTA=""
-                V_COD_CLI_ALTA="WS101"
-                V_COD_CLI_DEP_ALTA=""
-                V_CAMPO_1=""
-                V_CAMPO_2=""
-                V_CAMPO_3=""
-                V_CAMPO_4=""
-                B_CAMPO_5="False"/&gt;&lt;/CONSULTA&gt;
-              </v1:strRecEstados>
-            </v1:WebServService___ConsRecEstadosResponse>
-          </SOAP-ENV:Body>
+      <?xml version="1.0" encoding="utf-8"?>
+        <SOAP-ENV:Envelope
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:HNS="http://tempuri.org/"
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:v1="http://tempuri.org/">
+        <SOAP-ENV:Header>
+          <ROClientIDHeader SOAP-ENV:mustUnderstand="0"
+            xmlns="urn:envialianet">
+            <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>
+          </ROClientIDHeader>
+        </SOAP-ENV:Header>
+        <SOAP-ENV:Body
+          xmlns:ro="http://tempuri.org/">
+          <v1:WebServService___ConsRecEstadosResponse>
+            <v1:strRecEstados>&lt;CONSULTA&gt;&lt;REC_ESTADOS
+              I_ID="1" V_COD_TIPO_EST="R0" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 11:11:11" V_COD_USU_ALTA="" B_ULT="False" V_COD_AGE_ALTA="004895" V_COD_REP_ALTA="" V_COD_CLI_ALTA="651" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;REC_ESTADOS
+              I_ID="2" V_COD_TIPO_EST="R4" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 12:12:12" V_COD_USU_ALTA="36284" B_ULT="False" V_COD_AGE_ALTA="" V_COD_REP_ALTA="" V_COD_CLI_ALTA="" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;REC_ESTADOS
+              I_ID="4" V_COD_TIPO_EST="R8" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 13:13:13" V_COD_USU_ALTA="" B_ULT="False" V_COD_AGE_ALTA="003628" V_COD_REP_ALTA="00022" V_COD_CLI_ALTA="" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;REC_ESTADOS
+              I_ID="5" V_COD_TIPO_EST="R7" D_FEC_HORA_ALTA="#{Date.yesterday.strftime('%m/%d/%Y')} 14:14:14" V_COD_USU_ALTA="36283" B_ULT="True" V_COD_AGE_ALTA="" V_COD_REP_ALTA="" V_COD_CLI_ALTA="" V_COD_CLI_DEP_ALTA="" V_CAMPO_1="" V_CAMPO_2="" V_CAMPO_3="" V_CAMPO_4="" B_CAMPO_5="False"/&gt;&lt;/CONSULTA&gt;
+            </v1:strRecEstados>
+          </v1:WebServService___ConsRecEstadosResponse>
+        </SOAP-ENV:Body>
         </SOAP-ENV:Envelope>
       XML
       headers: {}

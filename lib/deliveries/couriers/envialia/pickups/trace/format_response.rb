@@ -1,5 +1,5 @@
 require 'active_support/time'
-require 'byebug'
+
 module Deliveries
   module Couriers
     module Envialia
@@ -41,14 +41,13 @@ module Deliveries
               body = response.dig("Envelope", "Body", "WebServService___ConsRecEstadosResponse", "strRecEstados")
               parsed_response = Hash.from_xml(body).dig("CONSULTA", "REC_ESTADOS")
 
-              status = STATUS_CODES[parsed_response.dig("V_COD_TIPO_EST")]
-              status = INCIDENT_CODES[parsed_response.dig("V_COD_TIPO_EST")] if status.eql?('Incidencia')
+              checkpoints = formatted_checkpoints(parsed_response)
 
               tracking_info_params = {}
               tracking_info_params[:courier_id] = 'envialia'
-              tracking_info_params[:tracking_code] = parsed_response.dig("I_ID")
-              tracking_info_params[:status] = status(status)
-              tracking_info_params[:checkpoints] = formatted_checkpoints(parsed_response)
+              tracking_info_params[:tracking_code] = nil
+              tracking_info_params[:status] = checkpoints.last.try(:status)
+              tracking_info_params[:checkpoints] = checkpoints
 
               tracking_info_params
             end
@@ -86,13 +85,13 @@ module Deliveries
               case code
               when 'Solicitada', 'Lectura en delegación', 'Asignada'
                 :registered
-              when 'Recogida Parcial (Múltiples Destinos)'
+              when 'Realizada', 'Recogida Parcial (Múltiples Destinos)'
                 :in_transit
               when 'Recogida fallida', 'Datos insuficientes', 'Error al emitir la recogida'
                 :delivery_failed
               when 'Anulada', 'Recogida anulada'
-                :canceled
-              when 'Realizada'
+                :cancelled
+              when 'Finalizada'
                 :delivered
               else
                 :unknown_status

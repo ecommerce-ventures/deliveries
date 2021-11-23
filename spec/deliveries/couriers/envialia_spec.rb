@@ -161,13 +161,28 @@ RSpec.describe 'Envialia' do
     expect(response.courier_id).to eq 'envialia'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
-    expect(response.status).to eq :registered
-    expect(response.checkpoints.length).to eq 1
+    expect(response.status).to eq :delivered
+    expect(response.checkpoints.length).to eq 4
     expect(response.checkpoints[0]).to be_a Deliveries::Checkpoint
     expect(response.checkpoints[0].status).to eq :registered
     expect(response.checkpoints[0].location).to eq nil
     expect(response.checkpoints[0].tracked_at).to eq "#{Date.yesterday} 11:11:11".in_time_zone
     expect(response.checkpoints[0].description).to eq 'Documentado'
+    expect(response.checkpoints[1]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[1].status).to eq :in_transit
+    expect(response.checkpoints[1].location).to eq nil
+    expect(response.checkpoints[1].tracked_at).to eq "#{Date.yesterday} 12:12:12".in_time_zone
+    expect(response.checkpoints[1].description).to eq 'En Tránsito'
+    expect(response.checkpoints[2]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[2].status).to eq :cancelled
+    expect(response.checkpoints[2].location).to eq nil
+    expect(response.checkpoints[2].tracked_at).to eq "#{Date.yesterday} 13:13:13".in_time_zone
+    expect(response.checkpoints[2].description).to eq 'Devuelto'
+    expect(response.checkpoints[3]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[3].status).to eq :delivered
+    expect(response.checkpoints[3].location).to eq nil
+    expect(response.checkpoints[3].tracked_at).to eq "#{Date.yesterday} 14:14:14".in_time_zone
+    expect(response.checkpoints[3].description).to eq 'Entregado'
 
     # Error
     # ---
@@ -196,14 +211,29 @@ RSpec.describe 'Envialia' do
     expect(response.courier_id).to eq 'envialia'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
-    expect(response.status).to eq :registered
+    expect(response.status).to eq :delivered
     expect(response.checkpoints).to be_a Array
-    expect(response.checkpoints.length).to eq 1
+    expect(response.checkpoints.length).to eq 4
     expect(response.checkpoints[0]).to be_a Deliveries::Checkpoint
     expect(response.checkpoints[0].status).to eq :registered
     expect(response.checkpoints[0].location).to eq nil
     expect(response.checkpoints[0].tracked_at).to eq "#{Date.yesterday} 11:11:11".in_time_zone
     expect(response.checkpoints[0].description).to eq 'Solicitada'
+    expect(response.checkpoints[1]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[1].status).to eq :in_transit
+    expect(response.checkpoints[1].location).to eq nil
+    expect(response.checkpoints[1].tracked_at).to eq "#{Date.yesterday} 12:12:12".in_time_zone
+    expect(response.checkpoints[1].description).to eq 'Realizada'
+    expect(response.checkpoints[2]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[2].status).to eq :cancelled
+    expect(response.checkpoints[2].location).to eq nil
+    expect(response.checkpoints[2].tracked_at).to eq "#{Date.yesterday} 13:13:13".in_time_zone
+    expect(response.checkpoints[2].description).to eq 'Anulada'
+    expect(response.checkpoints[3]).to be_a Deliveries::Checkpoint
+    expect(response.checkpoints[3].status).to eq :delivered
+    expect(response.checkpoints[3].location).to eq nil
+    expect(response.checkpoints[3].tracked_at).to eq "#{Date.yesterday} 14:14:14".in_time_zone
+    expect(response.checkpoints[3].description).to eq 'Finalizada'
 
     # Error
     # ---

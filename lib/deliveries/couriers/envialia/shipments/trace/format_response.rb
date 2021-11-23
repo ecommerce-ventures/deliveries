@@ -1,5 +1,5 @@
 require 'active_support/time'
-require 'byebug'
+
 module Deliveries
   module Couriers
     module Envialia
@@ -61,13 +61,13 @@ module Deliveries
             def execute
               body = response.dig("Envelope", "Body", "WebServService___ConsEnvEstadosResponse", "strEnvEstados")
               parsed_response = Hash.from_xml(body).dig("CONSULTA", "ENV_ESTADOS")
-              status = STATUS_CODES[parsed_response.dig("V_COD_TIPO_EST")]
-              status = INCIDENT_CODES[shipment_status.dig("V_COD_TIPO_EST")] if status.eql?('Incidencia')
+
+              checkpoints = formatted_checkpoints(parsed_response)
 
               tracking_info_params = {}
               tracking_info_params[:courier_id] = 'envialia'
-              tracking_info_params[:tracking_code] = parsed_response.dig("I_ID")
-              tracking_info_params[:status] = status(status)
+              tracking_info_params[:tracking_code] = nil
+              tracking_info_params[:status] = checkpoints.last.try(:status)
               tracking_info_params[:checkpoints] = formatted_checkpoints(parsed_response)
 
               tracking_info_params
@@ -106,10 +106,12 @@ module Deliveries
               case code
               when 'Documentado'
                 :registered
-              when 'En Tránsito', 'En reparto'
+              when 'En Tránsito', 'En Reparto'
                 :in_transit
               when 'Entregado'
                 :delivered
+              when 'Devuelto'
+                :cancelled
               else
                 :unknown_status
               end
