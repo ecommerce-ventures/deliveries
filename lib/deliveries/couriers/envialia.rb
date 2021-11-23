@@ -71,6 +71,19 @@ module Deliveries
 
         Deliveries::Label.new(raw: pdf)
       end
+
+      def get_labels(tracking_codes:, **)
+        labels = Deliveries::Labels.new
+
+        Labels::Generate.new(
+          tracking_codes: tracking_codes
+        ).execute.each do |pdf|
+          labels << pdf
+        end
+
+        labels
+      end
+
     end
   end
 end
