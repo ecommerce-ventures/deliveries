@@ -91,6 +91,7 @@ module Deliveries
                 <strCPDes>#{receiver.postcode}</strCPDes>
                 <strTlfDes>#{receiver.phone}</strTlfDes>
                 <intBul>#{parcels}</intBul>
+                <strCodTipoServ>72</strCodTipoServ>
                 <dPesoOri>0</dPesoOri>
                 <dAltoOri>0</dAltoOri>
                 <dAnchoOri>0</dAnchoOri>
