@@ -32,10 +32,6 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            unless Envialia.live?
-              response = Hash.from_xml(response)
-            end
-            
             tracking_code = response.dig("Envelope", "Body", "WebServService___GrabaEnvio8Response", "strAlbaranOut")
 
             if tracking_code
@@ -123,9 +119,9 @@ module Deliveries
           end
 
           def headers
-            { 'Content-Type' => "application/xml; charset='UTF-8'" }
+            { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
           end
-
+          
           def api_endpoint
             if Envialia.live?
               Envialia::ENVIALIA_ENDPOINT_LIVE

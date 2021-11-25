@@ -16,10 +16,6 @@ module Deliveries
 
           raise Deliveries::ClientError unless response.success?
 
-          unless Envialia.live?
-            response = Hash.from_xml(response)
-          end
-
           response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
         end
 
@@ -38,7 +34,7 @@ module Deliveries
         end
 
         def login_headers
-          { "Content-Type"=>"text/json; charset='UTF-8'" }
+          { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
         end
 
         def login_endpoint

@@ -27,10 +27,6 @@ module Deliveries
 
               raise Deliveries::ClientError unless response.success?
 
-              unless Envialia.live?
-                response = Hash.from_xml(response)
-              end
-              
               labels = response.dig("Envelope", "Body", "WebServService___ConsEtiquetaEnvio6Response", "strEtiquetas")
 
               if labels.blank?
@@ -75,7 +71,7 @@ module Deliveries
           end
 
           def headers
-            { 'Content-Type' => "application/xml; charset='UTF-8'" }
+            { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
           end
 
           def api_endpoint

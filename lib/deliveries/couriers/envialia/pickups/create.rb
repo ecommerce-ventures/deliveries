@@ -33,10 +33,6 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            unless Envialia.live?
-              response = Hash.from_xml(response)
-            end
-
             pickup_number = response.dig("Envelope", "Body", "WebServService___GrabaRecogida3Response", "strCodOut")
 
             if pickup_number
@@ -122,7 +118,7 @@ module Deliveries
           end
 
           def headers
-            { 'Content-Type' => "application/xml; charset='UTF-8'" }
+            { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
           end
 
           def api_endpoint
