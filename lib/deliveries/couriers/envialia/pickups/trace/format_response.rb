@@ -27,18 +27,6 @@ module Deliveries
               'R9' => 'Lectura repartidor'
             }.freeze
 
-            INCIDENT_CODES = {
-              'R01' => 'Recogida fallida',
-              'R02' => 'Datos insuficientes',
-              'R03' => 'Error al emitir la recogida',
-              'R04' => 'Recogida anulada',
-              'R05' => 'Recogida pendiente',
-              'R06' => 'Incidencia / Gestión en delegación',
-              'R07' => 'Recogida Parcial (Múltiples Destinos)',
-              'R08' => 'Recogida bultos/sobres no documentados',
-              'R09' => 'Incidencia automática por actuación'
-            }.freeze
-
             def execute
               body = response.dig('Envelope', 'Body', 'WebServService___ConsRecEstadosResponse', 'strRecEstados')
               parsed_response = Hash.from_xml(body).dig('CONSULTA', 'REC_ESTADOS')
@@ -71,7 +59,6 @@ module Deliveries
 
             def formatted_checkpoint(shipment_status)
               status = STATUS_CODES[shipment_status['V_COD_TIPO_EST']]
-              status = INCIDENT_CODES[shipment_status['V_COD_TIPO_EST']] if status.eql?('Incidencia')
 
               date = shipment_status['D_FEC_HORA_ALTA']
 

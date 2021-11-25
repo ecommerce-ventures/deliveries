@@ -32,34 +32,6 @@ module Deliveries
               '16' => 'Pendiente de emisión'
             }.freeze
 
-            INCIDENT_CODES = {
-              'C01' => 'Estacionado en plataforma',
-              'C02' => 'Devuelto por embalaje insuficiente',
-              'C03' => 'Mercancía pendiente de revisión',
-              'C04' => 'Modificado por Dpto. ATC',
-              'C05' => 'Mercancía irregular no permitida',
-              'D01' => 'Destinatario ausente / Local cerrado',
-              'D04' => 'Rehusado / Rechazado',
-              'D05' => 'Dirección incorrecta',
-              'D06' => 'No recepcionan / Pte. Fecha de entrega',
-              'D07' => 'No paga cobros',
-              'D09' => 'No paga CABILDOS/ADUANA',
-              'D11' => 'Retorno no preparado',
-              'D12' => 'Pendiente recoger destinatario en delegación',
-              'D13' => 'Reparto al día siguiente',
-              'D14' => 'Robo en destino',
-              'D18' => 'No entregar',
-              'D19' => 'Entrega reclamada',
-              'P01' => 'Pendiente de llegada',
-              'P02' => 'Expedición incompleta',
-              'P03' => 'Envío mal canalizado',
-              'P04' => 'Recibido en mal estado',
-              'P05' => 'Falta factura proforma',
-              'P06' => 'Demora en llegada de vuelo / barco',
-              'P07' => 'Retenido en ADUANA',
-              'Z99' => 'Incidencia automática por actuación'
-            }.freeze
-
             def execute
               body = response.dig('Envelope', 'Body', 'WebServService___ConsEnvEstadosResponse', 'strEnvEstados')
               parsed_response = Hash.from_xml(body).dig('CONSULTA', 'ENV_ESTADOS')
@@ -92,7 +64,6 @@ module Deliveries
 
             def formatted_checkpoint(shipment_status)
               status = STATUS_CODES[shipment_status['V_COD_TIPO_EST']]
-              status = INCIDENT_CODES[shipment_status['V_COD_TIPO_EST']] if status.eql?('Incidencia')
 
               date = shipment_status['D_FEC_HORA_ALTA']
 
