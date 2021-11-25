@@ -27,12 +27,11 @@ module Deliveries
 
               raise Deliveries::ClientError unless response.success?
 
-
-              labels = response.dig("Envelope", "Body", "WebServService___ConsEtiquetaEnvio6Response", "strEtiquetas")
+              labels = response.dig('Envelope', 'Body', 'WebServService___ConsEtiquetaEnvio6Response', 'strEtiquetas')
 
               if labels.blank?
                 raise Deliveries::APIError.new(
-                  "No hay etiqutas disponibles",
+                  'No hay etiqutas disponibles',
                   404
                 )
               else

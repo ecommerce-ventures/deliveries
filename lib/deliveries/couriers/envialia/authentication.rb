@@ -16,7 +16,7 @@ module Deliveries
 
           raise Deliveries::ClientError unless response.success?
 
-          response.dig("Envelope", "Header", "ROClientIDHeader", "ID")
+          response.dig('Envelope', 'Header', 'ROClientIDHeader', 'ID')
         end
 
         def login_body

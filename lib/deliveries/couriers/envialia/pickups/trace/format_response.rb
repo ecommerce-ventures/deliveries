@@ -1,4 +1,6 @@
 require 'active_support/time'
+require 'active_support/core_ext/hash/conversions'
+require 'active_support/core_ext/time'
 
 module Deliveries
   module Couriers
@@ -13,33 +15,33 @@ module Deliveries
             end
 
             STATUS_CODES = {
-              "R0" => 'Solicitada',
-              "R1" => 'Lectura en delegación',
-              "R2" => 'Asignada',
-              "R3" => 'Incidencia',
-              "R4" => 'Realizada',
-              "R5" => 'Pendiente de asignación',
-              "R6" => 'Recogida fallida',
-              "R7" => 'Finalizada',
-              "R8" => 'Anulada',
-              "R9" => 'Lectura repartidor'
+              'R0' => 'Solicitada',
+              'R1' => 'Lectura en delegación',
+              'R2' => 'Asignada',
+              'R3' => 'Incidencia',
+              'R4' => 'Realizada',
+              'R5' => 'Pendiente de asignación',
+              'R6' => 'Recogida fallida',
+              'R7' => 'Finalizada',
+              'R8' => 'Anulada',
+              'R9' => 'Lectura repartidor'
             }.freeze
 
             INCIDENT_CODES = {
-              "R01" => 'Recogida fallida',
-              "R02" => 'Datos insuficientes',
-              "R03" => 'Error al emitir la recogida',
-              "R04" => 'Recogida anulada',
-              "R05" => 'Recogida pendiente',
-              "R06" => 'Incidencia / Gestión en delegación',
-              "R07" => 'Recogida Parcial (Múltiples Destinos)',
-              "R08" => 'Recogida bultos/sobres no documentados',
-              "R09" => 'Incidencia automática por actuación',
+              'R01' => 'Recogida fallida',
+              'R02' => 'Datos insuficientes',
+              'R03' => 'Error al emitir la recogida',
+              'R04' => 'Recogida anulada',
+              'R05' => 'Recogida pendiente',
+              'R06' => 'Incidencia / Gestión en delegación',
+              'R07' => 'Recogida Parcial (Múltiples Destinos)',
+              'R08' => 'Recogida bultos/sobres no documentados',
+              'R09' => 'Incidencia automática por actuación'
             }.freeze
 
             def execute
-              body = response.dig("Envelope", "Body", "WebServService___ConsRecEstadosResponse", "strRecEstados")
-              parsed_response = Hash.from_xml(body).dig("CONSULTA", "REC_ESTADOS")
+              body = response.dig('Envelope', 'Body', 'WebServService___ConsRecEstadosResponse', 'strRecEstados')
+              parsed_response = Hash.from_xml(body).dig('CONSULTA', 'REC_ESTADOS')
 
               checkpoints = formatted_checkpoints(parsed_response)
 
@@ -68,10 +70,10 @@ module Deliveries
             end
 
             def formatted_checkpoint(shipment_status)
-              status = STATUS_CODES[shipment_status.dig("V_COD_TIPO_EST")]
-              status = INCIDENT_CODES[shipment_status.dig("V_COD_TIPO_EST")] if status.eql?('Incidencia')
+              status = STATUS_CODES[shipment_status['V_COD_TIPO_EST']]
+              status = INCIDENT_CODES[shipment_status['V_COD_TIPO_EST']] if status.eql?('Incidencia')
 
-              date = shipment_status.dig("D_FEC_HORA_ALTA")
+              date = shipment_status['D_FEC_HORA_ALTA']
 
               Deliveries::Checkpoint.new(
                 status: status(status),

@@ -1,5 +1,4 @@
 require 'httparty'
-require 'active_support/core_ext/hash/conversions'
 
 module Deliveries
   module Couriers
@@ -25,7 +24,7 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            if response.dig("Envelope", "Body", "WebServService___ConsRecEstadosResponse", "strRecEstados").nil?
+            if response.dig('Envelope', 'Body', 'WebServService___ConsRecEstadosResponse', 'strRecEstados').nil?
               raise Deliveries::APIError.new(
                 'No se han encontrado datos para este envío',
                 '402'

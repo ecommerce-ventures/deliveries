@@ -15,7 +15,6 @@ module Deliveries
           end
 
           def execute
-
             response = self.class.post(
               api_endpoint,
               body: body,
@@ -25,7 +24,7 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            if response.dig("Envelope", "Body", "WebServService___ConsEnvEstadosResponse", "strEnvEstados").nil?
+            if response.dig('Envelope', 'Body', 'WebServService___ConsEnvEstadosResponse', 'strEnvEstados').nil?
               raise Deliveries::APIError.new(
                 'No se han encontrado datos para este envío',
                 '402'

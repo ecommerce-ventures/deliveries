@@ -32,7 +32,7 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            tracking_code = response.dig("Envelope", "Body", "WebServService___GrabaEnvio8Response", "strAlbaranOut")
+            tracking_code = response.dig('Envelope', 'Body', 'WebServService___GrabaEnvio8Response', 'strAlbaranOut')
 
             if tracking_code
               Deliveries::Shipment.new(
@@ -46,18 +46,19 @@ module Deliveries
                 label: nil
               )
             else
-              exception = response.dig("Envelope", "Body", "Fault")
+              exception = response.dig('Envelope', 'Body', 'Fault')
 
-              if exception.dig('faultcode').eql?('Exception')
-                exception_code, exception_str = exception.dig('faultstring').split(':')
+              if exception['faultcode'].eql?('Exception')
+                exception_code, exception_str = exception['faultstring'].split(':')
               else
                 exception_code = 400
-                exception_str = exception.dig('faultstring')
+                exception_str = exception['faultstring']
               end
-                raise Deliveries::APIError.new(
-                  exception_str.strip,
-                  exception_code.to_i
-                )
+
+              raise Deliveries::APIError.new(
+                exception_str.strip,
+                exception_code.to_i
+              )
             end
           end
 
@@ -121,7 +122,7 @@ module Deliveries
           def headers
             { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
           end
-          
+
           def api_endpoint
             if Envialia.live?
               Envialia::ENVIALIA_ENDPOINT_LIVE

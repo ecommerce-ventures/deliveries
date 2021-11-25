@@ -88,7 +88,6 @@ module Deliveries
 
         labels
       end
-
     end
   end
 end

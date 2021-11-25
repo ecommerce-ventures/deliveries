@@ -1,4 +1,5 @@
 require 'active_support/time'
+require 'active_support/core_ext/time'
 require 'active_support/core_ext/hash/conversions'
 
 module Deliveries
@@ -14,54 +15,54 @@ module Deliveries
             end
 
             STATUS_CODES = {
-              "0" => 'Documentado',
-              "1" => 'En Tránsito',
-              "2" => 'En Reparto',
-              "3" => 'Incidencia',
-              "4" => 'Entregado',
-              "5" => 'Devuelto',
-              "6" => 'Recanalizado',
-              "8" => 'Destruido (P.O.Delegación)',
-              "9" => 'Falta definitiva de expedición',
-              "10" => 'Pendiente nuevo reparto',
-              "11" => 'En CS destino',
-              "12" => 'Recogeran en delegacion',
-              "14" => 'Entrega Parcial',
-              "15" => 'Tránsito 72H.',
-              "16" => 'Pendiente de emisión',
+              '0' => 'Documentado',
+              '1' => 'En Tránsito',
+              '2' => 'En Reparto',
+              '3' => 'Incidencia',
+              '4' => 'Entregado',
+              '5' => 'Devuelto',
+              '6' => 'Recanalizado',
+              '8' => 'Destruido (P.O.Delegación)',
+              '9' => 'Falta definitiva de expedición',
+              '10' => 'Pendiente nuevo reparto',
+              '11' => 'En CS destino',
+              '12' => 'Recogeran en delegacion',
+              '14' => 'Entrega Parcial',
+              '15' => 'Tránsito 72H.',
+              '16' => 'Pendiente de emisión'
             }.freeze
 
             INCIDENT_CODES = {
-              "C01" => 'Estacionado en plataforma',
-              "C02" => 'Devuelto por embalaje insuficiente',
-              "C03" => 'Mercancía pendiente de revisión',
-              "C04" => 'Modificado por Dpto. ATC',
-              "C05" => 'Mercancía irregular no permitida',
-              "D01" => 'Destinatario ausente / Local cerrado',
-              "D04" => 'Rehusado / Rechazado',
-              "D05" => 'Dirección incorrecta',
-              "D06" => 'No recepcionan / Pte. Fecha de entrega',
-              "D07" => 'No paga cobros',
-              "D09" => 'No paga CABILDOS/ADUANA',
-              "D11" => 'Retorno no preparado',
-              "D12" => 'Pendiente recoger destinatario en delegación',
-              "D13" => 'Reparto al día siguiente',
-              "D14" => 'Robo en destino',
-              "D18" => 'No entregar',
-              "D19" => 'Entrega reclamada',
-              "P01" => 'Pendiente de llegada',
-              "P02" => 'Expedición incompleta',
-              "P03" => 'Envío mal canalizado',
-              "P04" => 'Recibido en mal estado',
-              "P05" => 'Falta factura proforma',
-              "P06'" => 'Demora en llegada de vuelo / barco',
-              "P07" => 'Retenido en ADUANA',
-              "Z99" => 'Incidencia automática por actuación'
-            }
+              'C01' => 'Estacionado en plataforma',
+              'C02' => 'Devuelto por embalaje insuficiente',
+              'C03' => 'Mercancía pendiente de revisión',
+              'C04' => 'Modificado por Dpto. ATC',
+              'C05' => 'Mercancía irregular no permitida',
+              'D01' => 'Destinatario ausente / Local cerrado',
+              'D04' => 'Rehusado / Rechazado',
+              'D05' => 'Dirección incorrecta',
+              'D06' => 'No recepcionan / Pte. Fecha de entrega',
+              'D07' => 'No paga cobros',
+              'D09' => 'No paga CABILDOS/ADUANA',
+              'D11' => 'Retorno no preparado',
+              'D12' => 'Pendiente recoger destinatario en delegación',
+              'D13' => 'Reparto al día siguiente',
+              'D14' => 'Robo en destino',
+              'D18' => 'No entregar',
+              'D19' => 'Entrega reclamada',
+              'P01' => 'Pendiente de llegada',
+              'P02' => 'Expedición incompleta',
+              'P03' => 'Envío mal canalizado',
+              'P04' => 'Recibido en mal estado',
+              'P05' => 'Falta factura proforma',
+              'P06' => 'Demora en llegada de vuelo / barco',
+              'P07' => 'Retenido en ADUANA',
+              'Z99' => 'Incidencia automática por actuación'
+            }.freeze
 
             def execute
-              body = response.dig("Envelope", "Body", "WebServService___ConsEnvEstadosResponse", "strEnvEstados")
-              parsed_response = Hash.from_xml(body).dig("CONSULTA", "ENV_ESTADOS")
+              body = response.dig('Envelope', 'Body', 'WebServService___ConsEnvEstadosResponse', 'strEnvEstados')
+              parsed_response = Hash.from_xml(body).dig('CONSULTA', 'ENV_ESTADOS')
 
               checkpoints = formatted_checkpoints(parsed_response)
 
@@ -90,10 +91,10 @@ module Deliveries
             end
 
             def formatted_checkpoint(shipment_status)
-              status = STATUS_CODES[shipment_status.dig("V_COD_TIPO_EST")]
-              status = INCIDENT_CODES[shipment_status.dig("V_COD_TIPO_EST")] if status.eql?('Incidencia')
+              status = STATUS_CODES[shipment_status['V_COD_TIPO_EST']]
+              status = INCIDENT_CODES[shipment_status['V_COD_TIPO_EST']] if status.eql?('Incidencia')
 
-              date = shipment_status.dig("D_FEC_HORA_ALTA")
+              date = shipment_status['D_FEC_HORA_ALTA']
 
               Deliveries::Checkpoint.new(
                 status: status(status),
