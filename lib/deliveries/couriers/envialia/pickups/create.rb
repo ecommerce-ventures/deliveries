@@ -82,13 +82,14 @@ module Deliveries
                   <strNomOri>#{sender.name}</strNomOri>
                   <strPobOri>#{sender.city}</strPobOri>
                   <strDirOri>#{sender.street}</strDirOri>
-                  <strCPOri>#{sender.postcode}</strCPOri>
+                  <strCPOri>#{format_postcode(sender.postcode, sender.country)}</strCPOri>
                   <strTlfOri>#{sender.phone}</strTlfOri>
                   <strNomDes>#{receiver.name}</strNomDes>
                   <strPobDes>#{receiver.city}</strPobDes>
                   <strDirDes>#{receiver.street}</strDirDes>
-                  <strCPDes>#{receiver.postcode}</strCPDes>
+                  <strCPDes>#{format_postcode(receiver.postcode, receiver.country)}</strCPDes>
                   <strTlfDes>#{receiver.phone}</strTlfDes>
+                  <strCodPais>#{receiver.country}</strCodPais>
                   <intBul>#{parcels}</intBul>
                   <strCodTipoServ>72</strCodTipoServ>
                   <dPesoOri>0</dPesoOri>
@@ -129,6 +130,14 @@ module Deliveries
               Envialia::ENVIALIA_ENDPOINT_LIVE
             else
               Envialia::ENVIALIA_ENDPOINT_TEST
+            end
+          end
+
+          def format_postcode(postcode, country)
+            if country.to_sym.downcase == :pt
+              postcode&.split('-')&.first
+            else
+              postcode
             end
           end
         end
