@@ -92,6 +92,7 @@ RSpec.describe 'Envialia' do
       street: 'Sender street',
       postcode: '48950'
     )
+
     receiver = Deliveries::Address.new(
       name: 'Receiver name',
       email: 'receiver@example.com',

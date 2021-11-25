@@ -27,6 +27,7 @@ module Deliveries
 
               raise Deliveries::ClientError unless response.success?
 
+
               labels = response.dig("Envelope", "Body", "WebServService___ConsEtiquetaEnvio6Response", "strEtiquetas")
 
               if labels.blank?

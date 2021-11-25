@@ -25,10 +25,6 @@ module Deliveries
 
             raise Deliveries::ClientError unless response.success?
 
-            unless Envialia.live?
-              response = Hash.from_xml(response)
-            end
-            
             if response.dig("Envelope", "Body", "WebServService___ConsRecEstadosResponse", "strRecEstados").nil?
               raise Deliveries::APIError.new(
                 'No se han encontrado datos para este envío',
@@ -57,7 +53,7 @@ module Deliveries
           end
 
           def headers
-            { 'Content-Type' => "application/xml; charset='UTF-8'" }
+            { 'Content-Type' => 'application/json;charset=UTF-8', 'Accept' => 'application/json' }
           end
 
           def api_endpoint
