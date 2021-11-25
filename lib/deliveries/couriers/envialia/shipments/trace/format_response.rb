@@ -108,7 +108,7 @@ module Deliveries
               case code
               when 'Documentado'
                 :registered
-              when 'En Tránsito', 'En Reparto'
+              when 'En Tránsito', 'En Reparto', 'En CS destino'
                 :in_transit
               when 'Entregado'
                 :delivered
