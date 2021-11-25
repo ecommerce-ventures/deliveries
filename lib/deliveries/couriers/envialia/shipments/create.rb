@@ -80,10 +80,12 @@ module Deliveries
                     <strCodTipoServ>72</strCodTipoServ>
                     <strCodCli>#{Deliveries.courier(:envialia).config(:username)}</strCodCli>
                     <strNomOri>#{sender.name}</strNomOri>
+                    <strPobOri>#{sender.city}</strPobOri>
                     <strDirOri>#{sender.street}</strDirOri>
                     <strCPOri>#{sender.postcode}</strCPOri>
                     <strTlfOri>#{sender.phone}</strTlfOri>
                     <strNomDes>#{receiver.name}</strNomDes>
+                    <strPobDes>#{receiver.city}</strPobDes>
                     <strDirDes>#{receiver.street}</strDirDes>
                     <strCPDes>#{receiver.postcode}</strCPDes>
                     <strTlfDes>#{receiver.phone}</strTlfDes>
