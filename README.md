@@ -6,7 +6,7 @@ Deliveries is a gem that gives you the ability to integrate multiple shipping se
 
 Add the following line to your Gemfile
 
-```bash
+```ruby
 gem 'deliveries'
 ```
 Then run:
@@ -20,7 +20,7 @@ bundle install
 Each courier requires a different configuration, below we will leave some examples
 
 #### 1. Mondial Relay
-```bash
+```ruby
 Deliveries.courier(:mondial_relay).configure do |config|
   config.mondial_relay_merchant = '...'
   config.mondial_relay_key = '...'
@@ -28,7 +28,7 @@ end
 ```
 
 #### 2. Mondial Relay Dual
-```bash
+```ruby
 Deliveries.courier(:mondial_relay_dual).configure do |config|
   config.dual_carrier_login = '...'
   config.dual_carrier_password = '...'
@@ -48,7 +48,7 @@ end
 ```
 
 #### 3. Correos Express
-```bash
+```ruby
 Deliveries.courier(:correos_express).configure do |config|
   config.username = '...'
   config.password = '...'
@@ -67,7 +67,7 @@ end
 ```
 
 #### 4. Spring
-```bash
+```ruby
 Deliveries.courier(:spring).configure do |config|
   config.api_key = '...'
   config.countries = {
@@ -89,7 +89,7 @@ end
 ```
 
 #### 5. UPS
-```bash
+```ruby
 Deliveries.courier(:ups).configure do |config|
   config.license_number = '...'
   config.username = '...'
@@ -103,25 +103,36 @@ Deliveries.courier(:ups).configure do |config|
 end
 ```
 
+#### Time Zone
+
+This library uses Active Support's Time extension, so a time zone must be set before using it:
+
+```ruby
+require 'active_support/time'
+
+# Configure time zone
+Time.zone = 'Madrid'
+```
+
 ## Usage
 
 #### Get collection point by country and postcode
 
-```bash
+```ruby
 # Example Using Ups
 
 Deliveries.courier(:ups).get_collection_points(postcode: '...', country: 'it')
 ```
 #### Get collection point info
 
-```bash
+```ruby
 # Example Using Mondial Relay
 
 Deliveries.courier(:mondial_relay).get_collection_point(global_point_id: 'mondial_relay~fr~00000~XXXXXX')
 ```
 
 #### Create a Shipment
-```bash
+```ruby
 # Example Using Correos Express
 
 sender = Deliveries::Address.new(
@@ -158,7 +169,7 @@ response = Deliveries.courier(:correos_express).create_shipment(
 ```
 
 #### Create a Pickup
-```bash
+```ruby
 # Example Using Spring
 
 sender = Deliveries::Address.new(
@@ -193,7 +204,7 @@ response = Deliveries.courier(:spring).create_pickup(
 ```
 
 #### Download a Label
-```bash
+```ruby
 # Example Using Spring
 
 label = Deliveries.courier(:spring).get_label(tracking_code: '...')
