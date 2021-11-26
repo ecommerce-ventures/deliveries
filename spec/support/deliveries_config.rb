@@ -79,4 +79,10 @@ module DeliveriesConfig
       weight: '1'
     }
   end
+
+  Deliveries.courier(:envialia).configure do |config|
+    config.username = 'test'
+    config.password = 'test'
+    config.agency_code = 'test'
+  end
 end
