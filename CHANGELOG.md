@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Envialia courier integration
 
 ## [0.2.1] - 2021-11-04
 ### Fixed
@@ -13,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0] - 2021-11-03
 ### Added
 - `Address` can now include a custom id for couriers that support it (currently only Correos Express).
-- Envialia courier integration
 
 ## [0.1.1] - 2021-10-11
 ### Fixed
