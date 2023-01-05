@@ -71,7 +71,7 @@ module Deliveries
               week_hours = get_week_hours_from_result(result)
               week_hours.each do |i, times|
                 timetable[i] = []
-                if times[0] == '0000'
+                if times[0] == '0000' && times[0] == '0000'
                   timetable[i] << nil
                 else
                   timetable[i] << formatted_slot(open: times[0], close: times[1])
