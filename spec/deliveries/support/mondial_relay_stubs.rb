@@ -86,8 +86,8 @@ def register_mondial_relay_get_collection_points_stubs
                   <string>0000</string>
                 </Horaires_Jeudi>
                 <Horaires_Vendredi>
-                  <string>0930</string>
-                  <string>1930</string>
+                  <string>0000</string>
+                  <string>2359</string>
                   <string>0000</string>
                   <string>0000</string>
                 </Horaires_Vendredi>
