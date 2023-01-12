@@ -86,7 +86,7 @@ RSpec.describe "Mondial Relay" do
     expect(collection_point.timetable[2]).to eq [OpenStruct.new(open: '09:30', close: '19:30')]
     expect(collection_point.timetable[3]).to eq [OpenStruct.new(open: '09:30', close: '19:30')]
     expect(collection_point.timetable[4]).to eq [OpenStruct.new(open: '09:30', close: '19:30')]
-    expect(collection_point.timetable[5]).to eq [OpenStruct.new(open: '09:30', close: '19:30')]
+    expect(collection_point.timetable[5]).to eq [OpenStruct.new(open: '00:00', close: '23:59')]
     expect(collection_point.timetable[6]).to eq [OpenStruct.new(open: '09:30', close: '18:30')]
     expect(collection_point.email).to eq nil
     expect(collection_point.phone).to eq nil
