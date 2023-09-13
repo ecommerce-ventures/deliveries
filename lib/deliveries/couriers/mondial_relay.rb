@@ -25,9 +25,12 @@ module Deliveries
       module_function
 
       def api_client
-        Savon.client wsdl: WSDL_ENDPOINT,
-                     logger: Deliveries.logger,
-                     log: Deliveries.debug
+        Savon.client(
+          wsdl: WSDL_ENDPOINT,
+          logger: Deliveries.logger,
+          log: Deliveries.debug,
+          follow_redirects: true
+        )
       end
 
       def get_collection_points(country:, postcode:)
