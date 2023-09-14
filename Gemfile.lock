@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    deliveries (0.3.1)
+    deliveries (0.3.2)
       activesupport (>= 5.2.0)
       hexapdf
       httparty
@@ -12,7 +12,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.1.7)
+    activesupport (6.1.7.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -27,37 +27,37 @@ GEM
     builder (3.2.4)
     byebug (11.1.3)
     cmdparse (3.0.7)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.2)
     crack (0.4.5)
       rexml
     date (3.3.3)
     diff-lcs (1.4.4)
-    geom2d (0.3.1)
+    geom2d (0.4.1)
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
     hashdiff (1.0.1)
-    hexapdf (0.28.0)
+    hexapdf (0.33.0)
       cmdparse (~> 3.0, >= 3.0.3)
-      geom2d (~> 0.3)
+      geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpi (3.0.1)
       rack
-    i18n (1.12.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
-    mail (2.8.0.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
       net-smtp
     mini_magick (4.12.0)
-    mini_mime (1.1.2)
-    minitest (5.17.0)
+    mini_mime (1.1.5)
+    minitest (5.20.0)
     multi_xml (0.6.0)
-    net-imap (0.3.4)
+    net-imap (0.3.7)
       date
       net-protocol
     net-pop (0.1.2)
@@ -74,8 +74,8 @@ GEM
     parser (3.0.2.0)
       ast (~> 2.4.1)
     public_suffix (4.0.6)
-    racc (1.6.2)
-    rack (3.0.3)
+    racc (1.7.1)
+    rack (3.0.8)
     rainbow (3.0.0)
     rake (13.0.6)
     regexp_parser (2.1.1)
@@ -114,19 +114,19 @@ GEM
       nokogiri (>= 1.8.1)
       nori (~> 2.4)
       wasabi (~> 3.4)
-    timeout (0.3.1)
-    tzinfo (2.0.5)
+    timeout (0.4.0)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.8.0)
     wasabi (3.8.0)
       addressable
       httpi (~> 3.0)
       nokogiri (>= 1.4.2)
-    webmock (3.14.0)
+    webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    zeitwerk (2.6.6)
+    zeitwerk (2.6.11)
 
 PLATFORMS
   x86_64-linux
