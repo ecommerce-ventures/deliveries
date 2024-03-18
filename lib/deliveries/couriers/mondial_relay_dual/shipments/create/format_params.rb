@@ -61,7 +61,7 @@ module Deliveries
               if collection_point
                 {
                   mode: '24R',
-                  location: collection_point.point_id
+                  location: "#{receiver.country.upcase}-#{collection_point.point_id}"
                 }
               else
                 home_delivery_mode = MondialRelayDual.config("countries.#{receiver.country.downcase}.home_delivery_mode") || 'HOM'
