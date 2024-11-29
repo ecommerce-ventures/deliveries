@@ -92,7 +92,7 @@ module Deliveries
                     <strCodPais>#{receiver.country}</strCodPais>
                     <intDoc>0</intDoc>
                     <intPaq>#{parcels}</intPaq>
-                    <dPesoOri>0</dPesoOri>
+                    <dPesoOri>1</dPesoOri>
                     <dAltoOri>0</dAltoOri>
                     <dAnchoOri>0</dAnchoOri>
                     <dLargoOri>0</dLargoOri>
