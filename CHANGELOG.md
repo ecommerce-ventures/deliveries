@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.4] - 2024-12-05
+### Fixed
+- Set default weight to one for Envialia shipping labels.
+
 ## [0.3.3] - 2024-03-22
 ### Fixed
 - Prefix delivery location with country code in Mondial Relay Dual.
@@ -37,7 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2021-09-27
 🎉 First release!
 
-[Unreleased]: https://github.com/ecommerce-ventures/deliveries/compare/v0.3.3...HEAD
+[Unreleased]: https://github.com/ecommerce-ventures/deliveries/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/ecommerce-ventures/deliveries/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/ecommerce-ventures/deliveries/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/ecommerce-ventures/deliveries/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/ecommerce-ventures/deliveries/compare/v0.3.0...v0.3.1
