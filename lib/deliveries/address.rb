@@ -9,7 +9,8 @@ module Deliveries
       it: 39,
       gb: 44,
       de: 49,
-      pt: 351
+      pt: 351,
+      pl: 48
     }.freeze
     COUNTRY_TRUNK_PREFIXES = {
       be: 0,
@@ -18,7 +19,8 @@ module Deliveries
       it: nil,
       gb: 0,
       de: 0,
-      pt: nil
+      pt: nil,
+      pl: nil
     }.freeze
 
     def initialize(**attributes)

@@ -24,11 +24,13 @@ RSpec.describe "Ups" do
     expect(collection_point.longitude).to eq "7.645729064"
     expect(collection_point.timetable).to be_a Hash
     expect(collection_point.timetable.length).to eq 7
-    expect(collection_point.timetable[0]).to eq [OpenStruct.new(open: '9:30', close: '12:30'), OpenStruct.new(open: '15:00', close: '18:00')]
+    expect(collection_point.timetable[0].first).to be_instance_of(Deliveries::CollectionPoint::TIMETABLE_SLOT)
+    expect(collection_point.timetable[0].map(&:to_h)).to eq [{ open: '9:30', close: '12:30' }, { open: '15:00', close: '18:00' }]
     expect(collection_point.email).to eq nil
     expect(collection_point.phone).to eq "0230303039"
     expect(collection_point.country).to eq "it"
     expect(collection_point.state).to eq "TORINO"
+    expect(collection_point.locker).to be_falsey
 
     # Error
     # ---
@@ -65,11 +67,13 @@ RSpec.describe "Ups" do
     expect(collection_point.longitude).to eq "7.645729064"
     expect(collection_point.timetable).to be_a Hash
     expect(collection_point.timetable.length).to eq 7
-    expect(collection_point.timetable[0]).to eq [OpenStruct.new(open: '9:30', close: '12:30'), OpenStruct.new(open: '15:00', close: '18:00')]
+    expect(collection_point.timetable[0].first).to be_instance_of(Deliveries::CollectionPoint::TIMETABLE_SLOT)
+    expect(collection_point.timetable[0].map(&:to_h)).to eq [{ open: '9:30', close: '12:30' }, { open: '15:00', close: '18:00' }]
     expect(collection_point.email).to eq nil
     expect(collection_point.phone).to eq "0230303039"
     expect(collection_point.country).to eq "it"
     expect(collection_point.state).to eq "TORINO"
+    expect(collection_point.locker).to be_falsey
 
     # Error
     # ---

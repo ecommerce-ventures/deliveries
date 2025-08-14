@@ -35,7 +35,7 @@ Deliveries.courier(:mondial_relay_dual).configure do |config|
   config.dual_carrier_customer_id = '...'
   config.countries = {
     fr: {
-      home_delivery_mode: 'HOC'
+      home_delivery_mode: 'HOM'
     },
     de: {
       home_delivery_mode: 'HOM'
@@ -43,7 +43,7 @@ Deliveries.courier(:mondial_relay_dual).configure do |config|
     gb: {
       home_delivery_mode: 'HOM'
     }
- }
+  }
 end
 ```
 

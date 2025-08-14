@@ -80,18 +80,34 @@ module Deliveries
             end
 
             def parcel_list
-              list = []
-              parcels.times do
-                list << {
+              parcels.times.map do
+                parcel = {
                   content: 'Vêtements',
                   weight: {
                     value: '1000',
                     unit: 'gr'
                   }
                 }
-              end
 
-              list
+                if receiver.country == 'PL'
+                  parcel.merge!(
+                    length: {
+                      value: '64',
+                      unit: 'cm'
+                    },
+                    width: {
+                      value: '38',
+                      unit: 'cm'
+                    },
+                    depth: {
+                      value: '38',
+                      unit: 'cm'
+                    }
+                  )
+                end
+
+                parcel
+              end
             end
           end
         end

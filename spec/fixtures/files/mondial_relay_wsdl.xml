@@ -334,6 +334,35 @@
           <s:element minOccurs="1" maxOccurs="1" name="Fin" nillable="true" type="s:dateTime" />
         </s:sequence>
       </s:complexType>
+      <s:element name="WSI4_PointRelais_Recherche">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Enseigne" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pays" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NumPointRelais" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Ville" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Taille" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Poids" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Action" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DelaiEnvoi" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RayonRecherche" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TypeActivite" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NACE" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="NombreResultats" nillable="true" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Security" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WSI4_PointRelais_RechercheResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WSI4_PointRelais_RechercheResult" type="tns:ret_WSI3_PointRelais_Recherche" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="WSI2_AdressePointRelais">
         <s:complexType>
           <s:sequence>
@@ -694,6 +723,12 @@
   <wsdl:message name="WSI3_PointRelais_RechercheSoapOut">
     <wsdl:part name="parameters" element="tns:WSI3_PointRelais_RechercheResponse" />
   </wsdl:message>
+  <wsdl:message name="WSI4_PointRelais_RechercheSoapIn">
+    <wsdl:part name="parameters" element="tns:WSI4_PointRelais_Recherche" />
+  </wsdl:message>
+  <wsdl:message name="WSI4_PointRelais_RechercheSoapOut">
+    <wsdl:part name="parameters" element="tns:WSI4_PointRelais_RechercheResponse" />
+  </wsdl:message>
   <wsdl:message name="WSI2_AdressePointRelaisSoapIn">
     <wsdl:part name="parameters" element="tns:WSI2_AdressePointRelais" />
   </wsdl:message>
@@ -766,6 +801,10 @@
     <wsdl:operation name="WSI3_PointRelais_Recherche">
       <wsdl:input message="tns:WSI3_PointRelais_RechercheSoapIn" />
       <wsdl:output message="tns:WSI3_PointRelais_RechercheSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WSI4_PointRelais_Recherche">
+      <wsdl:input message="tns:WSI4_PointRelais_RechercheSoapIn" />
+      <wsdl:output message="tns:WSI4_PointRelais_RechercheSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="WSI2_AdressePointRelais">
       <wsdl:input message="tns:WSI2_AdressePointRelaisSoapIn" />
@@ -849,6 +888,15 @@
     </wsdl:operation>
     <wsdl:operation name="WSI3_PointRelais_Recherche">
       <soap:operation soapAction="http://www.mondialrelay.fr/webservice/WSI3_PointRelais_Recherche" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WSI4_PointRelais_Recherche">
+      <soap:operation soapAction="http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -978,6 +1026,15 @@
     </wsdl:operation>
     <wsdl:operation name="WSI3_PointRelais_Recherche">
       <soap12:operation soapAction="http://www.mondialrelay.fr/webservice/WSI3_PointRelais_Recherche" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WSI4_PointRelais_Recherche">
+      <soap12:operation soapAction="http://www.mondialrelay.fr/webservice/WSI4_PointRelais_Recherche" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

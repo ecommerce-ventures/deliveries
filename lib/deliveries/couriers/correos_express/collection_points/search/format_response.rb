@@ -72,7 +72,7 @@ module Deliveries
             def formatted_slot(hour, key)
               open, close = hour.sub(key, '').sub('DE ', '').split(' A ')
 
-              OpenStruct.new(open: open, close: close)
+              { open: open, close: close }
             end
           end
         end

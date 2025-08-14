@@ -21,19 +21,20 @@ module Deliveries
                             longitude: -2.979586,
                             timetable: {
                               0 => [],
-                              1 => [OpenStruct.new(open: '8:00', close: '14:00'),
-                                    OpenStruct.new(open: '16:00', close: '20:00')],
-                              2 => [OpenStruct.new(open: '8:00', close: '14:00'),
-                                    OpenStruct.new(open: '16:00', close: '20:00')],
-                              3 => [OpenStruct.new(open: '8:00', close: '14:00'),
-                                    OpenStruct.new(open: '16:00', close: '20:00')],
-                              4 => [OpenStruct.new(open: '8:00', close: '14:00'),
-                                    OpenStruct.new(open: '16:00', close: '20:00')],
-                              5 => [OpenStruct.new(open: '8:00', close: '15:00')],
+                              1 => [{ open: '8:00', close: '14:00' },
+                                    { open: '16:00', close: '20:00' }],
+                              2 => [{ open: '8:00', close: '14:00' },
+                                    { open: '16:00', close: '20:00' }],
+                              3 => [{ open: '8:00', close: '14:00' },
+                                    { open: '16:00', close: '20:00' }],
+                              4 => [{ open: '8:00', close: '14:00' },
+                                    { open: '16:00', close: '20:00' }],
+                              5 => [{ open: '8:00', close: '15:00' }],
                               6 => []
                             },
                             url_map: nil,
-                            url_photo: nil
+                            url_photo: nil,
+                            locker: true
       end
 
       def get_collection_points(country:, postcode:)
