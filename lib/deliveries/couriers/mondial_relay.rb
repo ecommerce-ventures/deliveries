@@ -2,7 +2,6 @@ require_relative 'mondial_relay/collection_points/search/format_response'
 require_relative 'mondial_relay/shipments/trace'
 require_relative 'mondial_relay/shipments/trace/format_response'
 require_relative 'mondial_relay/status_codes'
-require_relative 'mondial_relay/address'
 require 'savon'
 
 module Deliveries
