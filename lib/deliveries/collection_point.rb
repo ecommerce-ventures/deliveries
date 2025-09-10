@@ -1,6 +1,8 @@
 module Deliveries
   class CollectionPoint < Address
-    attr_accessor :courier_id, :point_id, :latitude, :longitude, :url_map, :url_photo
+    TIMETABLE_SLOT = Struct.new(:open, :close, keyword_init: true)
+
+    attr_accessor :courier_id, :point_id, :latitude, :longitude, :url_map, :url_photo, :locker
     attr_writer :timetable
 
     def initialize(**attributes)
@@ -10,7 +12,8 @@ module Deliveries
       self.point_id = attributes[:point_id]
       self.latitude = attributes[:latitude]
       self.longitude = attributes[:longitude]
-      self.timetable = attributes[:timetable]
+      self.timetable = formatted_timetable(attributes[:timetable])
+      self.locker = attributes[:locker]
       self.url_map = attributes[:url_map]
       self.url_photo = attributes[:url_photo]
     end
@@ -34,12 +37,20 @@ module Deliveries
     def self.parse_global_point_id(global_point_id:)
       global_point = global_point_id.split('~')
 
-      OpenStruct.new(
-        courier_id: global_point[0],
-        country: global_point[1],
-        postcode: global_point[2],
-        point_id: global_point[3]
-      )
+      Struct.new(
+        :courier_id,
+        :country,
+        :postcode,
+        :point_id
+      ).new(*global_point[0, 4])
+    end
+
+    private
+
+    def formatted_timetable(timetable)
+      timetable&.transform_values do |slots|
+        slots&.map(&TIMETABLE_SLOT.method(:new))
+      end
     end
   end
 end

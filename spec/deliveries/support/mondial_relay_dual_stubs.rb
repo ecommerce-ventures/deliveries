@@ -54,8 +54,8 @@ def register_mondial_relay_dual_create_shipment_stubs
             <Recipient>
               <Address>
                 <Title/>
-                <Firstname/>
-                <Lastname/>
+                <Firstname>RECEIVER NAME</Firstname>
+                <Lastname>.</Lastname>
                 <Streetname>RECEIVER STREET</Streetname>
                 <HouseNo/>
                 <CountryCode>ES</CountryCode>
@@ -204,8 +204,8 @@ def register_mondial_relay_dual_create_shipment_stubs
             <Recipient>
               <Address>
                 <Title/>
-                <Firstname/>
-                <Lastname/>
+                <Firstname>RECEIVER NAME</Firstname>
+                <Lastname>.</Lastname>
                 <Streetname>RECEIVER STREET</Streetname>
                 <HouseNo/>
                 <CountryCode>ES</CountryCode>
@@ -296,8 +296,8 @@ def register_mondial_relay_dual_create_pickup_stubs
               <Recipient>
                 <Address>
                   <Title/>
-                  <Firstname/>
-                  <Lastname/>
+                  <Firstname>RECEIVER NAME</Firstname>
+                  <Lastname>.</Lastname>
                   <Streetname>RECEIVER STREET</Streetname>
                   <HouseNo/>
                   <CountryCode>ES</CountryCode>
@@ -446,8 +446,8 @@ def register_mondial_relay_dual_create_pickup_stubs
               <Recipient>
                 <Address>
                   <Title/>
-                  <Firstname/>
-                  <Lastname/>
+                  <Firstname>RECEIVER NAME</Firstname>
+                  <Lastname>.</Lastname>
                   <Streetname>RECEIVER STREET</Streetname>
                   <HouseNo/>
                   <CountryCode>ES</CountryCode>

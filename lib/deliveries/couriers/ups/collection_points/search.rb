@@ -85,7 +85,7 @@ module Deliveries
             end
 
             response_doc.xpath('//LocatorResponse/SearchResults/DropLocation').map do |location_doc|
-              timetable = location_doc.xpath('OperatingHours/StandardHours/DayOfWeek').map do |day_doc|
+              timetable = location_doc.xpath('OperatingHours/StandardHours/DayOfWeek').to_h do |day_doc|
                 wday = day_doc.at_xpath('Day')&.content.to_i % 7
                 open_hours = day_doc.xpath('OpenHours')&.map(&:content)&.map do |h|
                   h == '0' ? '00:00' : h.insert(-3, ':')
@@ -93,10 +93,10 @@ module Deliveries
                 close_hours = day_doc.xpath('CloseHours')&.map(&:content)&.map do |h|
                   h == '0' ? '00:00' : h.insert(-3, ':')
                 end || []
-                hours = open_hours.zip(close_hours).map { |open, close| OpenStruct.new(open: open, close: close) }
+                hours = open_hours.zip(close_hours).map { |open, close| { open: open, close: close } }
 
                 [wday, hours]
-              end.to_h
+              end
 
               {
                 courier_id: Ups::COURIER_ID,

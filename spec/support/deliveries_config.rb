@@ -21,7 +21,7 @@ module DeliveriesConfig
     config.dual_carrier_customer_id = 'test'
     config.countries = {
       fr: {
-        home_delivery_mode: 'HOC'
+        home_delivery_mode: 'HOM'
       },
       de: {
         home_delivery_mode: 'HOM'

@@ -1,13 +1,7 @@
 require_relative 'mondial_relay/collection_points/search/format_response'
-require_relative 'mondial_relay/shipments/create'
-require_relative 'mondial_relay/shipments/create/defaults'
-require_relative 'mondial_relay/shipments/create/format_params'
 require_relative 'mondial_relay/shipments/trace'
 require_relative 'mondial_relay/shipments/trace/format_response'
-require_relative 'mondial_relay/pickups/create/format_params'
-require_relative 'mondial_relay/labels/generate'
 require_relative 'mondial_relay/status_codes'
-require_relative 'mondial_relay/address'
 require 'savon'
 
 module Deliveries
@@ -20,7 +14,7 @@ module Deliveries
         :mondial_relay_key
       )
 
-      WSDL_ENDPOINT = 'http://api.mondialrelay.com/Web_Services.asmx?WSDL'.freeze
+      WSDL_ENDPOINT = 'https://api.mondialrelay.com/Web_Services.asmx?WSDL'.freeze
 
       module_function
 
@@ -39,13 +33,15 @@ module Deliveries
                    'Pays' => country, 'NumPointRelais' => '', 'Ville' => '',
                    'CP' => postcode, 'Latitude' => '', 'Longitude' => '',
                    'Taille' => '', 'Poids' => '', 'Action' => '',
-                   'DelaiEnvoi' => '0', 'RayonRecherche' => '', 'TypeActivite' => '', 'NACE' => '' }
+                   'DelaiEnvoi' => '0', 'RayonRecherche' => '', 'TypeActivite' => '', 'NACE' => '',
+                   'NombreResultats' => '30' }
         # Calculate security parameters.
         params['Security'] = calculate_security_param params
 
-        response = api_client.call :wsi3_point_relais_recherche, message: params
+        response = api_client.call :wsi4_point_relais_recherche, message: params
+
         # If response returns OK stat code.
-        if (response_result = response.body[:wsi3_point_relais_recherche_response][:wsi3_point_relais_recherche_result]) &&
+        if (response_result = response.body[:wsi4_point_relais_recherche_response][:wsi4_point_relais_recherche_result]) &&
            response_result[:stat] == '0'
 
           collection_points = []
@@ -70,15 +66,16 @@ module Deliveries
                    'Pays' => global_point.country, 'NumPointRelais' => global_point.point_id, 'Ville' => '',
                    'CP' => '', 'Latitude' => '', 'Longitude' => '',
                    'Taille' => '', 'Poids' => '', 'Action' => '',
-                   'DelaiEnvoi' => '0', 'RayonRecherche' => '', 'TypeActivite' => '', 'NACE' => '' }
+                   'DelaiEnvoi' => '0', 'RayonRecherche' => '', 'TypeActivite' => '', 'NACE' => '',
+                   'NombreResultats' => '1' }
 
         # Calculate security parameters.
         params['Security'] = calculate_security_param params
 
-        response = api_client.call :wsi3_point_relais_recherche, message: params
+        response = api_client.call :wsi4_point_relais_recherche, message: params
 
-        response_result = response.body.dig(:wsi3_point_relais_recherche_response,
-                                            :wsi3_point_relais_recherche_result)
+        response_result = response.body.dig(:wsi4_point_relais_recherche_response,
+                                            :wsi4_point_relais_recherche_result)
 
         point_relais_details = response_result.dig(:points_relais, :point_relais_details)
 
@@ -94,57 +91,28 @@ module Deliveries
       end
 
       def create_shipment(sender:, receiver:, parcels:, reference_code:, collection_point: nil, shipment_date: nil, remarks: nil, language: 'FR')
-        params = Shipments::Create::FormatParams.new(
-          sender: sender.courierize(:mondial_relay),
-          receiver: receiver.courierize(:mondial_relay),
-          parcels: parcels,
-          collection_point: collection_point,
-          reference_code: reference_code,
-          remarks: remarks,
-          language: language
-        ).execute
-
-        tracking_code, label_url = Shipments::Create.new(
-          params: params
-        ).execute.values_at(:tracking_code, :label_url)
-
-        Deliveries::Shipment.new(
-          courier_id: 'mondial_relay',
+        MondialRelayDual.create_shipment(
           sender: sender,
           receiver: receiver,
           parcels: parcels,
           reference_code: reference_code,
-          tracking_code: tracking_code,
+          collection_point: collection_point,
           shipment_date: shipment_date,
-          label: Label.new(url: label_url)
+          remarks: remarks,
+          language: language
         )
       end
 
       def create_pickup(sender:, receiver:, parcels:, reference_code:,
                         pickup_date: nil, remarks: nil, language: 'FR')
-        params = Pickups::Create::FormatParams.new(
-          sender: sender.courierize(:mondial_relay),
-          receiver: receiver.courierize(:mondial_relay),
+        MondialRelayDual.create_pickup(
+          sender: sender,
+          receiver: receiver,
           parcels: parcels,
           reference_code: reference_code,
           pickup_date: pickup_date,
           remarks: remarks,
           language: language
-        ).execute
-
-        tracking_code, label_url = Shipments::Create.new(
-          params: params
-        ).execute.values_at(:tracking_code, :label_url)
-
-        Deliveries::Pickup.new(
-          courier_id: 'mondial_relay',
-          sender: sender,
-          receiver: receiver,
-          parcels: parcels,
-          reference_code: reference_code,
-          tracking_code: tracking_code,
-          pickup_date: pickup_date,
-          label: Label.new(url: label_url)
         )
       end
 
@@ -164,22 +132,12 @@ module Deliveries
         shipment_info(tracking_code: tracking_code, language: language)
       end
 
-      def get_label(tracking_code:, language: 'FR')
-        label_url = Labels::Generate.new(
-          tracking_codes: tracking_code,
-          language: language
-        ).execute
-
-        Deliveries::Label.new(url: label_url)
+      def get_label(**)
+        raise NotImplementedError, 'This courier does not support get_label operation'
       end
 
-      def get_labels(tracking_codes:, language: 'FR')
-        labels_url = Labels::Generate.new(
-          tracking_codes: tracking_codes,
-          language: language
-        ).execute
-
-        Deliveries::Labels.new(url: labels_url)
+      def get_labels(**)
+        raise NotImplementedError, 'This courier does not support get_labels operation'
       end
 
       def calculate_security_param(params)

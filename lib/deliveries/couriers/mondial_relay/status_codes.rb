@@ -18,13 +18,16 @@ module Deliveries
         13 => 'Incorrect type of delivery',
         14 => 'Incorrect delivery Point Relais number',
         15 => 'Point Relais delivery country incorrect',
-
+        16 => 'Incorrect country code',
+        17 => 'Incorrect address',
+        18 => 'Incorrect City',
+        19 => 'Incorrect postal code',
         20 => 'Incorrect parcel weight',
         21 => 'Incorrect developped lenght (length + height)',
         22 => 'Incorrect parcel size',
 
         24 => 'Incorrect shipment number',
-
+        25 => 'Insufficient account credit',
         26 => 'Incorrect assembly time',
         27 => 'Incorrect mode of collection or delivery',
         28 => 'Incorrect mode of collection',
@@ -34,7 +37,6 @@ module Deliveries
 
         33 => 'Incorrect address (L3)',
         34 => 'Incorrect address (L4)',
-
         35 => 'Incorrect city',
         36 => 'Incorrect zip code',
         37 => 'Incorrect country',
@@ -50,6 +52,16 @@ module Deliveries
         47 => 'Incorrect number of parcels',
         48 => 'Multi-Parcel not permitted at Point Relais',
         49 => 'Incorrect action',
+        50 => 'Incorrect address (L1)',
+        51 => 'Incorrect address (L2)',
+
+        53 => 'Incorrect address (L3)',
+        54 => 'Incorrect address (L4',
+        55 => 'Incorrect City',
+        56 => 'Incorrect postal code',
+        57 => 'Incorrect country',
+
+        59 => 'Incorrect email address',
 
         60 => 'Incorrect text field (this error code has no impact)',
         61 => 'Incorrect notification request',
@@ -63,7 +75,10 @@ module Deliveries
         69 => 'Incorrect merchant code',
         70 => 'Incorrect Point Relais number',
         71 => 'Incorrect Nature de point de vente non valide',
+        72 => 'Incorrect sender language',
+        73 => 'Incorrect consignee language',
         74 => 'Incorrect language',
+
         78 => 'Incorrect country of collection',
         79 => 'Incorrect country of delivery',
         80 => 'Tracking code : Recorded parcel',
@@ -76,10 +91,13 @@ module Deliveries
         87 => '(Reserved tracking code)',
         88 => '(Reserved tracking code)',
         89 => '(Reserved tracking code)',
+
+        91 => 'PUDO nature not allowed for the account',
         92 => 'The Point Relais country code and the consignee’s country code are different',
         93 => 'No information given by the sorting plan',
         94 => 'Unknown parcel',
         95 => 'Merchant account not activated',
+
         97 => 'Incorrect security key',
         98 => 'Generic error (Incorrect parameters)',
         99 => 'Generic error of service system (technical). Contact MR'

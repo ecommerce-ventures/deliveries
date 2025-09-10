@@ -43,7 +43,14 @@ module Deliveries
                       params[:parcels].each do |parcel|
                         xml.Parcel do
                           xml.Content parcel[:content]
-                          xml.Weight(Value: parcel.dig(:weight, :value), Unit: parcel.dig(:weight, :unit))
+                          %i[weight length width depth].each do |attribute|
+                            next unless parcel[attribute]
+
+                            xml.send(
+                              attribute.capitalize,
+                              parcel[attribute].transform_keys(&:capitalize)
+                            )
+                          end
                         end
                       end
                     end
@@ -69,8 +76,8 @@ module Deliveries
                     xml.Recipient do
                       xml.Address do
                         xml.Title
-                        xml.Firstname
-                        xml.Lastname
+                        xml.Firstname params.dig(:recipient, :address_add_1)
+                        xml.Lastname '.'
                         xml.Streetname params.dig(:recipient, :streetname)
                         xml.HouseNo
                         xml.CountryCode params.dig(:recipient, :country_code)

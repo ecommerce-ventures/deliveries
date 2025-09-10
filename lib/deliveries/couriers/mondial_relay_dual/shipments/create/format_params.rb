@@ -6,6 +6,14 @@ module Deliveries
           class FormatParams
             attr_accessor :sender, :receiver, :parcels, :reference_code, :collection_point, :remarks, :language
 
+            COUNTRY_PARCEL_DIMENSIONS = {
+              pl: {
+                length: { value: '64', unit: 'cm' },
+                width: { value: '38', unit: 'cm' },
+                depth: { value: '38', unit: 'cm' }
+              }
+            }.freeze
+
             def initialize(sender:, receiver:, parcels:, reference_code:, collection_point:, remarks:, language:)
               self.sender = sender.courierize(:mondial_relay_dual)
               self.receiver = receiver.courierize(:mondial_relay_dual)
@@ -80,18 +88,17 @@ module Deliveries
             end
 
             def parcel_list
-              list = []
-              parcels.times do
-                list << {
+              parcels.times.map do
+                parcel = {
                   content: 'Vêtements',
                   weight: {
                     value: '1000',
                     unit: 'gr'
                   }
                 }
+                parcel.merge!(COUNTRY_PARCEL_DIMENSIONS[receiver.country.downcase.to_sym].to_h)
+                parcel
               end
-
-              list
             end
           end
         end
