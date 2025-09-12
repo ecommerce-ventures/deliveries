@@ -386,6 +386,100 @@ def register_envialia_pickup_info_stubs
       }
     )
 
+  stub_request(:post, "http://wstest.envialia.com:9085/SOAP?service=WebServService").
+    with(
+      body: "<soap:Envelope\n  xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"\n  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n  xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <soap:Header>\n    <ROClientIDHeader\n      xmlns=\"http://tempuri.org/\">\n      <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>\n    </ROClientIDHeader>\n  </soap:Header>\n  <soap:Body>\n    <WebServService___ConsRecogida>\n      <strCod>E001</strCod>\n    </WebServService___ConsRecogida>\n  </soap:Body>\n</soap:Envelope>\n",
+      headers: {
+        'Accept'=>'application/json',
+ 	      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        'Content-Type'=>'application/json;charset=UTF-8',
+ 	      'User-Agent'=>'Ruby'
+      }
+    ).to_return(
+      status: 200,
+      body: <<~XML,
+      <?xml version="1.0" encoding="utf-8"?>
+        <SOAP-ENV:Envelope
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:HNS="http://tempuri.org/"
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:v1="http://tempuri.org/">
+        <SOAP-ENV:Header>
+          <ROClientIDHeader SOAP-ENV:mustUnderstand="0"
+            xmlns="urn:envialianet">
+            <ID>{4ADFBA16-05FC-47AF-BB70-95D7DC61C161}</ID>
+          </ROClientIDHeader>
+        </SOAP-ENV:Header>
+        <SOAP-ENV:Body
+          xmlns:ro="http://tempuri.org/">
+          <v1:WebServService___ConsRecogidaResponse>
+            <v1:strRecogida>&lt;CONSULTA&gt;&lt;RECOGIDAS
+            V_COD=\"E001\"
+            V_COD_AGE_ORI=\"111\"
+            V_COD_AGE_SOL=\"\"
+            V_COD_AGE_DES=\"\"
+            V_COD_AGE_CARGO=\"222\"
+            D_FEC_HORA_ALTA=\"\"
+            D_FEC_REC=\"\"
+            SD_HORA_REC_INI=\"\"
+            SD_HORA_REC_FIN=\"\"
+            I_BUL=\"\"
+            F_PESO=\"\"
+            F_VALOR=\"\"
+            F_ANTICIPO=\"\"
+            I_ID_VEH=\"\"
+            V_NOM_ORI=\"\"
+            V_TIPO_VIA_ORI=\"\"
+            V_DIR_ORI=\"\"
+            V_NUM_ORI=\"\"
+            V_PISO_ORI=\"\"
+            V_POB_ORI=\"\"
+            V_CP_ORI=\"\"
+            V_TLF_ORI=\"\"
+            V_COD_PRO_ORI=\"\"
+            V_NOM_DES=\"\"
+            V_TIPO_VIA_DES=\"\"
+            V_DIR_DES=\"\"
+            V_NUM_DES=\"\"
+            V_PISO_DES=\"\"
+            V_POB_DES=\"\"
+            V_CP_DES=\"\"
+            V_TLF_DES=\"\"
+            V_COD_PRO_DES=\"\"
+            V_OBS=\"\"
+            V_COD_CLI=\"\"
+            V_COD_CLI_DEP=\"\"
+            V_TIPO_REC=\"R\"
+            V_PERS_CONTACTO=\"\"
+            B_AUT_KM=\"\"
+            V_COD_TIPO_SERV=\"\"
+            B_SABADO=\"\"
+            V_COD_REP=\"\"
+            V_COD_USU_ALTA=\"\"
+            V_COD_AGE_ALTA=\"\"
+            V_COD_CLI_ALTA=\"\"
+            V_COD_CLI_DEP_ALTA=\"\"
+            V_COD_ENV=\"111222E002\"
+            SD_HORA_REC_INI_TARDE=\"\"
+            SD_HORA_REC_FIN_TARDE=\"\"
+            V_REF=\"\"
+            V_CAMPO_1=\"\"
+            V_CAMPO_2=\"\"
+            V_CAMPO_3=\"\"
+            V_CAMPO_4=\"\"
+            B_CAMPO_5=\"\"
+            D_FEC_REC_HORA_CORTE_SUP=\"\"/&gt;&lt;/CONSULTA&gt;
+            </v1:strRecogida>
+          </v1:WebServService___ConsRecogidaResponse>
+        </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      XML
+      headers: {
+        'Content-Type'=>'text/xml; charset="utf-8"'
+      }
+    )
+
   # Error
   # ---
 

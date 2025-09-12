@@ -127,6 +127,7 @@ RSpec.describe "Mondial Relay" do
     expect(response.courier_id).to eq 'mondial_relay'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :in_transit
     expect(response.checkpoints).to be_a Array
     checkpoint = response.checkpoints.first
@@ -168,6 +169,7 @@ RSpec.describe "Mondial Relay" do
     expect(response.courier_id).to eq 'mondial_relay'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :in_transit
     expect(response.checkpoints).to be_a Array
     checkpoint = response.checkpoints.first
