@@ -1,13 +1,14 @@
 module Deliveries
   class TrackingInfo
-    attr_accessor :courier_id, :tracking_code, :status, :checkpoints, :url
+    attr_accessor :courier_id, :tracking_code, :status, :checkpoints, :url, :details
 
-    def initialize(courier_id:, tracking_code:, status: nil, checkpoints: nil, url: nil)
+    def initialize(courier_id:, tracking_code:, status: nil, checkpoints: nil, url: nil, details: nil)
       self.courier_id = courier_id
       self.tracking_code = tracking_code
       self.status = status
       self.checkpoints = checkpoints
       self.url = url
+      self.details = details
     end
 
     def registered?

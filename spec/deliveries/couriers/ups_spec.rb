@@ -295,6 +295,7 @@ RSpec.describe "Ups" do
     expect(response.courier_id).to eq :ups
     expect(response.tracking_code).to eq '1Ztest016814843169'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :registered
     expect(response.checkpoints).to be_a Array
     checkpoint = response.checkpoints.first
@@ -330,6 +331,7 @@ RSpec.describe "Ups" do
     expect(response.courier_id).to eq :ups
     expect(response.tracking_code).to eq '1Ztest016814843169'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :in_transit
     expect(response.checkpoints).to be_a Array
     expect(response.checkpoints.length).to eq 2

@@ -162,6 +162,7 @@ RSpec.describe 'Envialia' do
     expect(response.courier_id).to eq 'envialia'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :delivered
     expect(response.checkpoints.length).to eq 4
     expect(response.checkpoints[0]).to be_a Deliveries::Checkpoint
@@ -212,6 +213,7 @@ RSpec.describe 'Envialia' do
     expect(response.courier_id).to eq 'envialia'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
+    expect(response.details[:shipment_tracking_code]).to eq 'E002'
     expect(response.status).to eq :delivered
     expect(response.checkpoints).to be_a Array
     expect(response.checkpoints.length).to eq 4

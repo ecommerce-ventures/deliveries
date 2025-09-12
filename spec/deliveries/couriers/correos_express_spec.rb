@@ -333,6 +333,7 @@ RSpec.describe "Correos Express" do
     expect(response.courier_id).to eq 'correos_express'
     expect(response.tracking_code).to eq 'XXXXXX'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :registered
     expect(response.checkpoints).to be_a Array
     checkpoint = response.checkpoints.first
@@ -368,6 +369,7 @@ RSpec.describe "Correos Express" do
     expect(response.courier_id).to eq 'correos_express'
     expect(response.tracking_code).to eq 'E001'
     expect(response.url).to eq nil
+    expect(response.details).to eq nil
     expect(response.status).to eq :delivered
     expect(response.checkpoints).to be_a Array
     expect(response.checkpoints.length).to eq 3

@@ -5,6 +5,7 @@ require_relative 'envialia/shipments/trace'
 require_relative 'envialia/pickups/trace/format_response'
 require_relative 'envialia/pickups/trace'
 require_relative 'envialia/pickups/create'
+require_relative 'envialia/pickups/details'
 require_relative 'envialia/labels/generate'
 
 module Deliveries
@@ -59,13 +60,28 @@ module Deliveries
         Deliveries::TrackingInfo.new(**tracking_info_params)
       end
 
-      def pickup_info(tracking_code:, **)
+      def pickup_info(tracking_code:, details: true, **)
         response = Pickups::Trace.new(
           tracking_code: tracking_code
         ).execute
 
         tracking_info_params = Pickups::Trace::FormatResponse.new(response: response).execute
         tracking_info_params.merge!({ tracking_code: tracking_code })
+
+        if details
+          pickup_details = Pickups::Details.new(
+            tracking_code: tracking_code
+          ).execute
+
+          cod_age_cargo,
+          cod_age_ori,
+          cod_env = pickup_details.values_at('V_COD_AGE_CARGO', 'V_COD_AGE_ORI', 'V_COD_ENV')
+                                  .map(&:to_s)
+          shipment_tracking_code = cod_env.sub(cod_age_cargo, '').sub(cod_age_ori, '')
+
+          tracking_info_params.merge!(details: { shipment_tracking_code: shipment_tracking_code })
+        end
+
         Deliveries::TrackingInfo.new(**tracking_info_params)
       end
 
